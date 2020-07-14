@@ -1,11 +1,11 @@
 <template>
-    <a :href= "url" class="button">{{item}}</a>
+    <a :href= "url" class="button">{{name}}</a>
 </template>
 
 <script>
 export default {
     name: "Button",
-    props: ['item', 'url'],
+    props: ['name', 'url'],
 }
 </script>
 
