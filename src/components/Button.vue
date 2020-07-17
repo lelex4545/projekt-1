@@ -32,7 +32,7 @@ $color: #037c76;
         position: absolute;
         bottom: 0;
         left: 0;
-        width: 100%;
+        width: 10rem;
         height: 100%;
         background-color: $color;
         border-radius: 10rem;
@@ -43,7 +43,7 @@ $color: #037c76;
         position: absolute;
         bottom: 0;
         left: 0;
-        width: 0%;
+        width: 0rem;
         height: 100%;
         background-color: darken($color, 3%);
         transition: all .2s;
@@ -53,7 +53,7 @@ $color: #037c76;
     &:hover {
         color: #fff;
         &:before {
-            width: 100%;
+            width: 10rem;
         }
     }
 }
