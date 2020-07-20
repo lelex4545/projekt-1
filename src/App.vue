@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <LogIn />
+    <LogIn/>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center; 
   color: #ffffff;
-  margin-top: 60px;
+  margin: 60px;
 }
 body {
   background-color: #2c3e50;
