@@ -13,13 +13,16 @@ export default {
 $color: #037c76;
 
 .button {
-  display: inline-block;
-  padding: 6.8%;
-  border-radius: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 8em;
+  height: 2em;
+  border-radius: .3em;
   color: #fff;
   text-transform: uppercase;
-  font-size: 0.7rem;
-  letter-spacing: 0.1rem;
+  font-size: .7em;
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
@@ -32,7 +35,7 @@ $color: #037c76;
     width: 100%;
     height: 100%;
     background-color: $color;
-    border-radius: 10rem;
+    border-radius: .3em;
     z-index: -2;
   }
   &:before {
@@ -44,7 +47,7 @@ $color: #037c76;
     height: 100%;
     background-color: darken($color, 7%);
     transition: all 0.3s;
-    border-radius: 10rem;
+    border-radius: .3em;
     z-index: -1;
   }
   &:hover {
@@ -55,33 +58,7 @@ $color: #037c76;
   }
 }
 
-/* optional reset for presentation */
 * {
-  font-family: Arial;
   text-decoration: none;
-  font-size: 20px;
-}
-.container {
-  padding-top: 50px;
-  margin: 0 auto;
-  width: 100%;
-  text-align: center;
-}
-h1 {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  margin-bottom: 2rem;
-  color: #777;
-}
-span {
-  display: block;
-  margin-top: 2rem;
-  font-size: 0.7rem;
-  color: #777;
-  a {
-    font-size: 0.7rem;
-    color: #999;
-    text-decoration: underline;
-  }
 }
 </style>
