@@ -1,5 +1,6 @@
 <template>
   <a :href="url" class="button">{{name}}</a>
+  <!--<button class="button">{{name}}</button>-->
 </template>
 
 <script>
@@ -23,7 +24,6 @@ $color: #037c76;
   color: #fff;
   text-transform: uppercase;
   font-size: .7em;
-  transition: all 0.3s;
   position: relative;
   overflow: hidden;
   z-index: 1;
