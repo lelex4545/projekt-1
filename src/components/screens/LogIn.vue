@@ -27,6 +27,9 @@
     <span v-if="pwScope">
       <PwForgot />
     </span>
+
+    <Drag/>
+
   </div>
 </template>
 
@@ -34,6 +37,7 @@
 import Button from "./../Button";
 import Regist from "./Regist";
 import PwForgot from "./PwForgot";
+import Drag from "./Drag";
 export default {
   name: "LogIn",
 
@@ -41,6 +45,7 @@ export default {
     Button,
     Regist,
     PwForgot,
+    Drag
   },
   data: () => ({
     accScope: false,
