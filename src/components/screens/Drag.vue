@@ -1,5 +1,7 @@
 <template>
-  <div ref="draggableContainer" class="conDesign" id="draggable-container" @mousedown="dragMouseDown"></div>
+  <div ref="draggableContainer" id="draggable-container" @mousedown="dragMouseDown">
+      
+  </div>
 </template>
 
 <script>
@@ -45,9 +47,6 @@ export default {
 <style>
 #draggable-container {
   position: absolute;
-  z-index: 9;
-}
-#draggable-header {
-  z-index: 10;
+  z-index: 25;
 }
 </style>

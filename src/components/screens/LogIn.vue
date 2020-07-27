@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <div id="container" class="conDesign">
+    <div id="container" class="conDesign draggable-container" ref="draggableContainer" @mousedown="dragMouseDown">
       <p id="anmText">Anmelden</p>
       <p id="p1">Name</p>
       <p id="p2">Passwort</p>
@@ -22,14 +22,12 @@
     -->
     <br class="canttouchme" />
     <span v-if="accScope">
-      <Regist />
+      <Regist/>
     </span>
     <span v-if="pwScope">
       <PwForgot />
     </span>
-
     <Drag/>
-
   </div>
 </template>
 
@@ -50,6 +48,12 @@ export default {
   data: () => ({
     accScope: false,
     pwScope: false,
+    positions: {
+      clientX: undefined,
+      clientY: undefined,
+      movementX: 0,
+      movementY: 0,
+    },
   }),
   methods: {
     accEvent() {
@@ -60,27 +64,50 @@ export default {
       this.accScope = false;
       this.pwScope = !this.pwScope;
     },
+    dragMouseDown: function (event) {
+      event.preventDefault()
+      // get the mouse cursor position at startup:
+      this.positions.clientX = event.clientX
+      this.positions.clientY = event.clientY
+      document.onmousemove = this.elementDrag
+      document.onmouseup = this.closeDragElement
+    },
+    elementDrag: function (event) {
+      event.preventDefault()
+      this.positions.movementX = this.positions.clientX - event.clientX
+      this.positions.movementY = this.positions.clientY - event.clientY
+      this.positions.clientX = event.clientX 
+      this.positions.clientY = event.clientY 
+      // set the element's new position:
+      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+    },
+    closeDragElement () {
+      document.onmouseup = null
+      document.onmousemove = null
+    }
   },
 };
 </script>
 
 <style lang="scss">
-#main {
-  display: inline-block;
-}
+
 .conDesign {
   border-radius: 1em;
   background-color: #009a93;
+  border: .5px solid black;
   padding: 1em;
   width: 22em;
   height: 9em;
   font-size: 1.3em;
   letter-spacing: 0.1em;
-  transition: all 0.65s;
+  transition: font-size 0.65s;
 }
 
 #container {
   display: grid;
+  position: absolute;
+  z-index: 3;
   grid-template-areas:
     "a a a"
     "p1 form form"
@@ -190,10 +217,5 @@ p {
   .conDesign {
     font-size: 0.75em;
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
 }
 </style>
