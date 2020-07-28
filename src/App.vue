@@ -1,16 +1,18 @@
 <template>
   <div id="app">
-    <LogIn/>
+    <span><LogIn/></span>
+    <span v-if="test"><Home/></span>
   </div>
 </template>
 
 <script>
 import LogIn from "./components/screens/LogIn"
-
+import Home from "./components/screens/Home"
 export default {
   name: 'App',
   components: {
-    LogIn
+    LogIn,
+    Home
   }
 }
 </script>

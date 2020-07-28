@@ -1,28 +1,21 @@
 <template>
   <div id="main">
-    <div id="container" class="conDesign draggable-container" ref="draggableContainer" @mousedown="dragMouseDown">
+    <div id="container" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
       <p id="anmText">Anmelden</p>
       <p id="p1">Name</p>
       <p id="p2">Passwort</p>
       <form id="form" method="get">
-        <input type="text" id="acc" name="acc" />
-        <input type="password" id="pw" name="pw" />
+        <input type="text" id="acc" name="acc" @mousedown.stop=""/>
+        <input type="password" id="pw" name="pw" @mousedown.stop=""/>
       </form>
-      <div id="anmelden">
-        <Button id="anmelden1" class="canttouchme" name="Anmelden" url="http://www.fh-dortmund.de" />
-      </div>
-      <a id="pwv" @click="pwEvent" class="canttouchme">Passwort vergessen?</a>
-      <a id="reg" @click="accEvent" class="canttouchme">Registrieren</a>
+      <Button id="anmelden" class="canttouchme" name="Anmelden" url="" @mousedown.stop=""/>
+      <a id="pwv" @click="pwEvent" class="canttouchme" @mousedown.stop="">Passwort vergessen?</a>
+      <a id="reg" @click="accEvent" class="canttouchme" @mousedown.stop="">Registrieren</a>
     </div>
 
-    <!--
-    <br>
-    <div id="container2" class="conDesign">
-    </div>
-    -->
     <br class="canttouchme" />
     <span v-if="accScope">
-      <Regist/>
+      <Regist />
     </span>
     <span v-if="pwScope">
       <PwForgot />
@@ -32,10 +25,10 @@
 </template>
 
 <script>
-import Button from "./../Button";
-import Regist from "./Regist";
-import PwForgot from "./PwForgot";
-import Drag from "./Drag";
+import Button from "./LogInComp/Button";
+import Regist from "./LogInComp/Regist";
+import PwForgot from "./LogInComp/PwForgot";
+import Drag from "./LogInComp/Drag";
 export default {
   name: "LogIn",
 
@@ -85,6 +78,12 @@ export default {
     closeDragElement () {
       document.onmouseup = null
       document.onmousemove = null
+      if((this.$refs.draggableContainer.offsetTop - this.positions.movementY)<0) this.$refs.draggableContainer.style.top = 0 + 'px'
+      if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
+          this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight + 'px'
+      if((this.$refs.draggableContainer.offsetLeft - this.positions.movementX)<0) this.$refs.draggableContainer.style.left = 0 + 'px'
+      if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
+          this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth + 'px'
     }
   },
 };
@@ -138,9 +137,9 @@ export default {
 #anmelden {
   grid-area: anm;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 1em;
+  align-self: center;
+  justify-self: center;
+  margin-right: 1.8em;
 }
 #reg {
   display: flex;
