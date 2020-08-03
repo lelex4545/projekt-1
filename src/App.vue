@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <span><LogIn/></span>
-    <span v-if="test"><Home/></span>
+    <button @click="loginVar=!loginVar">Change Screen</button>
+    <span v-if="loginVar"><LogIn/></span>
+    <span v-else><Home/></span>
   </div>
 </template>
 
@@ -13,7 +14,10 @@ export default {
   components: {
     LogIn,
     Home
-  }
+  },
+  data: () => ({
+    loginVar: true
+  }),
 }
 </script>
 

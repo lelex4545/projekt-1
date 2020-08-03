@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div>
     <div id="container" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
       <p id="anmText">Anmelden</p>
       <p id="p1">Name</p>
@@ -115,6 +115,7 @@ export default {
     ". pwv reg";
   grid-auto-columns: 25% 40% 35%;
   grid-auto-rows: 15% 25% 25% 25% 10%;
+  overflow: hidden;
 }
 #anmText {
   grid-area: a;
