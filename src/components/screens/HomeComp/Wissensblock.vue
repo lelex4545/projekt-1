@@ -5,9 +5,8 @@
             :item="net"
 
             @addNet="addNetItem"
-
-            id="net" 
-            class="containerDesignHome"
+ 
+            class="containerDesignHome net"
         />
     </div>
 </template>
@@ -24,23 +23,25 @@ export default {
     }),
     methods: {
         addNetItem () {
-            this.nets.unshift({id: this.nets.length, name: "-"})
+            this.nets.unshift({id: this.nets.length, name: ""})
         }
     }
-
 }
 </script>
 
-<style>
+<style lang="scss">
 #netBox {
     grid-area: n;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
 }
-#net{
+.net{
     display: flex;
-    margin: 1em;
+    margin: 1em 1em 1em 1em;
     width: 13em;
     height: 13em;
+    justify-content: center;
+    align-items: flex-end;
 }
 </style>
