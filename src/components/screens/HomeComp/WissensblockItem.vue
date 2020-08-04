@@ -54,6 +54,19 @@ export default {
     border: 0em;
 }
 
+::placeholder{ /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: lightgrey;
+    opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color: lightgrey;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+ color: lightgrey;
+}
+
 #boxName{
     padding-bottom: .3em;
     font-size: 2em;
