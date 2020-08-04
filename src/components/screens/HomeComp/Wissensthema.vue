@@ -1,0 +1,44 @@
+<template>
+    <div>
+        <WissensthemaItem
+            v-for="thema in themen"
+            :key="thema.id"
+            :item="thema"
+            id= "thema"
+            @addThema="addThemaItem"
+        />
+    </div>
+</template>
+
+<script>
+import WissensthemaItem from "./WissensthemaItem";
+export default {
+    name: "Wissensthema",
+    components: {
+        WissensthemaItem
+    },
+    data: () => ({
+        themen: [{id: 0, name: "+"}]
+    }),
+    methods: {
+        addThemaItem () {
+            this.themen.unshift({id: this.themen.length, name: "-"})
+        }
+    }
+};
+</script>
+
+<style>
+#thema{
+    display: flex;
+    background-color: #037c76;
+    width: 15em;
+    height: 2em;
+    margin-top: 1em;
+    border: .5px solid black;
+    border-radius: 0.5em;
+    align-items: center;
+    justify-content: center;
+}
+
+</style>
