@@ -7,11 +7,11 @@
             <p>Passwort</p>
             <p>Passwort bestätigen</p>
         <form>
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
-            <input type="text">
+            <input type="text" size="20" maxlength="20" placeholder="gay" v-model="vorname">
+            <input type="text" size="20" maxlength="20" v-model="nachname">
+            <input type="email" size="30" v-model="email">
+            <input type="password" size="20" maxlength="20" v-model="passwort">
+            <input type="password" size="20" maxlength="20" v-model="passwortVerg">
         </form>
         <Button id="abs" name="Registrieren"/>
     </div>
@@ -22,8 +22,16 @@ import Button from "./Button";
 export default {
     components: {
     Button
-  }
+  },
+  data: () => ({
+      vorname: '',
+      nachname: '',
+      email: '',
+      passwort: '',
+      passwortVerg: ''
+  })
 }
+
 </script>
 
 <style scoped>
