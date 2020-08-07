@@ -23,11 +23,11 @@ export default {
 #controlCenter{
     grid-area: c;
     display: flex;
-    margin: 1em;
-
     align-items: center;
     flex-flow: column;
-
+    border-radius: 0;
+    border: 0px;
+    height: 100vh;
 }
 
 #profil{
@@ -35,7 +35,7 @@ export default {
     background-color: #037c76;
     width: 15em;
     height: 10em;
-    margin-top: 1.3em;
+    margin-top: 2em;
     border: .5px solid black;
     border-radius: 1em;
 

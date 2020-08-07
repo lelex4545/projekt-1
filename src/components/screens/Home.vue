@@ -34,18 +34,19 @@ export default {
         "c h h h"
         "c n n n"
         "c n n n";
-    grid-auto-columns: 25% 25% 25% 25%;
+    grid-auto-columns: 20% 27% 27% 26%;
     grid-auto-rows: 14% 43% 43%;
-    width: 80.35em;
-    height: 35em;
+
     font-size: 1.2em;
 }
 #headerNet{
     grid-area: h;
     display: flex;
-    margin: 1em;
     padding-left: 1em;
     align-items: center;
+    border-radius: 0;
+    border: 0;
+    height: 2em;
 }
 
 

@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <button @click="loginVar=!loginVar">Change Screen</button>
+    
     <span v-if="loginVar"><LogIn/></span>
     <span v-else><Home/></span>
+    <button @click="loginVar=!loginVar">Change Screen</button>
   </div>
 </template>
 
@@ -28,9 +29,19 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center; 
   color: #ffffff;
-  margin: 60px;
+  height: 100%;
+  width: 100%;
+  margin: 0em;
+}
+html{
+  margin: 0;
+  padding: 0;
 }
 body {
   background-color: #2c3e50;
+  margin: 0em;
+  padding: 0em;
+  height: 100%;
+  width: 100%;
 }
 </style>

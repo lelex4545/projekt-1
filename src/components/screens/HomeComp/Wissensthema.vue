@@ -22,7 +22,8 @@ export default {
     }),
     methods: {
         addThemaItem () {
-            this.themen.unshift({id: this.themen.length, name: "-"})
+            if(this.themen.length < 12)
+                this.themen.unshift({id: this.themen.length, name: "-"})
         }
     }
 };
