@@ -33,8 +33,8 @@ export default {
 #thema{
     display: flex;
     background-color: #037c76;
-    width: 15em;
-    height: 2em;
+    width: 12em;
+    height: 1.5em;
     margin-top: 1em;
     border: .5px solid black;
     border-radius: 0.5em;

@@ -31,13 +31,13 @@ export default {
 #containerHome {
     display: grid;
     grid-template-areas: 
-        "c h h h"
+        "h h h h"
         "c n n n"
         "c n n n";
-    grid-auto-columns: 20% 27% 27% 26%;
-    grid-auto-rows: 14% 43% 43%;
+    grid-auto-columns: 16% 28% 28% 28%;
+    grid-auto-rows: 4% 48% 48%;
 
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 #headerNet{
     grid-area: h;
@@ -45,14 +45,15 @@ export default {
     padding-left: 1em;
     align-items: center;
     border-radius: 0;
-    border: 0;
-    height: 2em;
+    border: 0px;
+    border-bottom: 1px solid black;
+    font-size: .5em;
 }
 
 
 @media screen and (max-width: 960px) {
   #containerHome {
-    font-size: .75em;
+    font-size: .47em;
   }
 }
 

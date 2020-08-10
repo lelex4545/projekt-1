@@ -1,13 +1,10 @@
 <template>
-    <div v-if="item.id==0" class="emptyBlock" @click="createNet">
+    <div v-if="item.id==0" class="emptyBlock" @click="createNet">  <!-- ??? -->
         <p>{{item.name}}</p>
     </div>
     <div v-else>
-        <span v-if="message==''" >
-            <input v-model.lazy="message" placeholder="InsertName" id="boxInputName" autofocus>
-        </span>
-        <span v-else id="boxName" @click="message=''">
-            {{item.name=message}}
+        <span @click="pressEnter">
+            <input value = "Neues Netz" id="boxInputName" @keydown.enter="enter()">
         </span>
     </div>
 </template>
@@ -19,12 +16,18 @@ export default {
     methods: {
         createNet() {
             this.$emit('addNet', this.item)
+        },
+        enter(){
+            document.getElementById('boxInputName').addEventListener('keyup',function(){
+                this.blur();
+            });
         }
     },
     data: () => ({
         message: ""
     })
 }
+
 </script>
 
 <style lang="scss">
@@ -47,6 +50,7 @@ export default {
 }
 
 #boxInputName{
+    background:transparent;
     margin-bottom: .5em;
     width: 11em;
     height: 2em;

@@ -2,9 +2,9 @@
     <div id="controlCenter" class="containerDesignHome">
         <div id ="profil">
             <div id="profilBild">
-                <img src="https://media1.tenor.com/images/bb516b458a66c715aca4c7f6076813bb/tenor.gif?itemid=14806536" id="pb">
+                <img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb">
             </div>
-            <p>Thomas Beitler</p>
+            <p id="name">Thomas Beitler</p>
         </div>
         <Wissensthema/>
     </div>
@@ -27,15 +27,16 @@ export default {
     flex-flow: column;
     border-radius: 0;
     border: 0px;
+    border-right: 1px solid black;
     height: 100vh;
 }
 
 #profil{
     display: flex;
     background-color: #037c76;
-    width: 15em;
-    height: 10em;
-    margin-top: 2em;
+    width: 12em;
+    height: 7em;
+    margin-top: 1em;
     border: .5px solid black;
     border-radius: 1em;
 
@@ -45,8 +46,8 @@ export default {
 }
 
 #profilBild{
-    width: 5em;
-    height: 5em;
+    width: 4em;
+    height: 4em;
    
     transition: font-size 0.8s;
 
@@ -60,5 +61,10 @@ export default {
     border-radius: 5em;
     height: auto;
 }
+
+#name{
+    margin: .5em;
+}
+
 
 </style>
