@@ -1,96 +1,52 @@
 <template>
-  <div>
-    <div id="container" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
-      <p id="anmText">Anmelden</p>
-      <p id="p1">Name</p>
-      <p id="p2">Passwort</p>
-      <form id="form" method="get">
-        <input type="text" id="acc" name="acc" @mousedown.stop=""/>
-        <input type="password" id="pw" name="pw" @mousedown.stop=""/>
-      </form>
-      <Button id="anmelden" class="canttouchme" name="Anmelden" url="" @mousedown.stop=""/>
-      <a id="pwv" @click="pwEvent" class="canttouchme" @mousedown.stop="">Passwort vergessen?</a>
-      <a id="reg" @click="accEvent" class="canttouchme" @mousedown.stop="">Registrieren</a>
-    </div>
-
-    <br class="canttouchme" />
+  <div class="canttouchme">
+    <LogInElement :class="{testtest: hidden}"
+      @accEvent=accScreen
+      @pwEvent=pwScreen
+    />
+    <br>
     <span v-if="accScope">
       <Regist />
     </span>
     <span v-if="pwScope">
       <PwForgot />
     </span>
-    <Drag/>
   </div>
 </template>
 
 <script>
-import Button from "./LogInComp/Button";
+import LogInElement from "./LogInComp/LogInElement"
 import Regist from "./LogInComp/Regist";
 import PwForgot from "./LogInComp/PwForgot";
-import Drag from "./LogInComp/Drag";
 export default {
   name: "LogIn",
-
   components: {
-    Button,
     Regist,
     PwForgot,
-    Drag
+    LogInElement,
   },
   data: () => ({
     accScope: false,
     pwScope: false,
-    positions: {
-      clientX: undefined,
-      clientY: undefined,
-      movementX: 0,
-      movementY: 0,
-    },
+    hidden: false
   }),
   methods: {
-    accEvent() {
+    accScreen() {
       this.pwScope = false;
       this.accScope = !this.accScope;
     },
-    pwEvent() {
+    pwScreen() {
       this.accScope = false;
       this.pwScope = !this.pwScope;
-    },
-    dragMouseDown: function (event) {
-      event.preventDefault()
-      // get the mouse cursor position at startup:
-      this.positions.clientX = event.clientX
-      this.positions.clientY = event.clientY
-      document.onmousemove = this.elementDrag
-      document.onmouseup = this.closeDragElement
-    },
-    elementDrag: function (event) {
-      event.preventDefault()
-      this.positions.movementX = this.positions.clientX - event.clientX
-      this.positions.movementY = this.positions.clientY - event.clientY
-      this.positions.clientX = event.clientX 
-      this.positions.clientY = event.clientY 
-      // set the element's new position:
-      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
-      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
-    },
-    closeDragElement () {
-      document.onmouseup = null
-      document.onmousemove = null
-      if((this.$refs.draggableContainer.offsetTop - this.positions.movementY)<0) this.$refs.draggableContainer.style.top = 0 + 'px'
-      if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
-          this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight + 'px'
-      if((this.$refs.draggableContainer.offsetLeft - this.positions.movementX)<0) this.$refs.draggableContainer.style.left = 0 + 'px'
-      if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
-          this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth + 'px'
     }
   },
 };
 </script>
 
 <style lang="scss">
-
+.testtest{
+  z-index: 10;
+}
 .conDesign {
   border-radius: 1em;
   background-color: #009a93;
@@ -103,71 +59,7 @@ export default {
   transition: font-size 0.65s;
 }
 
-#container {
-  display: grid;
-  position: absolute;
-  z-index: 3;
-  grid-template-areas:
-    "a a a"
-    "p1 form form"
-    "p2 form form"
-    ". . anm"
-    ". pwv reg";
-  grid-auto-columns: 25% 40% 35%;
-  grid-auto-rows: 15% 25% 25% 25% 10%;
-  overflow: hidden;
-}
-#anmText {
-  grid-area: a;
-  display: flex;
-  align-self: center;
-  margin: 0;
-  margin-bottom: 1em;
-  justify-self: center;
-}
 
-#p1 {
-  grid-area: p1;
-}
-#p2 {
-  grid-area: p2;
-}
-#form {
-  grid-area: form;
-}
-#anmelden {
-  grid-area: anm;
-  display: flex;
-  align-self: center;
-  justify-self: center;
-  margin-right: 1.8em;
-}
-#reg {
-  display: flex;
-  align-self: flex-end;
-  justify-self: center;
-  grid-area: reg;
-  font-size: 60%;
-  width: 7em;
-  color: white;
-  &:hover {
-    color: black;
-    cursor: pointer;
-  }
-}
-#pwv {
-  display: flex;
-  align-self: flex-end;
-  justify-self: center;
-  grid-area: pwv;
-  font-size: 60%;
-  width: 13em;
-  color: white;
-  &:hover {
-    color: black;
-    cursor: pointer;
-  }
-}
 .canttouchme {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
