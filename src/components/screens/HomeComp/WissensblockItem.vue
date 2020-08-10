@@ -18,8 +18,9 @@ export default {
             this.$emit('addNet', this.item)
         },
         enter(){
-            document.getElementById('boxInputName').addEventListener('keyup',function(){
-                this.blur();
+            document.getElementById('boxInputName').addEventListener('keyup',function(e){
+                if(e.which == 13)
+                    this.blur();
             });
         }
     },

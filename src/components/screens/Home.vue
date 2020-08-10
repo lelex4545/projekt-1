@@ -47,7 +47,11 @@ export default {
     border-radius: 0;
     border: 0px;
     border-bottom: 1px solid black;
-    font-size: .5em;
+    font-size: .6em;
+    
+    position: fixed;
+    width: 100vw;
+    height: 4em;
 }
 
 
