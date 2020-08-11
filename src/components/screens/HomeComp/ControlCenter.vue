@@ -21,13 +21,16 @@ export default {
 
 <style>
 #controlCenter{
-    grid-area: c;
+    /*grid-area: c;*/
     display: flex;
     align-items: center;
     flex-flow: column;
     border-radius: 0;  
 
     position: fixed;
+    left: 0;
+    top: 0;
+    padding-top: 4em;
     height: 100vh;
     width: 16em;
 }
@@ -38,7 +41,6 @@ export default {
     background-color: rgb(30, 39, 80);
     width: 14em;
     height: 7em;
-    margin-top: 3.5em;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
     border-radius: 1em;
 

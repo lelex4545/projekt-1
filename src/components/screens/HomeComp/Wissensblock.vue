@@ -19,11 +19,15 @@ export default {
         WissensblockItem
     },
     data: () => ({
-        nets: [{id: 0, name: "+"}]
+        nets: [{id: 0, name: "+"}],
+        temp: WissensblockItem
     }),
     methods: {
         addNetItem () {
-            this.nets.unshift({id: this.nets.length, name: ""})
+            this.nets.push({id: this.nets.length, name: ""})
+            this.temp = this.nets[this.nets.length-1]
+            this.nets[this.nets.length-1] = this.nets[this.nets.length-2]
+            this.nets[this.nets.length-2] = this.temp
         }
     }
 }
@@ -31,10 +35,12 @@ export default {
 
 <style lang="scss">
 #netBox {
-    grid-area: n;
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    position: absolute;
+    top: 4em;
+    left: 18em;
+    z-index: -1;
 }
 .net{
     display: flex;

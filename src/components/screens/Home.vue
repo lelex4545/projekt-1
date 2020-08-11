@@ -30,6 +30,7 @@ export default {
 }
 
 #containerHome {
+  /*
     display: grid;
     grid-template-areas: 
         "h h h h"
@@ -37,11 +38,18 @@ export default {
         "c n n n";
     grid-auto-columns: 14em 28% 28% 26%;
     grid-auto-rows: 2.5em 46% 46%;
-
+*/
     font-size: 1.1em;
 }
 #headerNet{
-    grid-area: h;
+    /*grid-area: h;*/
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 4em;
+
     color: rgb(30, 39, 80);
     display: flex;
     padding-left: 1em;
@@ -51,24 +59,16 @@ export default {
     /*border-bottom: 1px solid black;*/
     font-size: .6em;
 
-    position: fixed;
-    width: 100vw;
-    height: 4em;
-
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
 }
 
 
 @media screen and (max-width: 960px) {
-  #containerHome {
-    font-size: .47em;
-  }
+  
 }
 
 @media screen and (max-width: 480px) {
-  #containerHome {
-    font-size: 0.5em;
-  }
+
 }
 
 .canttouchme {
