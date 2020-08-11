@@ -38,8 +38,8 @@ export default {
     display: flex;
     flex-wrap: wrap;
     position: absolute;
-    top: 4em;
-    left: 18em;
+    top: 3em;
+    left: 17em;
     z-index: -1;
 }
 .net{

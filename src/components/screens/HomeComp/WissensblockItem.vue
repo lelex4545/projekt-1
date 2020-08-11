@@ -4,7 +4,7 @@
     </div>
     <div v-else>
         <span @click="pressEnter">
-            <input value = "Neues Netz" id="boxInputName" @keydown.enter="enter()">
+            <input autocomplete="off" spellcheck="false" value = "Neues Netz" id="boxInputName" @keydown.enter="enter()">
         </span>
     </div>
 </template>
