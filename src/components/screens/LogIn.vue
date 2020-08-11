@@ -44,15 +44,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/theme.scss";
+
 .testtest{
   z-index: 10;
 }
 
 .conDesign {
   border-radius: 1em;
-  /*background-color: #009a93;
-  border: .5px solid black;*/
-  background-color: rgb(30, 39, 80);
+  background-color: $login_div_color;
   box-shadow: 1px 1px 2px rgb(29, 29, 29);
   padding: 1em;
   width: 22em;
@@ -63,24 +63,10 @@ export default {
 }
 
 
-.canttouchme {
-  display: flex;
-  justify-content: center;
-
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-
-$color: #037c76;
 input {
   border: 1px solid #333838;
   border-radius: 0.5em;
-  background-color: rgb(105, 116, 170);
+  background-color: $login_input_color;
   color: white;
   width: 16.2em;
   height: 1.7em;
@@ -88,7 +74,7 @@ input {
   font-size: 0.8em;
   &:focus {
     outline: none;
-    background-color: darken(rgb(105, 116, 170), 7%);
+    background-color: darken($login_input_color, 7%);
   }
 }
 

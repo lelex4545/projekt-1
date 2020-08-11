@@ -1,5 +1,5 @@
 <template>
-    <div id="regScreen" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
+    <div id="regScreen" class="conDesign colorTheme_1" ref="draggableContainer" @mousedown="dragMouseDown">
             <p id="regista">Registrieren</p>
             <p>Vorname </p>
             <p>Nachname</p>

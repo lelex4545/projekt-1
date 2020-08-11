@@ -11,8 +11,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$color: rgb(54, 72, 153);
-
+@import "@/assets/theme.scss";
+$color: $login_button_color;
 .button {
   display: flex;
   align-items: center;

@@ -71,6 +71,7 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/theme.scss";
 #container {
   display: grid;
   position: absolute;
@@ -110,7 +111,6 @@ export default {
   margin-right: 1.8em;
 }
 
-
 #reg {
   display: flex;
   align-self: flex-end;
@@ -120,7 +120,7 @@ export default {
   width: 7em;
   color: white;
   &:hover {
-    color: rgb(63, 89, 192);
+    color: $login_reg_pw_color;
     cursor: pointer;
   }
 }
@@ -133,7 +133,7 @@ export default {
   width: 13em;
   color: white;
   &:hover {
-    color: rgb(63, 89, 192);
+    color: $login_reg_pw_color;
     cursor: pointer;
   }
 }
