@@ -35,7 +35,7 @@ export default {
         "h h h h"
         "c n n n"
         "c n n n";
-    grid-auto-columns: 17% 28% 28% 26%;
+    grid-auto-columns: 14em 28% 28% 26%;
     grid-auto-rows: 2.5em 46% 46%;
 
     font-size: 1.1em;

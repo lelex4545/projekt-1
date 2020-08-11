@@ -29,14 +29,14 @@ export default {
 
     position: fixed;
     height: 100vh;
-    width: 14em;
+    width: 16em;
 }
 
 #profil{
     display: flex;
     /*background-color: #037c76;*/
     background-color: rgb(30, 39, 80);
-    width: 12em;
+    width: 14em;
     height: 7em;
     margin-top: 3.5em;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
