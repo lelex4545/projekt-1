@@ -120,7 +120,7 @@ export default {
   width: 7em;
   color: white;
   &:hover {
-    color: black;
+    color: rgb(63, 89, 192);
     cursor: pointer;
   }
 }
@@ -133,7 +133,7 @@ export default {
   width: 13em;
   color: white;
   &:hover {
-    color: black;
+    color: rgb(63, 89, 192);
     cursor: pointer;
   }
 }

@@ -33,12 +33,12 @@ export default {
 
 <style lang="scss">
 .emptyBlock{
-    color: darkslategray;
+    color: rgb(30, 39, 80);
     &:hover{
         transition: all .75s;
         z-index: 2;
         transform: scale(1.05);
-        color: darken($color: darkslategray, $amount: 5);
+        color: darken($color: rgb(63, 89, 192), $amount: 5);
         &:after{
             transition: all 1s;
         }
@@ -57,6 +57,7 @@ export default {
     height: 2em;
     font-size: 1em;
     border: 0em;
+    color:rgb(30, 39, 80);
 }
 
 ::placeholder{ /* Chrome, Firefox, Opera, Safari 10.1+ */

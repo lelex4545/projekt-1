@@ -22,8 +22,9 @@ export default {
 <style>
 .containerDesignHome {
   border-radius: 1em;
-  background-color: #009a93;
-  border: .5px solid black;
+  background-color: whitesmoke;/*#009a93;*/
+  /*border: .5px solid black;*/
+  box-shadow: 1px 1px 2px rgb(126, 126, 126);
   letter-spacing: 0.1em;
   transition: font-size 0.8s;
 }
@@ -34,24 +35,27 @@ export default {
         "h h h h"
         "c n n n"
         "c n n n";
-    grid-auto-columns: 16% 28% 28% 28%;
-    grid-auto-rows: 4% 48% 48%;
+    grid-auto-columns: 17% 28% 28% 26%;
+    grid-auto-rows: 2.5em 46% 46%;
 
     font-size: 1.1em;
 }
 #headerNet{
     grid-area: h;
+    color: rgb(30, 39, 80);
     display: flex;
     padding-left: 1em;
     align-items: center;
     border-radius: 0;
     border: 0px;
-    border-bottom: 1px solid black;
+    /*border-bottom: 1px solid black;*/
     font-size: .6em;
-    
+
     position: fixed;
     width: 100vw;
     height: 4em;
+
+    box-shadow: 1px 1px 2px rgb(126, 126, 126);
 }
 
 

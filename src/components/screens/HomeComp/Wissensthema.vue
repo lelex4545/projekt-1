@@ -32,7 +32,7 @@ export default {
 <style>
 #thema{
     display: flex;
-    background-color: #037c76;
+    background-color: rgb(30, 39, 80);
     width: 12em;
     height: 1.5em;
     margin-top: 1em;

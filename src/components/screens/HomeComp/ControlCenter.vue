@@ -25,22 +25,21 @@ export default {
     display: flex;
     align-items: center;
     flex-flow: column;
-    border-radius: 0;
-    border: 0px;
-    border-right: 1px solid black;
+    border-radius: 0;  
 
     position: fixed;
     height: 100vh;
-    width: 13em;
+    width: 14em;
 }
 
 #profil{
     display: flex;
-    background-color: #037c76;
+    /*background-color: #037c76;*/
+    background-color: rgb(30, 39, 80);
     width: 12em;
     height: 7em;
     margin-top: 3.5em;
-    border: .5px solid black;
+    box-shadow: 1px 1px 2px rgb(126, 126, 126);
     border-radius: 1em;
 
     justify-content: center;

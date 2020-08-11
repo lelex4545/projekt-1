@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$color: #037c76;
+$color: rgb(54, 72, 153);
 
 .button {
   display: flex;

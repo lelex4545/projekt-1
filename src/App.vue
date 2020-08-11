@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <span v-if="loginVar"><LogIn/></span>
+    <span id="log" v-if="loginVar"><LogIn/></span>
     <span v-else><Home/></span>
     <button @click="loginVar=!loginVar">Change Screen</button>
   </div>
@@ -38,10 +38,11 @@ html{
   padding: 0;
 }
 body {
-  background-color: #2c3e50;
+  background-color: lightgray;/* #2c3e50;*/
   margin: 0em;
   padding: 0em;
   height: 100%;
   width: 100%;
 }
+
 </style>
