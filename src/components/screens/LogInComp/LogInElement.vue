@@ -27,7 +27,18 @@ export default {
       movementX: 0,
       movementY: 0,
     },
+    /*
+    windiw_Width: 0,
+    window_Height: 0
+    */
   }),
+  mounted(){
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.stayOnScreenRight);
+      window.addEventListener('resize', this.stayOnScreenBottom);
+    })
+  },
+
   methods: {
     accEvent() {
         this.$emit('accEvent', this.item)
@@ -53,21 +64,33 @@ export default {
       this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
       this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
     
+      //Div Elemente können nicht außerhalb des Bildes gezogen werden
+      //Top-Block
       if((this.$refs.draggableContainer.offsetTop - this.positions.movementY)<0) this.$refs.draggableContainer.style.top = 0 + 'px'
+      //Bottom-Block
       if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
         this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+      //Left-Block
       if((this.$refs.draggableContainer.offsetLeft - this.positions.movementX)<0) this.$refs.draggableContainer.style.left = 0 + 'px'
+      //Right-Block
       if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
         this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
-    
-    
     },
     closeDragElement () {
       document.onmouseup = null
       document.onmousemove = null
-    }
+    },
+    stayOnScreenRight() {
+        if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
+        this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+		},
+		stayOnScreenBottom() {
+        if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
+        this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+		}
   },
 };
+
 </script>
 
 <style lang="scss">
