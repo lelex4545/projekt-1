@@ -52,7 +52,7 @@ export default {
 
 .conDesign {
   border-radius: 1em;
-  background-color: $login_div_color;
+  background-color: $div_color;
   box-shadow: 1px 1px 2px rgb(29, 29, 29);
   padding: 1em;
   width: 22em;

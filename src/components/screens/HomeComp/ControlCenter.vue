@@ -19,7 +19,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/assets/theme.scss";
+
 #controlCenter{
     /*grid-area: c;*/
     display: flex;
@@ -38,7 +40,7 @@ export default {
 #profil{
     display: flex;
     /*background-color: #037c76;*/
-    background-color: rgb(30, 39, 80);
+    background-color: $div_color;
     width: 14em;
     height: 7em;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);

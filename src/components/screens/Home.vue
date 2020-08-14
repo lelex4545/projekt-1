@@ -19,10 +19,12 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/assets/theme.scss";
+
 .containerDesignHome {
   border-radius: 1em;
-  background-color: whitesmoke;/*#009a93;*/
+  background-color: $home_background_color;/*#009a93;*/
   /*border: .5px solid black;*/
   box-shadow: 1px 1px 2px rgb(126, 126, 126);
   letter-spacing: 0.1em;
@@ -50,7 +52,7 @@ export default {
     width: 100vw;
     height: 4em;
 
-    color: rgb(30, 39, 80);
+    color: $div_color;
     display: flex;
     padding-left: 1em;
     align-items: center;

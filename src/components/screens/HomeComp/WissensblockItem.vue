@@ -32,13 +32,15 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/theme.scss";
+
 .emptyBlock{
-    color: rgb(30, 39, 80);
+    color: $div_color;
     &:hover{
         transition: all .75s;
         z-index: 2;
         transform: scale(1.05);
-        color: darken($color: rgb(63, 89, 192), $amount: 5);
+        color: darken($color: $hover_color_change, $amount: 5);
         &:after{
             transition: all 1s;
         }
@@ -57,22 +59,22 @@ export default {
     height: 2em;
     font-size: 1em;
     border: 0em;
-    color:rgb(30, 39, 80);
+    color:$div_color;
 }
-
-::placeholder{ /* Chrome, Firefox, Opera, Safari 10.1+ */
+/*
+::placeholder{ 
     color: lightgrey;
-    opacity: 1; /* Firefox */
+    opacity: 1; 
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
+:-ms-input-placeholder { 
  color: lightgrey;
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
+::-ms-input-placeholder { 
  color: lightgrey;
 }
-
+*/
 #boxName{
     padding-bottom: .3em;
     font-size: 2em;

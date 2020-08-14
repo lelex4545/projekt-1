@@ -17,12 +17,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import "@/assets/theme.scss";
+
 .emptyThema{
     display: flex;
     align-items: center;
     justify-content: center;
     margin: auto;
-    color: gold;
+    color: $add_new_wissensnetz;
 }
 </style>

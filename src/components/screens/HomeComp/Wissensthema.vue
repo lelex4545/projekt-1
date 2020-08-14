@@ -29,10 +29,12 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "@/assets/theme.scss";
+
 #thema{
     display: flex;
-    background-color: rgb(30, 39, 80);
+    background-color: $div_color;
     width: 14em;
     height: 1.5em;
     margin-top: 1em;

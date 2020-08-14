@@ -120,7 +120,7 @@ export default {
   width: 7em;
   color: white;
   &:hover {
-    color: $login_reg_pw_color;
+    color: $hover_color_change;
     cursor: pointer;
   }
 }
@@ -133,7 +133,7 @@ export default {
   width: 13em;
   color: white;
   &:hover {
-    color: $login_reg_pw_color;
+    color: $hover_color_change;
     cursor: pointer;
   }
 }
