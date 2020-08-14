@@ -4,23 +4,53 @@
         <div id="headerNet" class="containerDesignHome">
             <H1>Insert Wissensnetzname</H1>
         </div>
-        <Wissensblock/>
+        <!--<Wissensblock/>-->
+        <component v-bind:is="currentTabComponent"></component>
+
+        <button
+        v-for="tab in tabs"
+        v-bind:key="tab"
+        v-bind:class="['tab-button', { active: currentTab === tab }]"
+        v-on:click="currentTab = tab"
+        >
+            {{ tab }}
+        </button>
     </div>
 </template>
 
 <script>
-import ControlCenter from "./HomeComp/ControlCenter";
-import Wissensblock from "./HomeComp/Wissensblock";
-export default {
-    components: {
-        ControlCenter,
-        Wissensblock
+    import ControlCenter from "./HomeComp/ControlCenter";
+    import Wissensblock from "./HomeComp/Wissensblock";
+    import Profil from "./HomeComp/Profil";
+    
+    export default {
+        components: {
+            ControlCenter,
+            Wissensblock,
+            Profil
+        },
+        data:() =>({
+          currentTab: "Wissensblock",
+          tabs: ["Wissensblock", "Profil"]
+        }),
+        computed: {
+          currentTabComponent: function() {
+            return this.currentTab.toLowerCase();
+          }
+        }
     }
-}
+
+
 </script>
 
 <style lang="scss">
 @import "@/assets/theme.scss";
+
+button{
+    position: relative;
+    top: 500px;
+    left: 500px;
+}
 
 .containerDesignHome {
   border-radius: 1em;

@@ -7,7 +7,7 @@
             <p>Passwort</p>
             <p>Passwort bestätigen</p>
         <form>
-            <input type="text" size="20" maxlength="20" placeholder="gay" v-model="vorname" @mousedown.stop>
+            <input type="text" size="20" maxlength="20" v-model="vorname" @mousedown.stop>
             <input type="text" size="20" maxlength="20" v-model="nachname" @mousedown.stop>
             <input type="email" size="30" v-model="email" @mousedown.stop>
             <input type="password" size="20" maxlength="20" v-model="passwort" @mousedown.stop>
