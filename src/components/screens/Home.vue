@@ -24,7 +24,7 @@ export default {
 
 .containerDesignHome {
   border-radius: 1em;
-  background-color: $home_background_color;/*#009a93;*/
+  background-color: $home_menu_color;/*#009a93;*/
   /*border: .5px solid black;*/
   box-shadow: 1px 1px 2px rgb(126, 126, 126);
   letter-spacing: 0.1em;
@@ -64,15 +64,6 @@ export default {
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
 }
 
-
-@media screen and (max-width: 960px) {
-  
-}
-
-@media screen and (max-width: 480px) {
-
-}
-
 .canttouchme {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -81,5 +72,9 @@ export default {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+body {
+    background-color: $home_background_color;
 }
 </style>

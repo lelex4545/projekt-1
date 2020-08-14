@@ -38,7 +38,7 @@ html{
   padding: 0;
 }
 body {
-  background-color: lightgray;/* #2c3e50;*/
+  /*background-color: lightgray;/* #2c3e50;*/
   margin: 0em;
   padding: 0em;
   height: 100%;

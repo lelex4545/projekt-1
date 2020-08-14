@@ -102,4 +102,7 @@ p {
     font-size: 0.75em;
   }
 }
+body {
+    background-color: $login_background_color;
+}
 </style>
