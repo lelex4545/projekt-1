@@ -1,5 +1,9 @@
 <template>
-    <p id="test">DIES SOLLTE EIN PROFIL SEIN</p>
+    <div id="profilSettings">
+        <div id="pbSetting">
+            <img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb2">
+        </div>
+    </div>    
 </template>
 
 <script>
@@ -9,11 +13,32 @@ export default {
 }
 </script>
 
-<style>
-    #test{
+<style lang="scss">
+    @import "@/assets/theme.scss";
+
+    #profilSettings{
         position: absolute;
-        top: 300px;
-        left: 300px;
+        top: 3em;
+        left: 17em;
         color: black;
+    }
+
+    #pbSetting{
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        width: 50em;
+        height: 10em;
+        box-shadow: 1px 1px 2px rgb(126, 126, 126);
+        background-color: $home_menu_color;
+    }
+
+    #pb2{
+        width: 10%;
+        border-radius: 5em;
+        border: 1px solid black;
+        width: 7em;
+        height: 7em;
+        margin-left: 1em;
     }
 </style>
