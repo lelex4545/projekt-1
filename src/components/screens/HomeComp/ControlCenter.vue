@@ -2,7 +2,8 @@
     <div id="controlCenter" class="containerDesignHome">
         <div id ="profil">
             <div id="profilBild">
-                <img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb">
+                <!--<img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb">-->
+                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb">
             </div>
             <p id="name">Thomas Beitler</p>
         </div>
