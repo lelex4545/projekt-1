@@ -1,5 +1,7 @@
 <template>
     <div id="profilSettings">
+        <h2>Profile</h2>
+        <hr style="margin-bottom: 1em;">
         <div class="ueberschrift">Profile Picture</div>
         <div class="profilSetting">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb2">
@@ -85,5 +87,7 @@ export default {
         margin-top: 0.5em;
         margin-left: 1em;
     }
+
+
 
 </style>
