@@ -1,5 +1,5 @@
 <template>
-    <div id="pwScreen" class="conDesign">
+    <div id="pwScreen" class="conDesign" ref="draggableContainer" @mousedown="dragEvent">
             <p id="pwTitle">Passwort vergessen</p>
             <p id="elem1">Email Adresse eingeben</p>
         <form>
@@ -12,8 +12,28 @@
 <script>
 import Button from "./Button";
 export default {
+    name: "PWForget",
     components: {
     Button
+  },
+  data: () => ({
+      positions: {
+          clientX: undefined,
+          clientY: undefined,
+          movementX: 0,
+          movementY: 0,
+      }
+  }),
+  mounted(){
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.stayOnScreenRight);
+      window.addEventListener('resize', this.stayOnScreenBottom);
+    })
+  },
+  methods: {
+      dragEvent() {
+          this.$emit('dragEvent', this, event, document)
+      }
   }
 }
 </script>

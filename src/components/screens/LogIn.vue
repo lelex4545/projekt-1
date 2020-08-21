@@ -8,9 +8,11 @@
     <span v-if="accScope">
       <Regist />
     </span>
-    <span v-if="pwScope">
-      <PwForgot />
-    </span>
+    <!--<span v-if="pwScope">-->
+      <PwForgot 
+        @dragEvent=dragMouseDown
+      />
+    <!--</span>-->
   </div>
 </template>
 
@@ -18,6 +20,7 @@
 import LogInElement from "./LogInComp/LogInElement"
 import Regist from "./LogInComp/Regist";
 import PwForgot from "./LogInComp/PwForgot";
+
 export default {
   name: "LogIn",
   components: {
@@ -27,8 +30,8 @@ export default {
   },
   data: () => ({
     accScope: false,
-    pwScope: false,
-    hidden: false
+    pwScope: true,
+    hidden: false,
   }),
   methods: {
     accScreen() {
@@ -40,47 +43,52 @@ export default {
       this.pwScope = !this.pwScope;
     },
     ///////////FORMOVEMENT
-    dragMouseDown: function (event) {
+    dragMouseDown: function (movObject, event) {
       event.preventDefault()
       // get the mouse cursor position at startup:
-      this.positions.clientX = event.clientX
-      this.positions.clientY = event.clientY
-      document.onmousemove = this.elementDrag
+      movObject.positions.clientX = event.clientX
+      movObject.positions.clientY = event.clientY
+      //console.log("Function1:  " + movObject.positions.clientX)
+      document.onmousemove = this.elementDrag(movObject, event)
+      console.log(document.onmousemove)
       document.onmouseup = this.closeDragElement
     },
-    elementDrag: function (event) {
+    elementDrag: function (movObject, event) {
+    //elementDrag(movObject, event) {
       event.preventDefault()
-      this.positions.movementX = this.positions.clientX - event.clientX
-      this.positions.movementY = this.positions.clientY - event.clientY
-      this.positions.clientX = event.clientX 
-      this.positions.clientY = event.clientY 
+      movObject.positions.movementX = movObject.positions.clientX - event.clientX
+      movObject.positions.movementY = movObject.positions.clientY - event.clientY
+      movObject.positions.clientX = event.clientX 
+      movObject.positions.clientY = event.clientY 
       // set the element's new position:
-      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
-      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
-    
+      movObject.$refs.draggableContainer.style.top = (movObject.$refs.draggableContainer.offsetTop - movObject.positions.movementY) + 'px'
+      //console.log(movObject.$refs.draggableContainer.style.top)
+      movObject.$refs.draggableContainer.style.left = (movObject.$refs.draggableContainer.offsetLeft - movObject.positions.movementX) + 'px'
+    /*
       //Div Elemente können nicht außerhalb des Bildes gezogen werden
       //Top-Block
-      if((this.$refs.draggableContainer.offsetTop - this.positions.movementY)<0) this.$refs.draggableContainer.style.top = 0 + 'px'
+      if((movObject.$refs.draggableContainer.offsetTop - movObject.positions.movementY)<0) movObject.$refs.draggableContainer.style.top = 0 + 'px'
       //Bottom-Block
-      if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
-        this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+      if((movObject.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - movObject.positions.movementY)>window.innerHeight) 
+        movObject.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
       //Left-Block
-      if((this.$refs.draggableContainer.offsetLeft - this.positions.movementX)<0) this.$refs.draggableContainer.style.left = 0 + 'px'
+      if((movObject.$refs.draggableContainer.offsetLeft - movObject.positions.movementX)<0) movObject.$refs.draggableContainer.style.left = 0 + 'px'
       //Right-Block
-      if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
-        this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+      if((movObject.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - movObject.positions.movementX)>window.innerWidth) 
+        movObject.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+    */
     },
     closeDragElement () {
       document.onmouseup = null
       document.onmousemove = null
     },
-    stayOnScreenRight() {
-        if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
-        this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+    stayOnScreenRight(movObject) {
+        if((movObject.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - movObject.positions.movementX)>window.innerWidth) 
+        movObject.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
 		},
-		stayOnScreenBottom() {
-        if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
-        this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+		stayOnScreenBottom(movObject) {
+        if((movObject.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - movObject.positions.movementY)>window.innerHeight) 
+        movObject.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
 		}
   },
 };
@@ -133,19 +141,7 @@ p {
   justify-content: flex-end;
   align-items: center;
 }
-/*
-@media screen and (max-width: 768px) {
-  .conDesign {
-    font-size: 1em;
-  }
-}
 
-@media screen and (max-width: 480px) {
-  .conDesign {
-    font-size: 0.75em;
-  }
-}
-*/
 body {
     background-color: $login_background_color;
 }

@@ -27,10 +27,6 @@ export default {
       movementX: 0,
       movementY: 0,
     },
-    /*
-    windiw_Width: 0,
-    window_Height: 0
-    */
   }),
   mounted(){
     this.$nextTick(function() {
@@ -38,7 +34,6 @@ export default {
       window.addEventListener('resize', this.stayOnScreenBottom);
     })
   },
-
   methods: {
     accEvent() {
         this.$emit('accEvent', this.item)
@@ -52,6 +47,7 @@ export default {
       this.positions.clientX = event.clientX
       this.positions.clientY = event.clientY
       document.onmousemove = this.elementDrag
+      console.log(document.onmousemove)
       document.onmouseup = this.closeDragElement
     },
     elementDrag: function (event) {
@@ -98,6 +94,7 @@ export default {
 #container {
   display: grid;
   position: absolute;
+  left: 500px;
   z-index: 2;
   grid-template-areas:
     "a a a"
