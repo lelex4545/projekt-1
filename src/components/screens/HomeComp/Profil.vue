@@ -14,6 +14,12 @@
             <p>Vorname </p>
             <p>Nachname</p>
             <p>Email</p>
+            <p id="bio">Bio</p>
+            <input type="text" size="20" maxlength="20" value="Byteler10">
+            <input type="text" size="20" maxlength="20" value="Thomas">
+            <input type="text" size="20" maxlength="20" value="Beitler">
+            <input type="text" size="20" maxlength="20" value="thomas_b@gmail.com">
+            <textarea placeholder="Tell something about you..."></textarea>
         </div>
     </div>    
 </template>
@@ -76,10 +82,42 @@ export default {
 
     #profilInfo{
         height: 20em;
-        display: flex;
-        flex-flow: column;
+        /*display: flex;
+        flex-flow: column;*/
+        display: grid;
+
+        grid-auto-rows: 15% 15% 15% 15% 40%;
+        grid-auto-columns: 25% 75%;
+        grid-template-areas: 
+            "name inpu"
+            "name inpu"
+            "name inpu"
+            "name inpu"
+            "name inpu";
+
     }
 
+    #profilInfo {
+        grid-area: name;
+        grid-auto-flow: column;
+
+    }
+
+    #profilInfo input{
+        width: 30em;
+        height: 2em;
+    }
+
+    #profilInfo textarea{
+        width: 30em;
+        height: 7em;
+        font-family: Tahoma, sans-serif;
+        margin-bottom: 1em;
+    }
+
+    #bio{
+        margin-bottom: 6em;
+    }
     .ueberschrift{
         display: flex;
         align-self: flex-start;

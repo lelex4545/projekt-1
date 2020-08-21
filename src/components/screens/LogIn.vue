@@ -1,5 +1,5 @@
 <template>
-  <div class="canttouchme">
+  <div class="canttouchme" id="canttouch">
     <LogInElement :class="{testtest: hidden}"
       @accEvent=accScreen
       @pwEvent=pwScreen
@@ -114,7 +114,7 @@ export default {
 }
 
 
-input {
+#canttouch input {
   border: 1px solid #333838;
   border-radius: 0.5em;
   background-color: $login_input_color;
