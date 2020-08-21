@@ -38,7 +38,7 @@ export default {
     width: 14em;
     height: 1.5em;
     margin-top: 1em;
-    border: .5px solid black;
+    box-shadow: 1px 1px 2px rgb(126, 126, 126);
     border-radius: 0.5em;
     align-items: center;
     justify-content: center;

@@ -99,6 +99,8 @@ export default {
 }
 form{
     grid-area: f;
+    display:flex;
+    flex-flow: column;
 }
 #abs{
     grid-area: a;

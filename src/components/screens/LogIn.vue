@@ -136,7 +136,7 @@ form {
   align-items: center;
 }
 
-p {
+ .conDesign p {
   display: flex;
   justify-content: flex-end;
   align-items: center;
