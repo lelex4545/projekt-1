@@ -10,16 +10,26 @@
         </div>
         <div class="ueberschrift">Profile Settings</div>
         <div class="profilSetting" id="profilInfo">
-            <p>Nutzername</p>
-            <p>Vorname </p>
-            <p>Nachname</p>
-            <p>Email</p>
+            <p>Username</p>
+            <p>First name</p>
+            <p>Last name</p>
+            <p>E-Mail</p>
             <p id="bio">Bio</p>
-            <input type="text" size="20" maxlength="20" value="Byteler10">
-            <input type="text" size="20" maxlength="20" value="Thomas">
-            <input type="text" size="20" maxlength="20" value="Beitler">
-            <input type="text" size="20" maxlength="20" value="thomas_b@gmail.com">
-            <textarea placeholder="Tell something about you..."></textarea>
+            <input type="text" size="20" maxlength="20" value="Byteler10" autocomplete="off" spellcheck="false" id="boxInputProfil"> 
+            <input type="text" size="20" maxlength="20" value="Thomas" autocomplete="off" spellcheck="false">
+            <input type="text" size="20" maxlength="20" value="Beitler" autocomplete="off" spellcheck="false">  
+            <input type="text" size="20" maxlength="20" value="thomas_b@gmail.com" autocomplete="off" spellcheck="false">
+            <textarea placeholder="Tell something about you..." autocomplete="off" spellcheck="false"></textarea>
+        </div>
+        <div class="ueberschrift">Change Password</div>
+        <div class="profilSetting" id="changePw">
+            <p>Old Password</p>
+            <p>New Password</p>
+            <p>Confirm Password</p>
+            <Button id="updatePw" class="canttouchme" name="Change Password" url @mousedown.stop />
+            <input type="password" size="20" maxlength="20" autocomplete="off" spellcheck="false">
+            <input type="password" size="20" maxlength="20" autocomplete="off" spellcheck="false">
+            <input type="password" size="20" maxlength="20" autocomplete="off" spellcheck="false">
         </div>
     </div>    
 </template>
@@ -30,7 +40,7 @@ export default {
     name: "Profil",
     components: {
         Button
-    }
+    },
 }
 </script>
 
@@ -52,7 +62,7 @@ export default {
         display: flex;
         justify-content: left;
         align-items: center;
-        width: 40em;
+        width: 45em;
         height: 8em;
         box-shadow: 1px 1px 2px rgb(126, 126, 126);
         background-color: $home_menu_color;
@@ -82,9 +92,8 @@ export default {
 
     #profilInfo{
         height: 20em;
-        /*display: flex;
-        flex-flow: column;*/
         display: grid;
+        grid-auto-flow: column;
 
         grid-auto-rows: 15% 15% 15% 15% 40%;
         grid-auto-columns: 25% 75%;
@@ -97,15 +106,15 @@ export default {
 
     }
 
-    #profilInfo {
-        grid-area: name;
-        grid-auto-flow: column;
-
-    }
-
     #profilInfo input{
         width: 30em;
-        height: 2em;
+        height: 1.8em;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        &:focus {
+            outline: none;
+            background-color: darken(#ccc, 7%);
+        }
     }
 
     #profilInfo textarea{
@@ -113,6 +122,12 @@ export default {
         height: 7em;
         font-family: Tahoma, sans-serif;
         margin-bottom: 1em;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        &:focus {
+            outline: none;
+            background-color: darken(#ccc, 7%);
+        }
     }
 
     #bio{
@@ -126,6 +141,39 @@ export default {
         margin-left: 1em;
     }
 
+    #changePw{
+        height: 12em;
+        display: grid;
+        grid-auto-flow: column;
+
+        grid-auto-rows: 25% 25% 25% 25%;
+        grid-auto-columns: 25% 75%;
+        grid-template-areas: 
+            "pw in"
+            "pw in"
+            "pw in"
+            "but but";
+
+    }
+
+    #changePw input{
+        width: 30em;
+        height: 1.8em;
+        border: 1px solid #ccc;
+        border-radius: 0.5em;
+        &:focus {
+            outline: none;
+            background-color: darken(#ccc, 7%);
+        }
+    }
+
+    #updatePw{
+        display: flex;
+        justify-self: center;
+        grid-area: but;
+        width: 15em;
+            
+    }
 
 
 </style>

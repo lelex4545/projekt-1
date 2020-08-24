@@ -88,7 +88,7 @@ button{
     align-items: center;
     border-radius: 0;
     border: 0px;
-    /*border-bottom: 1px solid black;*/
+    z-index: 5;
     font-size: .6em;
 
     box-shadow: 1px 1px 2px rgb(126, 126, 126);

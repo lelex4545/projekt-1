@@ -60,6 +60,10 @@ export default {
     font-size: 1em;
     border: 0em;
     color:$div_color;
+    text-align: center;
+    &:focus {
+        outline: none;
+    }
 }
 /*
 ::placeholder{ 
