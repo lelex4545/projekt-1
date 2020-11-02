@@ -1,5 +1,5 @@
 <template>
-    <div id="regScreen" class="conDesign colorTheme_1" ref="draggableContainer" @mousedown="dragMouseDown">
+    <div id="regScreen" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
             <p id="regista">Registrieren</p>
             <p>Vorname </p>
             <p>Nachname</p>
@@ -31,7 +31,7 @@ export default {
       passwortVerg: '',
 
     //für Draggable
-      positions: {
+    positions: {
       clientX: undefined,
       clientY: undefined,
       movementX: 0,
@@ -67,6 +67,8 @@ export default {
       
     },
     closeDragElement () {
+      this.$emit('update:positions', this.positions)
+      this.$emit('test')
       document.onmouseup = null
       document.onmousemove = null
     }

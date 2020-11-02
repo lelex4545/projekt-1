@@ -26,7 +26,7 @@ export default {
       clientY: undefined,
       movementX: 0,
       movementY: 0,
-    },
+    }
   }),
   mounted(){
     this.$nextTick(function() {
@@ -78,11 +78,11 @@ export default {
     },
     stayOnScreenRight() {
         if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
-        this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+          this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
 		},
 		stayOnScreenBottom() {
         if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
-        this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+          this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
 		}
   },
 };
