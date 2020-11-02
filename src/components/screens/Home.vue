@@ -21,17 +21,19 @@
 <script>
     import ControlCenter from "./HomeComp/ControlCenter";
     import Wissensblock from "./HomeComp/Wissensblock";
+    import Graphtest from "./HomeComp/Graphtest";
     import Profil from "./HomeComp/Profil";
     
     export default {
         components: {
             ControlCenter,
             Wissensblock,
+            Graphtest,
             Profil
         },
         data:() =>({
           currentTab: "Wissensblock",
-          tabs: ["Wissensblock", "Profil"]
+          tabs: ["Wissensblock", "Profil", "Graphtest"]
         }),
         computed: {
           currentTabComponent: function() {
