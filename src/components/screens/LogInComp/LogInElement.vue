@@ -4,10 +4,12 @@
     <p id="p1">Name</p>
     <p id="p2">Passwort</p>
     <form id="form" method="get">
-      <input type="text" id="acc" name="acc" @mousedown.stop />
-      <input type="password" id="pw" name="pw" @mousedown.stop />
+      <input type="text" id="acc" name="acc" v-model="name" @mousedown.stop />
+      <input type="password" id="pw" name="pw" v-model="passwort" @mousedown.stop />
     </form>
-    <Button id="anmelden" class="canttouchme" name="Anmelden" url @mousedown.stop />
+    <span @click="login">
+    <Button id="anmelden" class="canttouchme" name="Anmelden"  @mousedown.stop />
+    </span>
     <a id="pwv" @click="pwEvent" class="canttouchme" @mousedown.stop>Passwort vergessen?</a>
     <a id="reg" @click="accEvent" class="canttouchme" @mousedown.stop>Registrieren</a>
   </div>
@@ -21,6 +23,8 @@ export default {
     Button
   },
   data: () => ({
+    name: '',
+    passwort: '',
     positions: {
       clientX: undefined,
       clientY: undefined,
@@ -83,7 +87,56 @@ export default {
 		stayOnScreenBottom() {
         if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
           this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
-		}
+    },
+    login() {
+      var r=require("request");
+      var txUrl = "http://localhost:7474/db/data/transaction/commit";
+        function cypher(query,params,cb) {
+        r.post({uri:txUrl,
+        json:{statements:[{statement:query,parameters:params}]}},
+        function(err,res) { cb(err,res.body)})
+      }
+      var vorhanden = false;
+      var pw = this.passwort;
+      var name = this.name;
+      var query="MATCH (b:Benutzer { benutzername: $benutzername }) RETURN b"
+      var query2="MATCH (b:Benutzer { benutzername: $benutzername, passwort: $passwort }) RETURN b"
+      var params={benutzername: this.name}
+      var params2= {benutzername: this.name, passwort: this.passwort}
+     
+      var cb=function(err,data) { 
+        if(data.results[0].data.length!=0)
+          vorhanden = true;
+
+        if(name == "" || pw == "") {
+          if(name=="")
+            alert("Benutzername bitte eingeben")
+          if(pw=="")
+            alert("Passwort bitte eingeben");
+        }
+        else if(vorhanden != true) {
+          alert("Benutzername existiert nicht") //Fehlermeldung und rotes Häckchen
+        }
+        else
+          cypher(query2,params2,cb2)
+
+       }
+
+      var cb2=function(err,data) { 
+        vorhanden = false;
+        if(data.results[0].data.length!=0)
+          vorhanden = true;
+
+        if(vorhanden != true) {
+          alert("Passwort ist falsch! Überprüfen sie ihren Passwort") // Fehlermeldung rotes Häckchen
+        }
+        else{
+          alert("Anmeldung erfolgreich.")
+        }
+       }
+
+      cypher(query,params,cb)
+    }
   },
 };
 
