@@ -22,6 +22,7 @@
     import ControlCenter from "./HomeComp/ControlCenter";
     import Wissensblock from "./HomeComp/Wissensblock";
     import Profil from "./HomeComp/Profil";
+
     
     export default {
         components: {

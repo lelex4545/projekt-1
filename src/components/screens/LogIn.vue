@@ -1,5 +1,8 @@
 <template>
   <div class="canttouchme" id="canttouch">
+    <div id="headerNet" class="containerDesignHome">
+      <H1>Insert Wissensnetzname</H1>
+    </div>
     <LogInElement
       @accEvent=accScreen
       @pwEvent=pwScreen
@@ -52,6 +55,35 @@ export default {
 
 <style lang="scss">
 @import "@/assets/theme.scss";
+.containerDesignHome {
+  border-radius: 1em;
+  background-color: $home_menu_color;/*#009a93;*/
+  /*border: .5px solid black;*/
+  box-shadow: 1px 1px 2px rgb(126, 126, 126);
+  letter-spacing: 0.1em;
+  transition: font-size 0.8s;
+}
+#headerNet{
+    /*grid-area: h;*/
+
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 4em;
+
+    color: $div_color;
+    display: flex;
+    padding-left: 1em;
+    align-items: center;
+    border-radius: 0;
+    border: 0px;
+    z-index: 5;
+    font-size: .6em;
+
+    box-shadow: 1px 1px 2px rgb(126, 126, 126);
+}
+
 .conDesign {
   border-radius: 1em;
   background-color: $div_color;

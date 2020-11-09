@@ -147,7 +147,8 @@ export default {
 #container {
   display: grid;
   position: absolute;
-  left: 500px;
+  left: 700px;
+  top:100px;
   z-index: 2;
   grid-template-areas:
     "a a a"

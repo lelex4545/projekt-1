@@ -1,28 +1,50 @@
 <template>
   <div id="app">
     
-    <span id="log" v-if="loginVar"><LogIn/></span>
-    <span v-else><Home/></span>
-    <button @click="loginVar=!loginVar">Change Screen</button>
+    <span id="log" v-if="loginVar == 0"><LogIn/></span>
+    <span v-if="loginVar == 1"> <Home/> </span>
+    <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
+
+    <button @click="loginVar=0">Login</button>
+    <button @click="loginVar=1">Home</button>
+    <button @click="loginVar=2">Editor</button>
+
   </div>
 </template>
 
 <script>
 import LogIn from "./components/screens/LogIn"
 import Home from "./components/screens/Home"
+import TextEditor from "./components/screens/HomeComp/TextEditor"
+
 export default {
   name: 'App',
   components: {
     LogIn,
+    TextEditor,
     Home
   },
   data: () => ({
-    loginVar: true
+    loginVar: 0
   }),
 }
 </script>
 
 <style lang="scss">
+
+button{
+  top: 500px;
+}
+#myeditor{
+  margin-left: 400px;
+  margin-top: 100px;
+  border-radius: 30px;
+  padding: 50px;
+  background-color: white;
+  color: black;
+  width: 1000px;
+  text-align: left;
+}
 #app {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
