@@ -43,12 +43,11 @@ export default {
     z-index: 5;  
     width: 50%;
     left: 17em;
-    //top: 3em;
+    top: 3em;
     //border: 1px solid black;
 
 }
 .v-grid-item-wrapper{
-    border: 1px solid black;
     
 }
 

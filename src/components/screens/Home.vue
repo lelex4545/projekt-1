@@ -22,17 +22,18 @@
     import ControlCenter from "./HomeComp/ControlCenter";
     import Wissensblock from "./HomeComp/Wissensblock";
     import Profil from "./HomeComp/Profil";
-
+    import Grid_ui from "./HomeComp/Grid_ui";
     
     export default {
         components: {
             ControlCenter,
             Wissensblock,
-            Profil
+            Profil,
+            Grid_ui
         },
         data:() =>({
-          currentTab: "Wissensblock",
-          tabs: ["Wissensblock", "Profil"]
+          currentTab: "Grid_ui",
+          tabs: ["Wissensblock", "Profil", "Grid_ui"]
         }),
         computed: {
           currentTabComponent: function() {
