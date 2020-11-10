@@ -5,9 +5,9 @@
     <span v-if="loginVar == 1"> <Home/> </span>
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
 
-    <button @click="loginVar=0">Login</button>
-    <button @click="loginVar=1">Home</button>
-    <button @click="loginVar=2">Editor</button>
+    <button class="autismusKnopf" @click="loginVar=0">Login</button>
+    <button class="autismusKnopf" @click="loginVar=1">Home</button>
+    <button class="autismusKnopf" @click="loginVar=2">Editor</button>
 
   </div>
 </template>
@@ -32,9 +32,6 @@ export default {
 
 <style lang="scss">
 
-button{
-  top: 500px;
-}
 #myeditor{
   margin-left: 400px;
   margin-top: 100px;

@@ -1,6 +1,8 @@
 <template>
     <div id="containerHome" class="canttouchme">
-        <ControlCenter/>
+        <ControlCenter 
+            @profilSwitch=profilSwitch
+        />
         <div id="headerNet" class="containerDesignHome">
             <H1>Insert Wissensnetzname</H1>
         </div>
@@ -14,7 +16,7 @@
         v-on:click="currentTab = tab"
         >
             {{ tab }}
-        </button>
+        </button> 
     </div>
 </template>
 
@@ -33,12 +35,17 @@
         },
         data:() =>({
           currentTab: "Grid_ui",
-          tabs: ["Wissensblock", "Profil", "Grid_ui"]
+          tabs: ["Wissensblock", "Grid_ui"]
         }),
         computed: {
           currentTabComponent: function() {
             return this.currentTab.toLowerCase();
           }
+        },
+        methods:{
+            profilSwitch(){
+                this.currentTab = "Profil"
+            }
         }
     }
 
@@ -50,7 +57,7 @@
 
 button{
     position: relative;
-    top: 500px;
+    top: 300px;
     left: 500px;
 }
 
@@ -90,7 +97,7 @@ button{
     align-items: center;
     border-radius: 0;
     border: 0px;
-    z-index: 5;
+    z-index: 10;
     font-size: .6em;
 
     box-shadow: 1px 1px 2px rgb(126, 126, 126);

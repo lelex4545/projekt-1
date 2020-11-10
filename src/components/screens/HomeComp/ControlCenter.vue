@@ -1,6 +1,6 @@
 <template>
     <div id="controlCenter" class="containerDesignHome">
-        <div id ="profil">
+        <div id ="profil" @click ="profilSwitch" class="canttouchme">
             <div id="profilBild">
                 <!--<img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb">-->
                 <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb">
@@ -13,9 +13,15 @@
 
 <script>
 import Wissensthema from "./Wissensthema";
+
 export default {
     components: {
         Wissensthema
+    },
+    methods:{
+        profilSwitch(){
+            this.$emit("profilSwitch")
+        }
     }
 }
 </script>
@@ -50,6 +56,11 @@ export default {
     justify-content: center;
     align-items: center;
     flex-flow: column;
+
+    &:hover {
+        color: $hover_color_change;
+        cursor: pointer;
+    }
 }
 
 #profilBild{
