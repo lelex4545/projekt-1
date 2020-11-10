@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     
-    <span id="log" v-if="loginVar == 0"><LogIn/></span>
+    <span id="log" v-if="loginVar == 0"><LogIn @catcher2="catchData" /></span>
     <span v-if="loginVar == 1"> <Home/> </span>
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
 
@@ -27,6 +27,11 @@ export default {
   data: () => ({
     loginVar: 0
   }),
+  methods: {
+    catchData(values) {
+      alert("Benutzername: "+values.x+"  Passwort: "+values.y);
+    }
+  }
 }
 </script>
 

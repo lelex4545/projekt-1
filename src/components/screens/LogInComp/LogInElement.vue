@@ -19,6 +19,7 @@
 import Button from "./Button";
 export default {
   name: "LogIn",
+  props: [ 'nameLog', 'passwortLog' ],
   components: {
     Button
   },
@@ -32,6 +33,24 @@ export default {
       movementY: 0,
     }
   }),
+  computed: {
+    nameInput: {
+      get: function() {
+        return this.nameLog;
+      },
+      set: function(newValue) {
+        this.$emit('update:nameLog', newValue);
+      }
+    },
+    passwortInput: {
+      get: function() {
+        return this.passwortLog;
+      },
+      set: function(newValue) {
+        this.$emit('update:passwortLog', newValue);
+      }
+    }
+  },
   mounted(){
     this.$nextTick(function() {
       window.addEventListener('resize', this.stayOnScreenRight);
@@ -131,11 +150,13 @@ export default {
           alert("Passwort ist falsch! Überprüfen sie ihren Passwort") // Fehlermeldung rotes Häckchen
         }
         else{
-          alert("Anmeldung erfolgreich.")
+          alert("Anmeldung erfolgreich.");
+          this.$emit('catcher',{x:this.name, y:this.passwort});
         }
-       }
+       }.bind(this);
 
       cypher(query,params,cb)
+      
     }
   },
 };
