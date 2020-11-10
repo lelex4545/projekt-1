@@ -7,7 +7,13 @@
         :cellHeight="300"
         >
         <template slot="cell" slot-scope="props">
-            <div>{{props.item}}</div>
+            <!--<div>{{props.item}}</div>-->
+            <div 
+            @dblclick="() => { props.remove() }"
+            @contextmenu.prevent="handler"
+            >
+                {{props.item}}
+            </div>
         </template>
     </grid>
 </template>
@@ -33,6 +39,11 @@ export default {
                 'Privat',
             ]
         }
+    },
+    methods: {
+        handler: function() {
+            
+        }
     }
 }
 </script>
@@ -41,16 +52,15 @@ export default {
 @import "@/assets/theme.scss";
 .v-grid{
     z-index: 5;  
-    width: 50%;
+    //width: 50%;
     left: 17em;
     top: 3em;
-    //border: 1px solid black;
-
 }
+/*
 .v-grid-item-wrapper{
-    
-}
 
+}
+*/
 .v-grid-item-wrapper div{
     border: 1px black solid;
     border-radius: 1em;
