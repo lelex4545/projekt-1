@@ -11,6 +11,7 @@
     "@dymantic/vue-trix-editor": "^0.5.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-js-grid": "^1.0.1",
     "vue-trix": "^1.2.0"
   },
   "devDependencies": {
