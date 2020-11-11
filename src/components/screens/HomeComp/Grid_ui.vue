@@ -7,10 +7,16 @@
         :cellHeight="300"
         >
         <template slot="cell" slot-scope="props">
-            <!--<div>{{props.item}}</div>-->
             <div 
-            @dblclick="() => { props.remove() }"
-            @contextmenu.prevent="handler"
+                id="addNewItem"
+                v-if="props.item=='-__-'"
+                @click="addNewItem"
+            >
+                <p>+</p>
+            </div>
+            <div v-else
+                @dblclick="() => { props.remove() }"
+                @contextmenu.prevent="handler"
             >
                 {{props.item}}
             </div>
@@ -36,13 +42,21 @@ export default {
                 'CoronaMorona',
                 'Privat',
                 'Privat',
-                'Privat',
-            ]
+                '-__-'
+            ],
+            counter: 0
         }
+        
     },
     methods: {
         handler: function() {
-            
+                
+        },
+        addNewItem: function(){
+            this.items.push("test" + ++this.counter);
+            var temp = this.items[this.items.length - 1];
+            this.items[this.items.length - 1] = this.items[this.items.length - 2]
+            this.items[this.items.length - 2] = temp;
         }
     }
 }
@@ -52,7 +66,6 @@ export default {
 @import "@/assets/theme.scss";
 .v-grid{
     z-index: 5;  
-    //width: 50%;
     left: 17em;
     top: 3em;
 }
@@ -63,14 +76,24 @@ export default {
 */
 .v-grid-item-wrapper div{
     border: 1px black solid;
-    border-radius: 1em;
+    border-radius: 1rem;
     background-color: $home_menu_color;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
     box-sizing: border-box;
+    
     letter-spacing: 0.1em;
     width: 250px;
     height: 250px;
-    margin: 1em;
-    color: red;
+    margin: 1rem;
+    color: #ab2121;
+}
+#addNewItem{
+    background-color: #384b5e;
+    display: flex;
+    
+}
+#addNewItem p {
+    font-size: 8em;
+    margin: auto !important;
 }
 </style>
