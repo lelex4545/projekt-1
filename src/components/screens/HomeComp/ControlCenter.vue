@@ -5,7 +5,7 @@
                 <!--<img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb">-->
                 <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb">
             </div>
-            <p id="name">Thomas Beitler</p>
+            <p id="name">{{bname}}</p>
         </div>
         <Wissensthema/>
     </div>
@@ -15,6 +15,11 @@
 import Wissensthema from "./Wissensthema";
 
 export default {
+    props: [ 'bname' ],
+    data: ()=> ({
+        name: "",
+        passwort: "",
+    }),
     components: {
         Wissensthema
     },

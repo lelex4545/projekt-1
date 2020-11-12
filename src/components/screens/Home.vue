@@ -1,10 +1,11 @@
 <template>
     <div id="containerHome" class="canttouchme">
-        <ControlCenter 
+        <ControlCenter
+            :bname="name" 
             @profilSwitch=profilSwitch
         />
         <div id="headerNet" class="containerDesignHome">
-            <H1>Insert Wissensnetzname</H1>
+            <H1>Insert Wissensnetzname {{name}}</H1>
         </div>
         <!--<Wissensblock/>-->
         <component v-bind:is="currentTabComponent"></component>
@@ -33,9 +34,11 @@
             Profil,
             Grid_ui
         },
+        props: [ 'name' ],
         data:() =>({
           currentTab: "Grid_ui",
-          tabs: ["Wissensblock", "Grid_ui"]
+          tabs: ["Wissensblock", "Grid_ui"],
+          logInfo: ["", ""],
         }),
         computed: {
           currentTabComponent: function() {

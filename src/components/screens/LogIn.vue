@@ -50,9 +50,9 @@ export default {
     test(){
       console.log(this.possitionsREG)
     },
-    catchData(values) {
+    catchData(value) {
      console.log(1);
-     this.$emit('catcher2', values);
+     this.$emit('catcher2', value);
     }
   }
 };

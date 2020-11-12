@@ -2,7 +2,7 @@
   <div id="app">
     
     <span id="log" v-if="loginVar == 0"><LogIn @catcher2="catchData" /></span>
-    <span v-if="loginVar == 1"> <Home/> </span>
+    <span v-if="loginVar == 1"> <Home :name="name" /> </span>
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
 
     <button class="autismusKnopf" @click="loginVar=0">Login</button>
@@ -25,11 +25,14 @@ export default {
     Home
   },
   data: () => ({
-    loginVar: 0
+    loginVar: 0,
+    name: "",
   }),
   methods: {
-    catchData(values) {
-      alert("Benutzername: "+values.x+"  Passwort: "+values.y);
+    catchData(value) {
+      alert("Benutzername: "+value);
+      this.name = value;
+      this.loginVar = 1;
     }
   }
 }

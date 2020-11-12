@@ -151,7 +151,7 @@ export default {
         }
         else{
           alert("Anmeldung erfolgreich.");
-          this.$emit('catcher',{x:this.name, y:this.passwort});
+          this.$emit('catcher',this.name);
         }
        }.bind(this);
 
