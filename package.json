@@ -11,6 +11,7 @@
     "@dymantic/vue-trix-editor": "^0.5.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
+    "vue-drag-resize": "^1.4.2",
     "vue-js-grid": "github:lelex4545/vue-js-grid",
     "vue-trix": "^1.2.0"
   },

@@ -26,18 +26,20 @@
     import Wissensblock from "./HomeComp/Wissensblock";
     import Profil from "./HomeComp/Profil";
     import Grid_ui from "./HomeComp/Grid_ui";
+    import Netz from "./HomeComp/Netz";
     
     export default {
         components: {
             ControlCenter,
             Wissensblock,
             Profil,
-            Grid_ui
+            Grid_ui,
+            Netz
         },
         props: [ 'name' ],
         data:() =>({
           currentTab: "Grid_ui",
-          tabs: ["Wissensblock", "Grid_ui"],
+          tabs: ["Wissensblock", "Grid_ui", "Netz"],
           logInfo: ["", ""],
         }),
         computed: {
