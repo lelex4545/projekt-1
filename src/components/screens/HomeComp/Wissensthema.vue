@@ -1,12 +1,17 @@
 <template>
     <div>
         <WissensthemaItem
-            v-for="thema in themen"
-            :key="thema.id"
-            :item="thema"
-            id= "thema"
-            @addThema="addThemaItem"
+            v-for="item in items"
+            :key="item.id"
+            :item="item"
+            id="item"
+            @getItem="getItem"
+            @contextmenu="contextmenu"
+            @deleteItem="deleteItem"
         />
+        <div v-if="items.length<maxItemCount" id="item" @click="addItem">
+            <p id="emptyItem">+</p>
+        </div>
     </div>
 </template>
 
@@ -18,12 +23,20 @@ export default {
         WissensthemaItem
     },
     data: () => ({
-        themen: [{id: 0, name: "+"}]
+        items: [],
+        maxItemCount: 7
     }),
     methods: {
-        addThemaItem () {
-            if(this.themen.length < 12)
-                this.themen.unshift({id: this.themen.length, name: "-"})
+        addItem () {
+            if(this.items.length < this.maxItemCount)
+                this.items.push({id: this.items.length, name: "Neue Katogorie "})
+        },
+        deleteItem (item) {
+            const index = this.items.indexOf(item);
+            if(index > -1){
+                alert(item.id)
+                this.items.splice(index, 1);
+            }
         }
     }
 };
@@ -31,17 +44,21 @@ export default {
 
 <style lang="scss">
 @import "@/assets/theme.scss";
-
-#thema{
+#item{
     display: flex;
+    align-items: center;
+    justify-content: space-around;
+    //justify-items: center;
     background-color: $div_color;
-    width: 14em;
-    height: 1.5em;
-    margin-top: 1em;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
     border-radius: 0.5em;
-    align-items: center;
-    justify-content: center;
+    width: 14em;
+    height: 4em;
+    margin-top: 1em;
 }
-
+#emptyItem{
+    color: $add_new_wissensnetz;
+    margin: auto;
+    font-size: 2.5em;
+}
 </style>

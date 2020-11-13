@@ -1,8 +1,11 @@
 <template>
-    <div v-if="item.id==0" class="emptyThema" @click="createThema">
-        <p>{{item.name}}</p>
+    <div 
+        @click="getItem"
+        @contextmenu.prevent="contextmenu"
+    >
+        {{item.name}}
+        <div id="deleteItem" @click="deleteItem"></div>
     </div>
-    <div v-else>{{item.name}}</div>
 </template>
 
 <script>
@@ -10,8 +13,11 @@ export default {
     name: "WissensthemaItem",
     props: ['item'],
     methods: {
-        createThema() {
-            this.$emit('addThema', this.item)
+        contextmenu(){
+            this.$emit('contextmenu', this.item)
+        },
+        deleteItem(){
+            this.$emit('deleteItem', this.item)
         }
     }
 }
@@ -19,12 +25,11 @@ export default {
 
 <style lang="scss">
 @import "@/assets/theme.scss";
-
-.emptyThema{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    color: $add_new_wissensnetz;
+#deleteItem{
+    border: 1px solid black;
+    border-radius: 0.3em;
+    background-color: rgb(175, 45, 45);
+    width: 1.2em;
+    height: 1.2em;
 }
 </style>

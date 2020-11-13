@@ -15,7 +15,7 @@
                 <p>+</p>
             </div>
             <div v-else
-                @dblclick="() => { props.remove() }"
+                @dblclick="deleteGridItem(props.item)"
                 @contextmenu.prevent="handler"
             >
                 {{props.item}}
@@ -57,6 +57,11 @@ export default {
             var temp = this.items[this.items.length - 1];
             this.items[this.items.length - 1] = this.items[this.items.length - 2]
             this.items[this.items.length - 2] = temp;
+        },
+        deleteGridItem: function(item){
+            const index = this.items.indexOf(item);
+            if(index > -1)
+                this.items.splice(index, 1);
         }
     }
 }
