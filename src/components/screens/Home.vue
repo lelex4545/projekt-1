@@ -5,10 +5,10 @@
             @profilSwitch=profilSwitch
         />
         <div id="headerNet" class="containerDesignHome">
-            <H1>Insert Wissensnetzname {{name}}</H1>
+            <H1>Insert Wissensnetzname</H1>
         </div>
         <!--<Wissensblock/>-->
-        <component v-bind:is="currentTabComponent"></component>
+        <component :name2="name" v-bind:is="currentTabComponent"></component>
 
         <button
         v-for="tab in tabs"
