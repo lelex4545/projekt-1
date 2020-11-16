@@ -21,6 +21,7 @@
             <input type="text" size="20" maxlength="20" :value="email" autocomplete="off" spellcheck="false">
             <textarea :placeholder="bio" autocomplete="off" spellcheck="false"></textarea>
         </div>
+        <Button  id="updatePw" class="canttouchme" name="Save changes" />
         <div class="ueberschrift">Change Password</div>
         <div class="profilSetting" id="changePw">
             <p>Old Password</p>
@@ -110,10 +111,6 @@ export default {
         top: 3em;
         left: 18em;
         color: $div_color;   
-        /*display: flex;
-        flex-flow: column;
-        justify-content: center;
-        align-items: center;*/
     }
 
     .profilSetting{
@@ -160,9 +157,10 @@ export default {
             "name inpu"
             "name inpu"
             "name inpu"
-            "name inpu";
+            "name area";
 
     }
+
 
     #profilInfo input{
         width: 30em;
@@ -176,6 +174,7 @@ export default {
     }
 
     #profilInfo textarea{
+        grid-area: area;
         width: 30em;
         height: 7em;
         font-family: Tahoma, sans-serif;
