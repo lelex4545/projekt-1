@@ -15,11 +15,11 @@
             <p>Last name</p>
             <p>E-Mail</p>
             <p id="bio">Bio</p>
-            <input type="text" size="20" maxlength="20" :value="username" autocomplete="off" spellcheck="false" id="boxInputProfil"> 
-            <input type="text" size="20" maxlength="20" :value="firstname" autocomplete="off" spellcheck="false">
-            <input type="text" size="20" maxlength="20" :value="lastname" autocomplete="off" spellcheck="false">  
-            <input type="text" size="20" maxlength="20" :value="email" autocomplete="off" spellcheck="false">
-            <textarea :placeholder="bio" autocomplete="off" spellcheck="false"></textarea>
+            <input type="text" size="20" maxlength="20" v-model="username"  autocomplete="off" spellcheck="false" id="boxInputProfil"> 
+            <input type="text" size="20" maxlength="20" v-model="firstname"  autocomplete="off" spellcheck="false">
+            <input type="text" size="20" maxlength="20" v-model="lastname"  autocomplete="off" spellcheck="false">  
+            <input type="text" size="20" maxlength="20" v-model="email"  autocomplete="off" spellcheck="false">
+            <textarea :placeholder="hi" maxlength="64" v-model="bio" autocomplete="off" spellcheck="false"></textarea>
         </div>
         <Button  id="updatePw" class="canttouchme" name="Save changes" />
         <div class="ueberschrift">Change Password</div>
@@ -57,10 +57,24 @@ export default {
         passwortNew2: "",
     }),
     methods: {
+        saveAll()
+        {
+           /* var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) 
+            {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+            }*/
+
+
+        },
         pwChange() {
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
-            function cypher(query,params,cb) {
+            function cypher(query,params,cb) 
+            {
                 r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
@@ -147,10 +161,10 @@ export default {
         var cb=function(err,data) {
             if(data.results[0].data.length!=0) {
                 this.username = data.results[0].data[0].row[0].benutzername;
-                this.firstname = data.results[0].data[0].row[0].name;
-                this.lastname = data.results[0].data[0].row[0].name;
+                this.firstname = data.results[0].data[0].row[0].firstname;
+                this.lastname = data.results[0].data[0].row[0].lastname;
                 this.email = data.results[0].data[0].row[0].email;
-                this.bio = data.results[0].data[0].row[0].name;
+                this.bio = data.results[0].data[0].row[0].bio;
                 this.passwort = data.results[0].data[0].row[0].passwort;
             }
         }.bind(this);
