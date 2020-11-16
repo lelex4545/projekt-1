@@ -65,16 +65,72 @@ export default {
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
             }
-            if(this.passwort==this.passwortOld && this.passwortNew == this.passwortNew2) {
+            
+            if(this.checkNew())
+            {
                 var query="MATCH (b:Benutzer { benutzername: $benutzername }) SET b.passwort = $passwort RETURN b";
                 var params={benutzername: this.name2, passwort: this.passwortNew};
-                var cb=function(err,data) {
-                    if(data.results[0].data.length!=0) {
+                var cb=function(err,data) 
+                {
+                    if(data.results[0].data.length!=0) 
+                    {
                         alert("Passwort wurde erfolgreich verändert"); // grünes Häckchen anzeigen
                     }
                 }.bind(this);
                 cypher(query,params,cb);
             }
+        
+            
+        },
+        checkNew() {
+            var error = false;
+            var pw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+            if(this.passwortOld=="")
+            {
+                error = true;
+                alert("In 'Old Password' wurde nichts eingetragen");//rotes Häckchen mit Meldung anzeigen lassen
+            }
+            else if(this.passwort!=this.passwortOld)
+            {
+                error = true;
+                alert("Ihr Passwort ist falsch. Überprüfen sie ihre Eingabe");//rotes Häckchen mit Meldung anzeigen lassen
+            }
+            if(this.passwortNew == "")
+            {
+                error = true;
+                alert("In 'New Password wurde nichts eingetragen'");//rotes Häckchen mit Meldung anzeigen lassen
+            }
+            else if(this.passwort==this.passwortNew)
+            {
+                error = true;
+                alert("Es ist kein neues Passwort")
+            }
+            else if(!pw.test(this.passwortNew))
+            {
+                error = true;
+                alert("Neues Passwort passt nicht zu Anforderung");//rotes Häckchen mit Meldung und Anforderung anzeigen lassen
+            }
+            else if(this.passwortNew != this.passwortNew2 && this.passwortNew2 != "" && this.passwortNew != "")
+            {
+                error = true;
+                alert("Der wiederholte Passwort ist nicht mit dem neuen Passwort identisch");//rotes Häckchen mit Meldung anzeigen lassen
+            }
+            if(this.passwortNew2 == "")
+            {
+                error = true;
+                alert("In 'Confirm Password' wurde nichts eingetragen");//rotes Häckchen mit Meldung anzeigen lassen
+            }
+            
+            
+            if(error)
+            return false;
+            else
+            return true;
+             /*var pw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+             if(pw.test(this.passwort))
+             return true;
+             else
+             return false;*/
         }
     },
     mounted: function() {
