@@ -1,9 +1,8 @@
 <template>
     <div 
-        @click="getItem"
         @contextmenu.prevent="contextmenu"
     >
-        {{item.name}}
+        {{item.name}} {{item.id}}
         <div id="deleteItem" @click="deleteItem"></div>
     </div>
 </template>
@@ -13,11 +12,11 @@ export default {
     name: "WissensthemaItem",
     props: ['item'],
     methods: {
-        contextmenu(){
-            this.$emit('contextmenu', this.item)
-        },
         deleteItem(){
             this.$emit('deleteItem', this.item)
+        },
+        contextmenu(){
+            this.$emit('contextmenu', this.item)
         }
     }
 }

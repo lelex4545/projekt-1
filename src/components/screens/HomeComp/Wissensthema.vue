@@ -5,9 +5,8 @@
             :key="item.id"
             :item="item"
             id="item"
-            @getItem="getItem"
-            @contextmenu="contextmenu"
             @deleteItem="deleteItem"
+            @contextmenu="contextmenu"
         />
         <div v-if="items.length<maxItemCount" id="item" @click="addItem">
             <p id="emptyItem">+</p>
@@ -24,19 +23,24 @@ export default {
     },
     data: () => ({
         items: [],
-        maxItemCount: 7
+        maxItemCount: 7,
     }),
     methods: {
         addItem () {
-            if(this.items.length < this.maxItemCount)
-                this.items.push({id: this.items.length, name: "Neue Katogorie "})
+            this.items.push({id: this.items.length, name: "Neue Katogorie "})
         },
         deleteItem (item) {
-            const index = this.items.indexOf(item);
+            const index = this.items.indexOf(item)
             if(index > -1){
-                alert(item.id)
-                this.items.splice(index, 1);
+                this.items.splice(index, 1)
+                for(var i=index; i < this.items.length; i++){
+                    this.items[i].id = i;
+                }
             }
+        },
+        contextmenu (item)
+        {
+            alert(item.id)
         }
     }
 };

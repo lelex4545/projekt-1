@@ -98,7 +98,7 @@ export default {
     closeDragElement () {
       document.onmouseup = null
       document.onmousemove = null
-    },
+    },/*
     stayOnScreenRight() {
         if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
           this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
@@ -106,7 +106,7 @@ export default {
 		stayOnScreenBottom() {
         if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
           this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
-    },
+    },*/
     login() {
       var r=require("request");
       var txUrl = "http://localhost:7474/db/data/transaction/commit";
