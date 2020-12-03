@@ -25,7 +25,7 @@
     import ControlCenter from "./HomeComp/ControlCenter";
     import Wissensblock from "./HomeComp/Wissensblock";
     import Profil from "./HomeComp/Profil";
-    import Grid_ui from "./HomeComp/Grid_ui";
+    //import Grid_ui from "./HomeComp/Grid_ui";
     import Netz from "./HomeComp/Netz";
     
     export default {
@@ -33,7 +33,7 @@
             ControlCenter,
             Wissensblock,
             Profil,
-            Grid_ui,
+            //Grid_ui,
             Netz
         },
         props: [ 'name' ],
