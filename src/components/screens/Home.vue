@@ -35,7 +35,7 @@
         },
         props: [ 'name' ],
         data:() =>({
-          currentTab: "Grid_ui",
+          currentTab: "Netz",
           tabs: ["Grid_ui", "Netz"],
           logInfo: ["", ""],
         }),
