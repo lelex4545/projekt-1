@@ -1,13 +1,11 @@
 <template>
     <grid
-        id="grid"
         :draggable="true"
         :sortable="true"
         :items="items"
         :cellWidth="250"
         :cellHeight="80"
         @changeArray="changeArray"
-        @dragend="end"
         @removeEvent="removeItem"
         >
         <template slot="cell" slot-scope="props">
@@ -15,7 +13,8 @@
                 @contextmenu.prevent="() => {props.remove()}"
                 @dblclick="addItem"
             >
-                {{items[props.sort].name}} {{items[props.sort].id}} {{props.index}}
+                INT: {{items[props.sort].id}} {{items[props.sort].name}} EXT: {{props.index}} 
+                SORT: {{props.sort}}
             </div>
         </template>
     </grid>
@@ -58,15 +57,6 @@ export default {
                     this.items[i].id = i;
                 }
             }
-            this.$emit("updateProps",this.items.length)
-            //document.getElementById('grid').item=this.items
-        },
-        end: function(){
-            this.items.push("test")
-            this.items.pop()
-        },
-        showProp: function(props){
-            console.log(props.item.name + " " + props.item.id)
         }
     }
 }
@@ -74,10 +64,14 @@ export default {
 
 <style lang="scss">
 @import "@/assets/theme.scss";
+.v-grid{
+    //margin: auto;
+    //border: 1px solid black;
+}
 .v-grid-item-wrapper{
-    display: flex;
-    justify-items: space-around;
-    margin: 1em;
+    margin-left: 1.35em;
+    margin-top: 1em;
+    //border: 1px solid black;
 }
 .v-grid-item-wrapper div{
     border: 1px black solid;

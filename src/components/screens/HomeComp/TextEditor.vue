@@ -40,7 +40,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 @import "../../../../node_modules/@syncfusion/ej2-base/styles/material.css";
 @import "../../../../node_modules/@syncfusion/ej2-inputs/styles/material.css";
 @import "../../../../node_modules/@syncfusion/ej2-lists/styles/material.css";

@@ -54,7 +54,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     #line1{
         z-index: 1000;
         stroke: red;
@@ -65,5 +65,4 @@ export default {
         border-radius: 15px; 
         color: black;
     }
-
 </style>

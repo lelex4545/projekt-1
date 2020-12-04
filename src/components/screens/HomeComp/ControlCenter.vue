@@ -31,11 +31,10 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/theme.scss";
 
 #controlCenter{
-    /*grid-area: c;*/
     display: flex;
     align-items: center;
     flex-flow: column;
@@ -46,14 +45,13 @@ export default {
     top: 0;
     padding-top: 4em;
     height: 100vh;
-    width: 16em;
+    width: 300px;
 }
 
 #profil{
     display: flex;
-    /*background-color: #037c76;*/
     background-color: $div_color;
-    width: 14em;
+    width: 250px;
     height: 7em;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
     border-radius: 1em;

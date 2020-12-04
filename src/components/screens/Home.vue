@@ -7,7 +7,6 @@
         <div id="headerNet" class="containerDesignHome">
             <H1>Insert Wissensnetzname</H1>
         </div>
-        <!--<Wissensblock/>-->
         <component :name2="name" v-bind:is="currentTabComponent"></component>
 
         <button
@@ -23,7 +22,6 @@
 
 <script>
     import ControlCenter from "./HomeComp/ControlCenter";
-    import Wissensblock from "./HomeComp/Wissensblock";
     import Profil from "./HomeComp/Profil";
     //import Grid_ui from "./HomeComp/Grid_ui";
     import Netz from "./HomeComp/Netz";
@@ -31,7 +29,6 @@
     export default {
         components: {
             ControlCenter,
-            Wissensblock,
             Profil,
             //Grid_ui,
             Netz
@@ -39,7 +36,7 @@
         props: [ 'name' ],
         data:() =>({
           currentTab: "Grid_ui",
-          tabs: ["Wissensblock", "Grid_ui", "Netz"],
+          tabs: ["Grid_ui", "Netz"],
           logInfo: ["", ""],
         }),
         computed: {
@@ -59,37 +56,17 @@
 
 <style lang="scss">
 @import "@/assets/theme.scss";
-
-button{
-    position: relative;
-    top: 300px;
-    left: 500px;
-}
-
 .containerDesignHome {
   border-radius: 1em;
   background-color: $home_menu_color;/*#009a93;*/
-  /*border: .5px solid black;*/
   box-shadow: 1px 1px 2px rgb(126, 126, 126);
   letter-spacing: 0.1em;
   transition: font-size 0.8s;
 }
-
 #containerHome {
-  /*
-    display: grid;
-    grid-template-areas: 
-        "h h h h"
-        "c n n n"
-        "c n n n";
-    grid-auto-columns: 14em 28% 28% 26%;
-    grid-auto-rows: 2.5em 46% 46%;
-*/
     font-size: 1.1em;
 }
 #headerNet{
-    /*grid-area: h;*/
-
     position: fixed;
     left: 0;
     top: 0;

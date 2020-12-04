@@ -4,11 +4,11 @@
     <span id="log" v-if="loginVar == 0"><LogIn @catcher2="catchData" /></span>
     <span v-if="loginVar == 1"> <Home :name="name" /> </span>
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
-
+    <div id="gay">
     <button class="autismusKnopf" @click="loginVar=0">Login</button>
     <button class="autismusKnopf" @click="loginVar=1">Home</button>
     <button class="autismusKnopf" @click="loginVar=2">Editor</button>
-
+    </div>
   </div>
 </template>
 
@@ -39,7 +39,9 @@ export default {
 </script>
 
 <style lang="scss">
-
+#gay{
+  margin: 10em;
+}
 #myeditor{
   margin-left: 400px;
   margin-top: 100px;
