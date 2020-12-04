@@ -189,4 +189,12 @@ export default {
         color: black;
     }*/
 
+
+    .grab-bing:active {
+    cursor : -webkit-grabbing;
+    cursor : -moz-grabbing;
+    cursor : -o-grabbing;
+    cursor : grabbing;
+    }
+
 </style>
