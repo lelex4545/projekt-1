@@ -159,7 +159,7 @@ export default {
 </script>
 
 <style scoped>
-    @import "../../../../node_modules/@syncfusion/ej2-vue-diagrams/styles/material.css";
+    /*@import "../../../../node_modules/@syncfusion/ej2-vue-diagrams/styles/material.css";*/
 
     #diagram{
         position:absolute;
@@ -187,6 +187,6 @@ export default {
         background-color: rgb(151, 223, 151);  
         border-radius: 15px; 
         color: black;
-    }
+    }*/
 
 </style>
