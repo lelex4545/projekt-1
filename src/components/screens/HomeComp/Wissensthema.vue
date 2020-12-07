@@ -5,15 +5,17 @@
         :items="items"
         :cellWidth="250"
         :cellHeight="80"
-        @changeArray="changeArray"
+        
         @removeEvent="removeItem"
         >
         <template slot="cell" slot-scope="props">
-            <div
-                @contextmenu.prevent="() => {props.remove()}"
+            <div :id="props.sort"
+                @contextmenu.prevent="removeItem"
                 @dblclick="addItem"
+                @mousedown="changeList"
+                @mouseup="changeList2"
             >
-                INT: {{items[props.sort].id}} {{items[props.sort].name}} EXT: {{props.index}} 
+                INT: {{items[props.sort].id}} {{items[props.index].name}} EXT: {{props.index}} 
                 SORT: {{props.sort}}
             </div>
         </template>
@@ -28,35 +30,53 @@ export default {
     data () {
         return {
             items: [
-                {id: '0', name: 'Null '},
-                {id: '1', name: 'Eins '},
-                {id: '2', name: 'Zwei '},
-                {id: '3', name: 'Drei '},
-                {id: '4', name: 'Vier '},
-            ]
+                {id: '0', name: 'Element0'},
+                {id: '1', name: 'Element1'},
+                {id: '2', name: 'Element2'},
+                {id: '3', name: 'Element3'},
+                {id: '4', name: 'Element4'},
+            ],
+            from: 0,
+            to: 0,
         }
         
     },
     methods: {
         addItem: function(){
-            this.items.push({id: this.items.length, name: 'Element' + this.items.length})
+            this.items.push({id: this.items.length, name: 'Element' + (this.items.length)})
+            console.log(this.items)
         },
         removeItem: function(props){
-            console.log(props)
+            /*console.log(props)
             if(props > -1)
                 //this.items = this.items.splice(props, 1);
                 this.items.splice(props, 1);
             for(var i = 0; i<this.items.length; i++){
                     this.items[i].id = i;
-            }
+            }*/
+            console.log(props)
+            this.items.splice(props.srcElement.id,1)
+            for(var i = 0; i<this.items; i++)
+                this.items[i].id = i;
         },
-        changeArray: function(list){
+       /* changeArray: function(list){
             for(var i = 0; i<this.items.length; i++){
                 if(this.items[i] !== list[i].item){ 
                     this.items[i] = list[i].item;
                     this.items[i].id = i;
                 }
             }
+        },*/
+        changeList: function(props){
+            console.log(props.srcElement.id);
+            this.from = props.srcElement.id;
+
+        },
+        changeList2: function(props){
+            console.log(props);
+            this.to = props.srcElement.id;
+           // let cutOut = this.items.splice(this.from, 1) ; // cut the element at index 'from'
+          //  this.items.splice(this.to, 0, cutOut);            // insert it at index 'to'
         }
     }
 }
