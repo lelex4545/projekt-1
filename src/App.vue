@@ -6,10 +6,10 @@
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
     <span v-if="loginVar == 3"> <NetzScreen/> </span>
     <div id="gay">
-     <!-- <button class="autismusKnopf" @click="loginVar=0">Login</button>
+      <button class="autismusKnopf" @click="loginVar=0">Login</button>
       <button class="autismusKnopf" @click="loginVar=1">Home</button>
       <button class="autismusKnopf" @click="loginVar=2">Editor</button>
-      <button class="autismusKnopf" @click="loginVar=3">Netz</button>-->
+      <button class="autismusKnopf" @click="loginVar=3">Netz</button>
     </div>
   </div>
 </template>
@@ -29,7 +29,7 @@ export default {
     NetzScreen
   },
   data: () => ({
-    loginVar: 3,
+    loginVar: 0,
     name: "",
   }),
   methods: {
