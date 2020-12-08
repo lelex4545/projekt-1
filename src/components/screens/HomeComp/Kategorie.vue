@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div id="container">
         <span id="butPos">
-        <button @click="addItem">Add Item</button>
-        <button @click="removeOn = !removeOn">Remove</button>
+            <button v-if="layout.length<12" @click="addItem">Add Item</button>
+            <button @click="removeOn = !removeOn">Remove</button>
         </span>
         <grid-layout 
             id="canttouchme"
@@ -14,7 +14,7 @@
             :is-resizable="false"
             :is-mirrored="false"
             :vertical-compact="true"
-            :margin="[20, 20]"
+            :margin="[0, 10]"
             :use-css-transforms="true"
         >
             <grid-item v-for="item in layout"
@@ -69,9 +69,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+#container{
+    position: absolute;
+    left: 1em;
+    top: 11em;
+    display: flex;
+    flex-flow: column;
+}
 .vue-grid-layout{
-    width: 500px;
-    margin-top: 2em;
+    width: 250px;
 }
 .vue-grid-item:not(.vue-grid-placeholder) {
     background: #384b5e;
@@ -99,9 +105,6 @@ export default {
     }
 }
 #butPos{
-    position: absolute;
-    left: 180px;
-    z-index: 5;
 }
 #canttouchme {
   -webkit-touch-callout: none; /* iOS Safari */
