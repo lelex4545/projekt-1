@@ -5,13 +5,12 @@
         :items="items"
         :cellWidth="250"
         :cellHeight="80"
-        
         @removeEvent="removeItem"
         >
         <template slot="cell" slot-scope="props">
             <div :id="props.sort"
-                @contextmenu.prevent="removeItem"
-                @dblclick="addItem"
+                @contextmenu.prevent="addItem"
+                @dblclick="removeItem"
                 @mousedown="changeList"
                 @mouseup="changeList2"
             >
@@ -43,8 +42,8 @@ export default {
     },
     methods: {
         addItem: function(){
+            console.log("Push")
             this.items.push({id: this.items.length, name: 'Element' + (this.items.length)})
-            console.log(this.items)
         },
         removeItem: function(props){
             /*console.log(props)
@@ -68,15 +67,18 @@ export default {
             }
         },*/
         changeList: function(props){
-            console.log(props.srcElement.id);
+            //console.log(props.srcElement.id);
             this.from = props.srcElement.id;
 
         },
         changeList2: function(props){
-            console.log(props);
+            //console.log(props.srcElement.id);
             this.to = props.srcElement.id;
-           // let cutOut = this.items.splice(this.from, 1) ; // cut the element at index 'from'
-          //  this.items.splice(this.to, 0, cutOut);            // insert it at index 'to'
+            let cutOut = this.items.splice(this.from, 1) ; // cut the element at index 'from'
+            cutOut[0].id = this.to;
+            this.items[this.from].id = this.from
+            this.items.splice(this.to, 0, cutOut[0]);         // insert it at index 'to'
+            //console.log(this.items)
         }
     }
 }
