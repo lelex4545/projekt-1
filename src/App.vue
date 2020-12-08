@@ -4,10 +4,12 @@
     <span id="log" v-if="loginVar == 0"><LogIn @catcher2="catchData" /></span>
     <span v-if="loginVar == 1"> <Home :name="name" /> </span>
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
+    <span v-if="loginVar == 3"> <NetzScreen/> </span>
     <div id="gay">
-    <button class="autismusKnopf" @click="loginVar=0">Login</button>
-    <button class="autismusKnopf" @click="loginVar=1">Home</button>
-    <button class="autismusKnopf" @click="loginVar=2">Editor</button>
+     <!-- <button class="autismusKnopf" @click="loginVar=0">Login</button>
+      <button class="autismusKnopf" @click="loginVar=1">Home</button>
+      <button class="autismusKnopf" @click="loginVar=2">Editor</button>
+      <button class="autismusKnopf" @click="loginVar=3">Netz</button>-->
     </div>
   </div>
 </template>
@@ -16,16 +18,18 @@
 import LogIn from "./components/screens/LogIn"
 import Home from "./components/screens/Home"
 import TextEditor from "./components/screens/HomeComp/TextEditor"
+import NetzScreen from "./components/screens/NetzScreen"
 
 export default {
   name: 'App',
   components: {
     LogIn,
     TextEditor,
-    Home
+    Home,
+    NetzScreen
   },
   data: () => ({
-    loginVar: 0,
+    loginVar: 3,
     name: "",
   }),
   methods: {

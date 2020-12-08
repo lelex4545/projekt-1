@@ -7,12 +7,10 @@
             </div>
             <p id="name">{{bname}}</p>
         </div>
-        <Wissensthema/>
     </div>
 </template>
 
 <script>
-import Wissensthema from "./Wissensthema";
 
 export default {
     props: [ 'bname' ],
@@ -21,7 +19,6 @@ export default {
         passwort: "",
     }),
     components: {
-        Wissensthema
     },
     methods:{
         profilSwitch(){
@@ -45,7 +42,8 @@ export default {
     top: 0;
     padding-top: 4em;
     height: 100vh;
-    width: 300px;
+    width: 283px;
+    z-index: 10;
 }
 
 #profil{

@@ -1,12 +1,10 @@
 <template>
     <div id="containerHome" class="canttouchme">
+        <HeaderNet/>
         <ControlCenter
             :bname="name" 
             @profilSwitch=profilSwitch
         />
-        <div id="headerNet" class="containerDesignHome">
-            <H1>Insert Wissensnetzname</H1>
-        </div>
         <component :name2="name" v-bind:is="currentTabComponent"></component>
 
         <button
@@ -23,6 +21,7 @@
 <script>
     import ControlCenter from "./HomeComp/ControlCenter";
     import Profil from "./HomeComp/Profil";
+    import HeaderNet from "./HomeComp/HeaderNet";
     //import Grid_ui from "./HomeComp/Grid_ui";
     import Netz from "./HomeComp/Netz";
     
@@ -30,6 +29,7 @@
         components: {
             ControlCenter,
             Profil,
+            HeaderNet,
             //Grid_ui,
             Netz
         },
@@ -56,6 +56,7 @@
 
 <style lang="scss">
 @import "@/assets/theme.scss";
+
 .containerDesignHome {
   border-radius: 1em;
   background-color: $home_menu_color;/*#009a93;*/
@@ -65,24 +66,6 @@
 }
 #containerHome {
     font-size: 1.1em;
-}
-#headerNet{
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 4em;
-
-    color: $div_color;
-    display: flex;
-    padding-left: 1em;
-    align-items: center;
-    border-radius: 0;
-    border: 0px;
-    z-index: 10;
-    font-size: .6em;
-
-    box-shadow: 1px 1px 2px rgb(126, 126, 126);
 }
 
 .canttouchme {
