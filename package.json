@@ -19,6 +19,7 @@
     "vue-dragscroll": "^2.1.0",
     "vue-grid-layout": "^2.3.11",
     "vue-js-grid": "github:lelex4545/vue-js-grid",
+    "vue-slicksort": "^1.1.3",
     "vue-sweetalert2": "^4.1.1",
     "vue-trix": "^1.2.0"
   },

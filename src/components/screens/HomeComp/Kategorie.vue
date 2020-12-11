@@ -1,118 +1,65 @@
 <template>
-    <div id="container">
-        <span id="butPos">
-            <button v-if="layout.length<12" @click="addItem">Add Item</button>
-            <button @click="removeOn = !removeOn">Remove</button>
-        </span>
-        <grid-layout 
-            id="canttouchme"
-            :layout.sync="layout"
-            :col-num="colNum"
-            :maxRows="maxRows"
-            :row-height="20"
-            :is-draggable="true"
-            :is-resizable="false"
-            :is-mirrored="false"
-            :vertical-compact="true"
-            :margin="[0, 10]"
-            :use-css-transforms="true"
-        >
-            <grid-item v-for="item in layout"
-               :x="item.x"
-               :y="item.y"
-               :w="item.w"
-               :h="item.h"
-               :i="item.i"
-               :key="item.i"
-            >
-                <span>{{item.i}}</span>
-                <span v-if="removeOn" class="remove" @click="removeItem(item.i)">x</span>
-            </grid-item>
-        </grid-layout>
+    <div class="root" @click="show">
+      <button @click="addItem">Add Item</button>
+      <button>Remove Item</button>
+      <SlickList lockAxis="y" v-model="items" :lockToContainerEdges="true" lockOffset="0%">
+        <SlickItem id="kItem" v-for="(item, index) in items" :index="index" :key="index">
+          {{ item }}
+        </SlickItem>
+      </SlickList>
     </div>
 </template>
 
 <script>
-import { GridLayout, GridItem } from "vue-grid-layout"
+import { SlickList, SlickItem } from 'vue-slicksort';
 export default {
-    components:{
-        GridLayout,
-        GridItem
+    name: 'Kategorie',
+    components: {
+        SlickItem,
+        SlickList
     },
-    data: () => ({
-        layout: [
-            {"x":0,"y":0,"w":2,"h":2,"i":"0"},
-            {"x":0,"y":2,"w":2,"h":2,"i":"1"},
-            {"x":0,"y":4,"w":2,"h":2,"i":"2"},
-            {"x":0,"y":6,"w":2,"h":2,"i":"3"}
-            ],
-        colNum: 2,
-        maxRows: 0,
-        index: 0,
-        removeOn: false
-    }),
-    mounted(){
-        this.maxRows = 12 * this.colNum
-        this.index = this.layout.length
+    data() {
+        return{
+            items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8'],
+        }
     },
     methods: {
-        addItem: function(){
-            if(this.layout.length<this.maxRows/2)
-                this.layout.push({"x":0,"y":this.layout.length*2,"w":2,"h":2,"i":this.index++})
+        show: function(){
+            console.log(this.items)
         },
-        removeItem: function(value){
-            const index = this.layout.map(item => item.i).indexOf(value);
-            this.layout.splice(index,1)
+        addItem: function(){
+            this.items.push('Items ' + (this.items.length+1))
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
-#container{
-    position: absolute;
-    left: 1em;
-    top: 11em;
-    display: flex;
-    flex-flow: column;
-}
-.vue-grid-layout{
-    width: 250px;
-}
-.vue-grid-item:not(.vue-grid-placeholder) {
-    background: #384b5e;
-    border-radius: 1rem;
-    box-shadow: 1px 1px 2px rgb(126, 126, 126);
-    box-sizing: border-box;
-    color: white;
-    touch-action: none !important;
-    border: 1px solid black;
-    cursor: default !important;
-}
-.vue-grid-item.vue-grid-placeholder { //NOTWORKING?!
-    background: blue !important;
-    border: 1px solid black;
-}  
-.remove{
-    position: absolute;
-    right: 10px;
-    top: 5px;
-    font-size: 2em;
-    color: white;
-    cursor: pointer;
-    &:hover{
-        color: orangered;
-    }
-}
-#butPos{
-}
-#canttouchme {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
+<style lang="scss">
+.root{
+    margin-top: 5px;
+    //background-color: #384b5e;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+#kItem{
+    background: #384b5e;
+    border-radius: .5rem;
+    box-shadow: 1px 1px 2px rgb(126, 126, 126);
+    height: 50px;
+    width: 250px;
+    color: white;
+    //border: 1px solid black;
+
+    z-index: 10;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    margin: .5em;
 }
 </style>
