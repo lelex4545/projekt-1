@@ -1,8 +1,9 @@
 <template>
     <div class="root" @click="show">
+      <button id="btnAdd3" @click="addItem">Add Item</button>
       <SlickList id="test" axis="xy" v-model="items">
         <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
-          {{ item }}
+          <span id="spanElement" @contextmenu.prevent="removeItem(item)">{{ item }}</span>
         </SlickItem>
       </SlickList>
     </div>
@@ -18,12 +19,20 @@ export default {
     },
     data() {
         return{
-            items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8']
+            items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8'],
+            rmvBtnClicked: false
         }
     },
     methods: {
         show: function(){
             console.log(this.items)
+        },
+        addItem: function(){
+            this.items.push('Items ' + (this.items.length+1))
+        },
+        removeItem: function(value){
+            const index = this.items.map(item => item).indexOf(value);
+            this.items.splice(index,1)
         }
     }
 }
@@ -56,6 +65,28 @@ export default {
     margin-top: 50px;
 }
 
+#btnAdd3{
+    position: relative;
+    z-index: 21;
+    top: 2em;
+    left: -30em;
+
+}
+
+#removeMode{
+    position: absolute;
+    margin: .75em;
+    right: 1em;
+    font-size: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid black;
+    cursor: pointer;
+    &:hover{
+        background: orangered;
+    }
+}
+
 #kItem2{
     background: #384b5e;
     border-radius: .5rem;
@@ -72,4 +103,5 @@ export default {
     letter-spacing: 0.1em;
     margin: .5em;
 }
+
 </style>
