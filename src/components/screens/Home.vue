@@ -6,15 +6,16 @@
             @profilSwitch=profilSwitch
         />
         <component :name2="name" v-bind:is="currentTabComponent"></component>
+        
 
-        <button
+        <!-- <button
         v-for="tab in tabs"
         v-bind:key="tab"
         v-bind:class="['tab-button', { active: currentTab === tab }]"
         v-on:click="currentTab = tab"
         >
             {{ tab }}
-        </button> 
+        </button> -->
     </div>
 </template>
 
@@ -23,7 +24,8 @@
     import Profil from "./HomeComp/Profil";
     import HeaderNet from "./HomeComp/HeaderNet";
     //import Grid_ui from "./HomeComp/Grid_ui";
-    import Netz from "./HomeComp/Netz";
+    import Netz from "./HomeComp/Netz"; 
+    import GridScreen from "./HomeComp/GridScreen";
     
     export default {
         components: {
@@ -31,12 +33,14 @@
             Profil,
             HeaderNet,
             //Grid_ui,
-            Netz
+            Netz,
+            GridScreen
         },
+     
         props: [ 'name' ],
         data:() =>({
-          currentTab: "Netz",
-          tabs: ["Grid_ui", "Netz"],
+          currentTab: "grid-screen",
+          /*tabs: ["grid-screen", "Profil"],*/
           logInfo: ["", ""],
         }),
         computed: {
@@ -57,6 +61,10 @@
 <style lang="scss">
 @import "@/assets/theme.scss";
 
+button{
+    top: 100px;
+}
+
 .containerDesignHome {
   border-radius: 1em;
   background-color: $home_menu_color;/*#009a93;*/
@@ -65,7 +73,7 @@
   transition: font-size 0.8s;
 }
 #containerHome {
-    font-size: 1.1em;
+    //font-size: 1.1em;
 }
 
 .canttouchme {
@@ -81,4 +89,5 @@
 body {
     background-color: $home_background_color;
 }
+
 </style>

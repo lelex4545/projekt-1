@@ -1,7 +1,5 @@
 <template>
-    <div>
         <ejs-diagram v-dragscroll id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' :zoomSettings='zoom'></ejs-diagram>
-    </div>
 </template>
 
 <script>
@@ -18,7 +16,7 @@ import { dragscroll } from 'vue-dragscroll'
 
     let nodes = [
         {id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
-        {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: 'GARINGAN'}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10},
+        {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10},
     }]
 
     
@@ -98,7 +96,7 @@ export default {
 </script>
 
 <style scoped>
-    /*@import "../../../../node_modules/@syncfusion/ej2-vue-diagrams/styles/material.css";*/
+    @import "../../../../node_modules/@syncfusion/ej2-vue-diagrams/styles/material.css";
 
     #diagram{
         position: relative;
