@@ -1,5 +1,5 @@
 <template>
-        <ejs-diagram v-dragscroll id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' :zoomSettings='zoom'></ejs-diagram>
+        <ejs-diagram v-dragscroll id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' :zoomSettings='zoom' backgroundColor='white'></ejs-diagram>
 </template>
 
 <script>
