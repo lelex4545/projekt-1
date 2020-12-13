@@ -1,10 +1,11 @@
 <template>
     <div class="root" @click="show">
       <button @click="addItem">Add Item</button>
-      <button>Remove Item</button>
+      <button @click="rmvBtnClicked=!rmvBtnClicked">Remove Item</button>
       <SlickList lockAxis="y" v-model="items" :lockToContainerEdges="true" lockOffset="0%">
         <SlickItem id="kItem" v-for="(item, index) in items" :index="index" :key="index">
-          {{ item }}
+          <span>{{ item }}</span>
+          <span v-if="rmvBtnClicked" id="removeMode" @contextmenu.prevent="removeItem(item)"></span>
         </SlickItem>
       </SlickList>
     </div>
@@ -21,6 +22,8 @@ export default {
     data() {
         return{
             items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8'],
+            rmvBtnClicked: false
+
         }
     },
     methods: {
@@ -29,6 +32,10 @@ export default {
         },
         addItem: function(){
             this.items.push('Items ' + (this.items.length+1))
+        },
+        removeItem: function(value){
+            const index = this.items.map(item => item).indexOf(value);
+            this.items.splice(index,1)
         }
     }
 }
@@ -61,5 +68,20 @@ export default {
     font-size: 1em;
     letter-spacing: 0.1em;
     margin: .5em;
+}
+
+#removeMode{
+    position: absolute;
+    margin: .75em;
+    right: 1em;
+    font-size: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid black;
+    cursor: pointer;
+    z-index: 500;
+    &:hover{
+        background: orangered;
+    }
 }
 </style>
