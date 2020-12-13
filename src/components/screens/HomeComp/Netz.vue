@@ -1,23 +1,24 @@
 <template>
-        <ejs-diagram v-dragscroll id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' :zoomSettings='zoom' backgroundColor='white'></ejs-diagram>
+        <ejs-diagram v-dragscroll id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' :zoomSettings='zoom' backgroundColor='white' :snapSettings='snapSettings'></ejs-diagram>
 </template>
 
 <script>
 import Vue from 'vue'
 import { DiagramPlugin } from '@syncfusion/ej2-vue-diagrams';
+//import { SnapSettingsModel,SnapConstraints,Snapping,Diagram } from '@syncfusion/ej2-vue-diagrams';
 import { dragscroll } from 'vue-dragscroll'
 //import $ from 'jquery'
 
-    Vue.use(DiagramPlugin);
+Vue.use(DiagramPlugin);
 
-    let connectors = [
-        {id: "connector1",sourceID: 'xatar',targetID: 'garingan',targetDecorator: {shape: 'Custom'}
-    }]
+let connectors = [
+    {id: "connector1",sourceID: 'xatar',targetID: 'garingan',targetDecorator: {shape: 'Custom'}
+}]
 
-    let nodes = [
-        {id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
-        {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10},
-    }]
+let nodes = [
+    {id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR23'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
+    {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10},
+}]
 
     
 export default {
@@ -57,6 +58,14 @@ export default {
 
             directives: {
                 'dragscroll': dragscroll
+            },
+            snapSettings: {
+                horizontalGridlines: {
+                    //lineColor: 'blue',
+                },
+                verticalGridlines: {
+                    //lineColor: 'blue',
+                }
             }
         }
     },
@@ -77,7 +86,11 @@ export default {
     },
     watch:{
         knotenName: function(){
-            this.nodes.push({id: this.knotenName,offsetX: 400,offsetY: 200,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}})
+            if(this.knotenName.toUpperCase() == nodes[0].annotations[0].content.toUpperCase())
+                alert(this.knotenName + " existiert bereits")
+            else
+                this.nodes.push({id: this.knotenName,offsetX: 400,offsetY: 200,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}})
+            
         }
     },
     methods: {
