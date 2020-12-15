@@ -32,7 +32,6 @@
 
             sendNode2(value){
                 this.knotenName = value;
-                alert(this.knotenName);
             }
         },
         settings: {

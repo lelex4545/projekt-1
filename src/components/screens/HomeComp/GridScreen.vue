@@ -40,14 +40,8 @@ export default {
 
 <style lang="scss" scoped>
 .root {
-    //border: 1px solid black;
-    //display: grid;
-    //grid-template-areas: 
-    //"1 1 1"
-    //"1 1 1";
-
     z-index: 20;
-    //flex-direction: row;
+
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -62,7 +56,7 @@ export default {
     flex-direction: row;
     flex-wrap: wrap;
     margin-left: 300px;
-    margin-top: 50px;
+    padding-top: 40px;
 }
 
 #btnAdd3{
@@ -88,20 +82,19 @@ export default {
 }
 
 #kItem2{
-    background: #384b5e;
+    background: whitesmoke;
     border-radius: .5rem;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
     height: 240px;
     width: 240px;
-    color: white;
-    //border: 1px solid black;
+    color: #384b5e;
 
     z-index: 10;
     font-family: Helvetica, Arial, sans-serif;
     text-align: center;
     font-size: 1em;
     letter-spacing: 0.1em;
-    margin: .5em;
+    margin: 1em;
 }
 
 </style>
