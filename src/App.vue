@@ -5,11 +5,13 @@
     <span v-if="loginVar == 1"> <Home :name="name" /> </span>
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
     <span v-if="loginVar == 3"> <NetzScreen/> </span>
+    <span v-if="loginVar == 4"> <LearningScreen/> </span>
     <div id="gay">
       <button class="autismusKnopf" @click="loginVar=0">Login</button>
       <button class="autismusKnopf" @click="loginVar=1">Home</button>
       <button class="autismusKnopf" @click="loginVar=2">Editor</button>
       <button class="autismusKnopf" @click="loginVar=3">Netz</button>
+      <button class="autismusKnopf" @click="loginVar=4">Anki</button>
     </div>
   </div>
 </template>
@@ -19,6 +21,7 @@ import LogIn from "./components/screens/LogIn"
 import Home from "./components/screens/Home"
 import TextEditor from "./components/screens/HomeComp/TextEditor"
 import NetzScreen from "./components/screens/NetzScreen"
+import LearningScreen from './components/screens/LearningScreen.vue'
 
 export default {
   name: 'App',
@@ -26,7 +29,8 @@ export default {
     LogIn,
     TextEditor,
     Home,
-    NetzScreen
+    NetzScreen,
+    LearningScreen
   },
   data: () => ({
     loginVar: 0,
