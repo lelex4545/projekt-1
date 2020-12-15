@@ -7,7 +7,7 @@
             </div>
             <p id="name">{{bname}}</p>
         </div>
-        <Kategorie />
+        <Kategorie :name2="bname"  />
     </div>
 </template>
 

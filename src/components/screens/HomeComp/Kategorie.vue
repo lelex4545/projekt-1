@@ -4,7 +4,7 @@
       <button @click="rmvBtnClicked=!rmvBtnClicked">Remove Item</button>
       <SlickList lockAxis="y" v-model="items" :lockToContainerEdges="true" lockOffset="0%">
         <SlickItem id="kItem" v-for="(item, index) in items" :index="index" :key="index">
-          <span>{{ item }}</span>
+          <span>{{ item.titel }}</span>
           <span v-if="rmvBtnClicked" id="removeMode" @contextmenu.prevent="removeItem(item)"></span>
         </SlickItem>
       </SlickList>
@@ -15,15 +15,37 @@
 import { SlickList, SlickItem } from 'vue-slicksort';
 export default {
     name: 'Kategorie',
+    props: [ 'name2' ],
     components: {
         SlickItem,
         SlickList
     },
     data() {
         return{
-            items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8'],
+            items: [],
             rmvBtnClicked: false
 
+        }
+    },
+    watch: {
+        items: function(){
+                var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
+
+                for(var i = 0;i<this.items.length;i++) {
+                    this.items[i].index=i; 
+                    var query="MATCH (n:Kategorie) WHERE id(n)=$id SET n.index=$index RETURN n"
+                    var params={id: this.items[i].id, index: i}
+                    var cb=function(err,data){
+                    data;
+                    }.bind(this)
+                    cypher(query,params,cb)
+                }
         }
     },
     methods: {
@@ -31,13 +53,68 @@ export default {
             console.log(this.items)
         },
         addItem: function(){
-            this.items.push('Items ' + (this.items.length+1))
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
+            this.items.push({titel:'Item ' + (this.items.length+1), id:this.items.length, index:this.items.length-1})
+
+            var query="CREATE(k:Kategorie {titel:$titel, index:$index}) RETURN k"
+            var params={titel: this.items[this.items.length-1].titel, index: this.items.length-1}
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                this.items[this.items.length-1].id = data.results[0].data[0].meta[0].id;
+                var query2="MATCH (a:Benutzer),(b:Kategorie) WHERE a.benutzername=$benutzername AND id(b)=$id CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
+                var params2={benutzername: this.name2, id: this.items[this.items.length-1].id}
+                cypher(query2,params2,cb2)
+            }.bind(this)
+
+            var cb2=function(err,data) 
+            {
+                console.log(data)
+
+            }.bind(this)
+
+            cypher(query,params,cb)
+
         },
         removeItem: function(value){
             const index = this.items.map(item => item).indexOf(value);
             this.items.splice(index,1)
         }
-    }
+    },
+    mounted: function(){
+                var name = this.name2
+                var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+
+            var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie) RETURN Kategorie"
+            var params={benutzername: name}
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                for(var i = 0;i<data.results[0].data.length;i++){
+                    for(var j = 0;j<data.results[0].data.length;j++){
+                        if(data.results[0].data[j].row[0].index==i)
+                        {
+                            this.items.push({titel:data.results[0].data[j].row[0].titel, id:data.results[0].data[j].meta[0].id, index:i})
+                        }
+
+                    }
+                }
+                console.log(this.items)
+            }.bind(this)
+             cypher(query,params,cb)
+    
+}
 }
 </script>
 
