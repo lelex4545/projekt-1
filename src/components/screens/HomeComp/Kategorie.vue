@@ -61,7 +61,6 @@ export default {
                 function(err,res) { cb(err,res.body)})
                 }
             this.items.push({titel:'Item ' + (this.items.length+1), id:this.items.length, index:this.items.length-1})
-
             var query="CREATE(k:Kategorie {titel:$titel, index:$index}) RETURN k"
             var params={titel: this.items[this.items.length-1].titel, index: this.items.length-1}
             var cb=function(err,data) 
@@ -83,8 +82,34 @@ export default {
 
         },
         removeItem: function(value){
+            var name = this.name2;
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
             const index = this.items.map(item => item).indexOf(value);
+            var idIndex = this.items[index].id;
+            var query="MATCH (n { benutzername: $name })-[r:besitzt]->(m:Kategorie) WHERE id(m)=$id DELETE r"
+            var params={name: name, id: this.items[index].id}
+            var cb2=function(err,data) 
+            {
+                console.log(data)
+            }.bind(this)
+
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                var query2="MATCH(k:Kategorie) WHERE id(k)=$id DELETE k"
+                var params2={id:idIndex}
+                cypher(query2,params2,cb2)
+                
+            }.bind(this)
+            cypher(query,params,cb);
             this.items.splice(index,1)
+
         }
     },
     mounted: function(){
