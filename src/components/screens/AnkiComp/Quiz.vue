@@ -6,8 +6,10 @@
         </div>
         <div id="answer">
             <span id="answerH" class="unmarkable">Antwort</span>
-            <button id="reveal" v-if="blury" @click="blury=false" class="unmarkable">Press here or Spacebar to reveal</button>
-            <span id="answerB" :class="{'blur-content': blury, 'unmarkable': blury}">{{answerContent}}</span>
+            <div id="answerB">
+                <span :class="{'blur-content': blury, 'unmarkable': blury}">{{answerContent}}</span>
+                <transition name="h1-fade"><h1 v-if="blury" class="unmarkable" @click="blury=!blury">Click or press Space to reveal</h1></transition>
+            </div>
         </div>
         <div id="buttonBox" class="unmarkable">
             <button id="btnE" @click="easyEvent">Easy</button>
@@ -20,6 +22,7 @@
 <script>
 export default {
     name: 'QuizItem',
+    props: ['item'],
     data: () => ({
         blury: true,
         difficulty: 0,
@@ -28,9 +31,9 @@ export default {
         questionEditable: false
     }),
     mounted(){
-        this.questionContent = "Was ist der Standardtext bei HTML?"
-        this.answerContent = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-        
+        this.questionContent = this.item.question;
+        this.answerContent = this.item.answer;
+
         window.addEventListener("keypress", this._spaceListener);
     },
     beforeDestroy(){
@@ -42,22 +45,18 @@ export default {
             console.log(this.questionContent)
         },
         _spaceListener(e){
+            e.preventDefault()
             if (e.key === ' ' || e.key === 'Spacebar')
                 this.blury = !this.blury;
         },
         easyEvent() {
-            var dif = this.difficulty;
-            if(dif==0){
-                this.difficulty = 1;
-                console.log(this.difficulty)
-            }
-            alert("Was Easy du kleiner Pisser, lüg nicht")
+            this.$emit("nextCardEvent")
         },
         normalEvent() {
-            alert("Naja")
+            this.$emit("nextCardEvent")
         },
         hardEvent(){
-            alert("Kek")
+            this.$emit("nextCardEvent")
         },
         calculateDay(){
 
@@ -68,10 +67,6 @@ export default {
 
 <style lang="scss" scoped>
 #quizContainer{
-    position: absolute;
-    top: 1em;
-    left: 1em;
-
     border: 1px solid black;
     border-radius: 1em;
     width: 30em;
@@ -109,6 +104,7 @@ export default {
 #questionB{
     flex: 1;
 }
+
 #answer{
     flex: 7;
     border: 1px solid black;
@@ -124,25 +120,48 @@ export default {
     font-size: 1.4em;
     font-weight: bold;
 }
-#reveal{
+#answerB{
+    position: relative;
+    flex: 6;
+    //overflow: hidden;
+    transition: .3s ease;
+}
+#answerB span{
+    display: block;
     position: absolute;
-    border: none;
-    font-size: 1.5em;
-    font-weight: bold;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -45%);
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+    transition: .3s ease;
+    z-index: 0;
+}
+#answerB .blur-content{
+	-moz-filter: blur(.35em);
+	-o-filter: blur(.35em);
+	-ms-filter: blur(.35em);
+	filter: blur(.35em);
+}
+#answerB h1{
+    position: relative;
+    width: 15em;
+    margin: auto;
+    top: 3.2em;
+
+    font-size: 1.75em;
+    text-align: center;
+
     z-index: 1;
     cursor: pointer;
+}
+.h1-fade-enter-active, .h1-fade-leave-active {
+  transition: all .35s;
+}
+.h1-fade-enter, .h1-fade-leave-to{
+  opacity: 0;
+}
 
-    background: transparent;
-}
-#answerB{
-    flex: 6;
-}
-.blur-content{
-    filter: blur(.35em);
-}
+
 #buttonBox{
     flex: 1;
     
@@ -163,23 +182,32 @@ export default {
     &:hover{
         background:  #598648;
     }
+    &:focus {
+        background:  #598648;
+        outline: 0;
+    }
 }
 #btnN{
     background: #f0b350;
     cursor: pointer;
     &:hover{
-        background:  #c08f3f;
+        background:  #b1833a;
+    }
+    &:focus {
+        background: #b1833a;
+        outline: 0;
     }
 }
 #btnH{
     background: #b64137;
     cursor: pointer;
     &:hover{
-        background:  #96362d;
+        background:  #8a3129;
     }
-}
-button:focus{
-    outline: 1px solid white;
+    &:focus {
+        background:  #8a3129;
+        outline: 0;
+    }
 }
 .unmarkable{
   -webkit-touch-callout: none;
@@ -189,4 +217,11 @@ button:focus{
   -ms-user-select: none;
   user-select: none;
 }
+/*
+@media only screen and (max-width: 900px) {
+  #quizContainer{
+      font-size: 0.5em;
+  }
+}
+*/
 </style>
