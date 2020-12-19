@@ -1,26 +1,28 @@
 <template>
-        <ejs-diagram v-dragscroll id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' :zoomSettings='zoom' backgroundColor='white' :snapSettings='snapSettings'></ejs-diagram>
+        <ejs-diagram id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click"></ejs-diagram>
 </template>
 
 <script>
 import Vue from 'vue'
 import { DiagramPlugin } from '@syncfusion/ej2-vue-diagrams';
 //import { SnapSettingsModel,SnapConstraints,Snapping,Diagram } from '@syncfusion/ej2-vue-diagrams';
-import { dragscroll } from 'vue-dragscroll'
+//import { dragscroll } from 'vue-dragscroll' //v-dragscroll in den html tag rein
+import {ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
 //import $ from 'jquery'
 
 Vue.use(DiagramPlugin);
 
 let connectors = [
-    {id: "connector1",sourceID: 'xatar',targetID: 'garingan',targetDecorator: {shape: 'Custom'}
-}]
+    /*{id: "connector1",sourceID: 'xatar',targetID: 'garingan',targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select,}*/
+]
 
 let nodes = [
-    {id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR23'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
-    {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10},
-}]
-
+    /*{id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR23'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
+    {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},*/
+]
     
+
+
 export default {
     components: {
 
@@ -31,6 +33,10 @@ export default {
             height: "2000px",
             connectors: connectors,
             nodes: nodes,
+            click: () => {
+                //Obtains the button clicked
+                //alert("click 1")
+            },
             //--------------------------------------------
             scrollSettings: {
                 canAutoScroll: true,
@@ -56,9 +62,9 @@ export default {
                 height: 1401,*/
             },
 
-            directives: {
+            /*directives: {
                 'dragscroll': dragscroll
-            },
+            },*/
             snapSettings: {
                 horizontalGridlines: {
                     //lineColor: 'blue',
@@ -66,6 +72,9 @@ export default {
                 verticalGridlines: {
                     //lineColor: 'blue',
                 }
+            },
+            selectedItems: {
+                constraints: SelectorConstraints.Default & ~SelectorConstraints.ResizeAll
             }
         }
     },
@@ -80,17 +89,36 @@ export default {
         diagramInstance.connectors[0].targetDecorator.style.strokeColor = '#6BA5D7';
         diagramInstance.connectors[0].sourcePoint.x = 150;
         diagramInstance.connectors[0].targetPoint.x = 150;
+        diagramInstance.add(connectors)
         diagramInstance.bringToFront();
         document.documentElement.style.overflow = 'hidden' 
         diagramInstance.dataBind();
+
     },
     watch:{
         knotenName: function(){
-            if(this.knotenName.toUpperCase() == nodes[0].annotations[0].content.toUpperCase())
-                alert(this.knotenName + " existiert bereits")
-            else
-                this.nodes.push({id: this.knotenName,offsetX: 400,offsetY: 200,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}})
+            var x = 1;
             
+            for(var i = 0; i < nodes.length; i++){
+                if(this.knotenName.toUpperCase() == nodes[i].annotations[0].content.toUpperCase()){  
+                    x = 0
+                }
+            }
+            
+            if(x){
+                this.nodes.push({id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, });
+                this.$emit('sendExistingNodes',this.nodes);
+
+                //--------------------------------------TODO
+                for(var j = 0; j < this.connectorNodes.length; j++){
+                    var targetid = this.connectorNodes[j].substring(0, this.connectorNodes[j].length-1);
+                    this.connectors.push({id: `${this.knotenName} ${j}`, sourceID: this.knotenName, targetID: targetid, targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select});
+                }
+            }
+        },
+        connectors: function(){
+            alert(connectors.length)
+            console.log("ARRAY: " + connectors[0].targetID)
         }
     },
     methods: {
@@ -104,7 +132,7 @@ export default {
             this.isActive = "false";
         }
     },
-    props: ['knotenName']
+    props: ['knotenName', 'connectorNodes']
 }
 </script>
 
@@ -115,6 +143,7 @@ export default {
         position: relative;
         z-index: 0;
     }
+
 
     .grab-bing {
         cursor : -webkit-grab;
@@ -129,5 +158,6 @@ export default {
         cursor : -o-grabbing;
         cursor : grabbing;
     }
+
 
 </style>

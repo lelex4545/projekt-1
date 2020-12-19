@@ -1,9 +1,9 @@
 <template>
     <div id="netContainer">
         <header-net id="head"/>
-        <build-center id="control" @sendNode="sendNode2"/>
-        <vue-custom-scrollbar class="scroll-area"  :settings="settings" @ps-scroll-y="scrollHanle">
-            <netz id="net" :knotenName="knotenName"/>
+        <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes"/>
+        <vue-custom-scrollbar class="scroll-area"  settings="settings" @ps-scroll-y="scrollHanle">
+            <netz id="net" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes"/>
         </vue-custom-scrollbar>  
     </div>
 </template>
@@ -15,9 +15,13 @@
     import vueCustomScrollbar from 'vue-custom-scrollbar'
     import "vue-custom-scrollbar/dist/vueScrollbar.css"
 
+    let existingNodes = []
+
     export default {
         data: ()=> ({
-            knotenName: ""
+            knotenName: "",
+            connectorNodes: [],
+            existingNodes: existingNodes
         }),
         components: {
             BuildCenter,
@@ -30,8 +34,16 @@
                 console.log(evt)
             },
 
-            sendNode2(value){
+            sendNode(value){
                 this.knotenName = value;
+            },
+
+            sendConnectorNodes(value){
+                this.connectorNodes = value;
+            },
+
+            sendExistingNodes(value){
+                this.existingNodes = value;
             }
         },
         settings: {

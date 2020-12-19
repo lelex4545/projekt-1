@@ -11,13 +11,18 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 
 export default {
-    props: [ 'bname' ],
+    props: [ 'bname', 'existingNodes'],
     data: ()=> ({
         name: "",
         passwort: "",
-        knotenName: ""
+        knotenName: "",
+        values: [],
+
     }),
     components: {
     },
@@ -26,16 +31,77 @@ export default {
             this.$emit("profilSwitch")
         },
         createNode(){
-            this.$swal({
-                input: 'text',
-                confirmButtonText: 'Next &rarr;',
+
+            //erstelle checkbox Liste mit allen vorhandenen Knoten:
+            let htmlStr = ""
+            this.existingNodes.forEach(function(element){
+                /*htmlStr +=  `
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" name="node" id="${element.id}">
+                                <label class="form-check-label" for="checkbox1">
+                                    ${element.annotations[0].content}
+                                </label>
+                            </div>
+                            `*/
+                htmlStr +=  `<input class="form-check-input" type="checkbox" value="" name="node" id="${element.id}1">${element.annotations[0].content} \n`;
+            });
+
+            if(htmlStr == "")
+                htmlStr = '<h3>Keine weiteren Knoten vorhanden</h3>'
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = htmlStr;
+
+            //---------------------------------------------------------------------------------------
+            this.$swal.mixin({                
                 showCancelButton: true,
-            }).then((result) => {
+                progressSteps: ['1', '2']
+            }).queue([
+                {   
+                    title: 'Name',
+                    input: 'text',
+                    confirmButtonText: 'Next &rarr;',
+                },
+                {
+                    title: 'Wähle Verbindung',
+                    html: wrapper,
+                    focusConfirm: false,
+                },
+            
+            ]).then((result) => {
                 if (result.value) {
-                    this.knotenName = result.value;
+                    this.knotenName = result.value[0];
+                    this.existingNodes.forEach((elem) => {
+                        if(elem.annotations[0].content.toUpperCase() == this.knotenName.toUpperCase()){
+                            alert(this.knotenName + " existiert bereits")
+                            this.createNode();
+                        }
+                    });
+
+                    //checkbox daten zurück senden---------------------------------
+
+                    var checkboxes = wrapper.getElementsByTagName('input');
+                    
+                    //checked überprüfem
+                    checkboxes.forEach((check) => {
+                        if(check.checked){
+                            this.values.push(check.id)
+                        }
+                    });
+
+                    //-----------------------------------------------------------
+                    this.$emit('sendConnectorNodes', this.values);
+                    this.values = []
+
                     this.$emit('sendNode',this.knotenName);
                 }
             })
+            
+        },
+    },
+    watch:{
+        existingNodes: function(){
+            //alert(this.existingNodes[2].id)
         }
     }
 }

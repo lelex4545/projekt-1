@@ -9,7 +9,7 @@
              <p id="info">Must be JPEG, PNG, or GIF and cannot exceed 10MB.</p>
         </div>
         <div class="ueberschrift">Profile Settings</div>
-        <div class="profilSetting" id="profilInfo">
+        <div class="profilSetting" id="profilInfo">    
             <p>Username</p>
             <p>First name</p>
             <p>Last name</p>
@@ -22,8 +22,9 @@
             <textarea :placeholder="hi" maxlength="64" v-model="bio" autocomplete="off" spellcheck="false"></textarea>
         </div>
         <span @click="saveAll">
-        <Button  id="updatePw" class="canttouchme" name="Save changes" />
+            <Button  id="updatePw" class="canttouchme" name="Save changes" />
         </span>
+
         <div class="ueberschrift">Change Password</div>
         <div class="profilSetting" id="changePw">
             <p>Old Password</p>
@@ -285,7 +286,7 @@ export default {
     #profilSettings{
         position: absolute;
         top: 3em;
-        left: 18em;
+        left: 20em;
         color: $div_color;   
     }
 
@@ -293,7 +294,7 @@ export default {
         display: flex;
         justify-content: left;
         align-items: center;
-        width: 45em;
+        width: 55em;
         height: 8em;
         box-shadow: 1px 1px 2px rgb(126, 126, 126);
         background-color: $home_menu_color;
