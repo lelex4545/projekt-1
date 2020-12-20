@@ -1,9 +1,9 @@
 <template>
     <div class="root" @click="show">
-      <button id="btnAdd3" @click="addItem">Add Item</button>
+      <button id="btnAdd3" @click="addItem">Add Item {{kategorie.titel}}</button>
       <SlickList id="test" axis="xy" v-model="items">
         <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
-          <span id="spanElement" @contextmenu.prevent="removeItem(item)">{{ item }}</span>
+          <span id="spanElement" @contextmenu.prevent="removeItem(item)">{{ item.titel }}</span>
         </SlickItem>
       </SlickList>
     </div>
@@ -12,6 +12,7 @@
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort';
 export default {
+    props: [ 'name2', 'kategorie' ],
     name: 'GridScreen',
     components: {
         SlickItem,
@@ -19,8 +20,63 @@ export default {
     },
     data() {
         return{
-            items: ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5', 'Item 6', 'Item 7', 'Item 8'],
+            items: [],
             rmvBtnClicked: false
+        }
+    },
+    watch: {
+        items: function(){
+                var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
+
+                for(var i = 0;i<this.items.length;i++) {
+                    this.items[i].index=i; 
+                    var query="MATCH (n:Wissensnetz) WHERE id(n)=$id SET n.index=$index RETURN n"
+                    var params={id: this.items[i].id, index: i}
+                    var cb=function(err,data){
+                    data;
+                    }.bind(this)
+                    cypher(query,params,cb)
+                }
+        },
+        kategorie: function(){
+            var name = this.name2
+                var kat = this.kategorie;
+                var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+
+            var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie {index:$index})--(Wissensnetz) RETURN Wissensnetz"
+            var params={benutzername: name, index: kat.index}
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                if(data.results[0].data.length!=0)
+                {
+                    for(var i = 0;i<data.results[0].data.length;i++){
+                        for(var j = 0;j<data.results[0].data.length;j++){
+                            if(data.results[0].data[j].row[0].index==i)
+                            {
+                                this.items.push({titel:data.results[0].data[j].row[0].titel, id:data.results[0].data[j].meta[0].id, index:i})
+                            }
+
+                        }
+                    }
+                }
+                else{
+                    this.items = [];
+                }
+                    console.log(this.items)
+                }.bind(this)
+             cypher(query,params,cb)
         }
     },
     methods: {
@@ -28,12 +84,88 @@ export default {
             console.log(this.items)
         },
         addItem: function(){
-            this.items.push('Items ' + (this.items.length+1))
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
+            this.items.push({titel:'Item ' + (this.items.length+1), id:this.items.length, index:this.items.length-1})
+            var query="CREATE(k:Wissensnetz {titel:$titel, index:$index}) RETURN k"
+            var params={titel: this.items[this.items.length-1].titel, index: this.items.length-1}
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                this.items[this.items.length-1].id = data.results[0].data[0].meta[0].id;
+                var query2="MATCH (a:Kategorie),(b:Wissensnetz) WHERE id(a)=$id AND id(b)=$id2 CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
+                var params2={id: this.kategorie.id, id2: this.items[this.items.length-1].id}
+                cypher(query2,params2,cb2)
+            }.bind(this)
+            var cb2=function(err,data) 
+            {
+                console.log(data)
+
+            }.bind(this)
+
+            cypher(query,params,cb)
         },
         removeItem: function(value){
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
             const index = this.items.map(item => item).indexOf(value);
+            var idIndex = this.items[index].id;
+            var query="MATCH (n:Kategorie { index: $index })-[r:besitzt]->(m:Wissensnetz) WHERE id(m)=$id DELETE r"
+            var params={index: this.kategorie.index, id: idIndex}
+            var cb2=function(err,data) 
+            {
+                console.log(data)
+            }.bind(this)
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                var query2="MATCH(k:Wissensnetz) WHERE id(k)=$id DELETE k"
+                var params2={id:idIndex}
+                cypher(query2,params2,cb2)
+                
+            }.bind(this)
+            cypher(query,params,cb);
             this.items.splice(index,1)
-        }
+        },
+        mounted: function(){
+                var name = this.name2
+                var kat = this.kategorie;
+                var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+
+            var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie {index:$index})--(Wissensnetz) RETURN Wissensnetz"
+            var params={benutzername: name, index: kat.index}
+            var cb=function(err,data) 
+            {
+                console.log(data)
+                for(var i = 0;i<data.results[0].data.length;i++){
+                    for(var j = 0;j<data.results[0].data.length;j++){
+                        if(data.results[0].data[j].row[0].index==i)
+                        {
+                            this.items.push({titel:data.results[0].data[j].row[0].titel, id:data.results[0].data[j].meta[0].id, index:i})
+                        }
+
+                    }
+                }
+                console.log(this.items)
+            }.bind(this)
+             cypher(query,params,cb)
+    
+}
     }
 }
 </script>

@@ -4,8 +4,12 @@
       <button @click="rmvBtnClicked=!rmvBtnClicked">Remove Item</button>
       <SlickList lockAxis="y" v-model="items" :lockToContainerEdges="true" lockOffset="0%">
         <SlickItem id="kItem" v-for="(item, index) in items" :index="index" :key="index">
+          <span @mousedown="aktuelleKategorie(item)">
+          <div id="hi">
           <span>{{ item.titel }}</span>
           <span v-if="rmvBtnClicked" id="removeMode" @contextmenu.prevent="removeItem(item)"></span>
+          </div>
+          </span>
         </SlickItem>
       </SlickList>
     </div>
@@ -23,6 +27,7 @@ export default {
     data() {
         return{
             items: [],
+            aktKategorie: null,
             rmvBtnClicked: false
 
         }
@@ -110,6 +115,11 @@ export default {
             cypher(query,params,cb);
             this.items.splice(index,1)
 
+        },
+        aktuelleKategorie: function(kategorie)
+        {
+            this.$emit('aktKategorie',kategorie);
+            this.aktKategorie = kategorie;
         }
     },
     mounted: function(){
@@ -135,6 +145,8 @@ export default {
 
                     }
                 }
+                this.aktKategorie = this.items[0];
+                this.$emit('aktKategorie',this.items[0]);
                 console.log(this.items)
             }.bind(this)
              cypher(query,params,cb)
@@ -154,6 +166,22 @@ export default {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+#hi{
+    //background: #384b5e;
+    //border-radius: .5rem;
+    //box-shadow: 1px 1px 2px rgb(126, 126, 126);
+    height: 50px;
+    width: 250px;
+    //color: white;
+    //border: 1px solid black;
+
+    z-index: 10;
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    font-size: 1em;
+    letter-spacing: 0.1em;
+    margin: .3em;
 }
 #kItem{
     background: #384b5e;

@@ -4,8 +4,9 @@
         <ControlCenter
             :bname="name" 
             @profilSwitch=profilSwitch
+            @aktKategorie2="catchData"
         />
-        <component :name2="name" v-bind:is="currentTabComponent"></component>
+        <component :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
         
 
         <!-- <button
@@ -42,6 +43,7 @@
           currentTab: "grid-screen",
           /*tabs: ["grid-screen", "Profil"],*/
           logInfo: ["", ""],
+          aktKategorie: null,
         }),
         computed: {
           currentTabComponent: function() {
@@ -51,6 +53,9 @@
         methods:{
             profilSwitch(){
                 this.currentTab = "Profil"
+            },
+            catchData(kategorie){
+                this.aktKategorie=kategorie;
             }
         }
     }

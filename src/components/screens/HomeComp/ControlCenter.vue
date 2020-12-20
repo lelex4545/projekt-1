@@ -7,7 +7,7 @@
             </div>
             <p id="name">{{bname}}</p>
         </div>
-        <Kategorie :name2="bname"  />
+        <Kategorie @aktKategorie="catchData" :name2="bname"  />
     </div>
 </template>
 
@@ -25,6 +25,9 @@ export default {
     methods:{
         profilSwitch(){
             this.$emit("profilSwitch")
+        },
+        catchData(kategorie){
+            this.$emit('aktKategorie2',kategorie);
         }
     }
 }
