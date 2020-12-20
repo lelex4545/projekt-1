@@ -1,6 +1,6 @@
 <template>
     <div class="root" @click="show">
-      <button id="btnAdd3" @click="addItem">Add Item {{kategorie.titel}}</button>
+      <button id="btnAdd3" @click="addItem">Add Item {{kategorie}}</button>
       <SlickList id="test" axis="xy" v-model="items">
         <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
           <span id="spanElement" @contextmenu.prevent="removeItem(item)">{{ item.titel }}</span>
@@ -53,7 +53,8 @@ export default {
                 r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})}
-
+            if(kat!=null){
+            this.items = [];
             var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie {index:$index})--(Wissensnetz) RETURN Wissensnetz"
             var params={benutzername: name, index: kat.index}
             var cb=function(err,data) 
@@ -77,6 +78,7 @@ export default {
                     console.log(this.items)
                 }.bind(this)
              cypher(query,params,cb)
+            }
         }
     },
     methods: {
@@ -152,6 +154,7 @@ export default {
             var cb=function(err,data) 
             {
                 console.log(data)
+                alert(data.results[0].data.length)
                 for(var i = 0;i<data.results[0].data.length;i++){
                     for(var j = 0;j<data.results[0].data.length;j++){
                         if(data.results[0].data[j].row[0].index==i)
