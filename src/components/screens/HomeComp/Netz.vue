@@ -4,13 +4,12 @@
 
 <script>
 import Vue from 'vue'
-import { DiagramPlugin } from '@syncfusion/ej2-vue-diagrams';
+import { DiagramPlugin, Diagram, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
 //import { SnapSettingsModel,SnapConstraints,Snapping,Diagram } from '@syncfusion/ej2-vue-diagrams';
 //import { dragscroll } from 'vue-dragscroll' //v-dragscroll in den html tag rein
-import {ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
-//import $ from 'jquery'
 
 Vue.use(DiagramPlugin);
+let diagramInstance = Diagram;
 
 let connectors = [
     /*{id: "connector1",sourceID: 'xatar',targetID: 'garingan',targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select,}*/
@@ -83,7 +82,6 @@ export default {
         }
     },
     mounted(){
-        let diagramInstance;
         let diagramObj = document.getElementById("diagram");
         diagramInstance = diagramObj.ej2_instances[0]; //HIER KOMMT EIN FEHLER!!! ej2_instance == null
         diagramInstance.connectors[0].style.strokeColor = '#6BA5D7';
@@ -93,7 +91,7 @@ export default {
         diagramInstance.connectors[0].targetDecorator.style.strokeColor = '#6BA5D7';
         diagramInstance.connectors[0].sourcePoint.x = 150;
         diagramInstance.connectors[0].targetPoint.x = 150;
-        diagramInstance.add(connectors)
+        //diagramInstance.add(connectors)
         diagramInstance.bringToFront();
         document.documentElement.style.overflow = 'hidden' 
         diagramInstance.dataBind();
@@ -121,8 +119,11 @@ export default {
             }
         },
         connectors: function(){
-            alert(connectors.length)
-            console.log("ARRAY: " + connectors[0].targetID)
+            alert(connectors.length);
+            console.log("ARRAY: " + connectors[0].targetID);
+            /*let diagramObj = document.getElementById("diagram");
+            diagramInstance = diagramObj.ej2_instances[0];
+            diagramObj.add(connectors);*/
         }
     },
     methods: {
