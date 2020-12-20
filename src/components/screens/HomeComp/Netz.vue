@@ -33,9 +33,13 @@ export default {
             height: "2000px",
             connectors: connectors,
             nodes: nodes,
-            click: () => {
-                //Obtains the button clicked
-                //alert("click 1")
+            dragging: false,
+            click: (args) => {
+                let clickedItem = args.actualObject
+                if(args.button === 'Left' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){ //Überprüfe, ob ein Node geklickt wurde
+                    console.log(clickedItem.id)
+                }
+                
             },
             //--------------------------------------------
             scrollSettings: {
@@ -81,7 +85,7 @@ export default {
     mounted(){
         let diagramInstance;
         let diagramObj = document.getElementById("diagram");
-        diagramInstance = diagramObj.ej2_instances[0];
+        diagramInstance = diagramObj.ej2_instances[0]; //HIER KOMMT EIN FEHLER!!! ej2_instance == null
         diagramInstance.connectors[0].style.strokeColor = '#6BA5D7';
         diagramInstance.connectors[0].style.fill = '#6BA5D7';
         diagramInstance.connectors[0].style.strokeWidth = 2;
