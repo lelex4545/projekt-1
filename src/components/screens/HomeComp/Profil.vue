@@ -15,27 +15,29 @@
             <p>Last name</p>
             <p>E-Mail</p>
             <p id="bio">Bio</p>
+            <p class="empty"></p>
             <input type="text" size="20" maxlength="20" v-model="username"  autocomplete="off" spellcheck="false" id="boxInputProfil"> 
             <input type="text" size="20" maxlength="20" v-model="firstname"  autocomplete="off" spellcheck="false">
             <input type="text" size="20" maxlength="20" v-model="lastname"  autocomplete="off" spellcheck="false">  
             <input type="text" size="20" maxlength="32" v-model="email"  autocomplete="off" spellcheck="false">
             <textarea :placeholder="hi" maxlength="64" v-model="bio" autocomplete="off" spellcheck="false"></textarea>
+            <span @click="saveAll">
+                <Button  id="updateProfil" class="canttouchme" name="Save changes" />
+            </span>
         </div>
-        <span @click="saveAll">
-            <Button  id="updatePw" class="canttouchme" name="Save changes" />
-        </span>
 
         <div class="ueberschrift">Change Password</div>
         <div class="profilSetting" id="changePw">
             <p>Old Password</p>
             <p>New Password</p>
             <p>Confirm Password</p>
-            <span @click="pwChange">
-            <Button  id="updatePw" class="canttouchme" name="Change Password" />
-            </span>
+            <p class="empty"></p>
             <input type="password" size="20" maxlength="20" v-model="passwortOld" autocomplete="off" spellcheck="false">
             <input type="password" size="20" maxlength="20" v-model="passwortNew" autocomplete="off" spellcheck="false">
             <input type="password" size="20" maxlength="20" v-model="passwortNew2" autocomplete="off" spellcheck="false">
+            <span @click="pwChange">
+                <Button  id="updatePw" class="canttouchme" name="Change Password" />
+            </span>
         </div>
     </div>    
 </template>
@@ -286,7 +288,7 @@ export default {
     #profilSettings{
         position: absolute;
         top: 3em;
-        left: 20em;
+        left: 23em;
         color: $div_color;   
     }
 
@@ -323,18 +325,20 @@ export default {
     }
 
     #profilInfo{
-        height: 20em;
+        height: 23em;
         display: grid;
+        padding-top:1.4em;
         grid-auto-flow: column;
 
-        grid-auto-rows: 15% 15% 15% 15% 40%;
+        grid-auto-rows: 12% 12% 12% 12% 40% 4%;
         grid-auto-columns: 25% 75%;
         grid-template-areas: 
             "name inpu"
             "name inpu"
             "name inpu"
             "name inpu"
-            "name area";
+            "name area"
+            "empty puButton";
 
     }
 
@@ -377,6 +381,8 @@ export default {
 
     #changePw{
         height: 12em;
+        padding-top: 1.2em;
+        padding-bottom: 0.7em;
         display: grid;
         grid-auto-flow: column;
 
@@ -386,7 +392,7 @@ export default {
             "pw in"
             "pw in"
             "pw in"
-            "but but";
+            "empty but";
 
     }
 
@@ -407,6 +413,17 @@ export default {
         grid-area: but;
         width: 15em;
             
+    }
+
+    #updateProfil{
+        display: flex;
+        justify-self: center;
+        grid-area: puButton;
+        width: 15em;
+    }
+
+    .epmty{
+        grid-area: empty;
     }
 
 
