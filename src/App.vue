@@ -6,7 +6,7 @@
     <span v-if="loginVar == 2"> <TextEditor id = "myeditor"/> </span>
     <span v-if="loginVar == 3"> <NetzScreen/> </span>
     <span v-if="loginVar == 4"> <LearningScreen/> </span>
-    <div id="gay">
+    <div id="buttonContainer">
       <button class="autismusKnopf" @click="loginVar=0">Login</button>
       <button class="autismusKnopf" @click="loginVar=1">Home</button>
       <button class="autismusKnopf" @click="loginVar=2">Editor</button>
@@ -47,7 +47,7 @@ export default {
 </script>
 
 <style lang="scss">
-#gay{
+#buttonContainer{
   margin: 10em;
 }
 #myeditor{
