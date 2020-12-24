@@ -33,7 +33,7 @@ export default {
     LearningScreen
   },
   data: () => ({
-    loginVar: 3,   //start screen ändern
+    loginVar: 0,   //start screen ändern
     name: "",
   }),
   methods: {
