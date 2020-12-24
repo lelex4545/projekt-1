@@ -65,7 +65,7 @@ export default {
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
-            this.items.push({titel:'Item ' + (this.items.length+1), id:this.items.length, index:this.items.length-1})
+            this.items.push({titel:'Item ' + (this.items.length+1), id:-1, index:this.items.length-1})
             var query="CREATE(k:Kategorie {titel:$titel, index:$index}) RETURN k"
             var params={titel: this.items[this.items.length-1].titel, index: this.items.length-1}
             var cb=function(err,data) 
@@ -107,7 +107,7 @@ export default {
             var cb=function(err,data) 
             {
                 console.log(data)
-                var query2="MATCH(k:Kategorie) WHERE id(k)=$id DELETE k"
+                var query2="MATCH (k:Kategorie) WHERE id(k)=$id CALL apoc.path.subgraphNodes(k, {}) YIELD node DETACH DELETE node"
                 var params2={id:idIndex}
                 cypher(query2,params2,cb2)
                 
