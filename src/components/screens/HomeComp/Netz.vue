@@ -1,24 +1,22 @@
 <template>
-        <ejs-diagram id="diagram" :width='width' :height='height' :nodes='nodes' :connectors='connectors' :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click"></ejs-diagram>
+        <ejs-diagram id="diagram" :width='width' :height='height'  :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click"></ejs-diagram>
 </template>
 
 <script>
 import Vue from 'vue'
-import { DiagramPlugin, Diagram, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
+import { DiagramPlugin, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
 //import { SnapSettingsModel,SnapConstraints,Snapping,Diagram } from '@syncfusion/ej2-vue-diagrams';
 //import { dragscroll } from 'vue-dragscroll' //v-dragscroll in den html tag rein
 
 Vue.use(DiagramPlugin);
-let diagramInstance = Diagram;
 
-let connectors = [
-    /*{id: "connector1",sourceID: 'xatar',targetID: 'garingan',targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select,}*/
-]
+let connectors = {}
 
-let nodes = [
+
+let nodes = {}
     /*{id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR23'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
     {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},*/
-]
+
     
 
 
@@ -81,21 +79,15 @@ export default {
             }
         }
     },
-    mounted(){
-        let diagramObj = document.getElementById("diagram");
-        diagramInstance = diagramObj.ej2_instances[0]; //HIER KOMMT EIN FEHLER!!! ej2_instance == null
-        diagramInstance.connectors[0].style.strokeColor = '#6BA5D7';
-        diagramInstance.connectors[0].style.fill = '#6BA5D7';
-        diagramInstance.connectors[0].style.strokeWidth = 2;
-        diagramInstance.connectors[0].targetDecorator.style.fill = '#6BA5D7';
-        diagramInstance.connectors[0].targetDecorator.style.strokeColor = '#6BA5D7';
-        diagramInstance.connectors[0].sourcePoint.x = 150;
-        diagramInstance.connectors[0].targetPoint.x = 150;
-        //diagramInstance.add(connectors)
-        diagramInstance.bringToFront();
-        document.documentElement.style.overflow = 'hidden' 
-        diagramInstance.dataBind();
+    mounted(){ 
+            let diagramInstance;
+            let diagramObj = this.$el;
+            diagramInstance = diagramObj.ej2_instances[0]; //HIER KOMMT EIN FEHLER!!! ej2_instance == null
 
+            diagramInstance.bringToFront();
+            diagramInstance.dataBind();
+
+            document.documentElement.style.overflow = 'hidden' 
     },
     watch:{
         knotenName: function(){
@@ -108,22 +100,27 @@ export default {
             }
             
             if(x){
-                this.nodes.push({id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, });
-                this.$emit('sendExistingNodes',this.nodes);
+                let diagramInstance;
+                let diagramObj = this.$el;
+                diagramInstance = diagramObj.ej2_instances[0];
+                console.log(diagramInstance.nodes)
+                //this.nodes.push({id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, });
+                this.nodes = {id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, }
+                diagramInstance.add(this.nodes)
+                //vorhandene knoten aus diagram benötigt
+                this.$emit('sendExistingNodes', diagramInstance.nodes);
 
                 //--------------------------------------TODO
+
                 for(var j = 0; j < this.connectorNodes.length; j++){
                     var targetid = this.connectorNodes[j].substring(0, this.connectorNodes[j].length-1);
-                    this.connectors.push({id: `${this.knotenName} ${j}`, sourceID: this.knotenName, targetID: targetid, targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select});
+                    //this.connectors.push({id: `${this.knotenName} ${j}`, sourceID: this.knotenName, targetID: targetid, targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select});
+                    this.connectors = {id: `${this.knotenName} ${j}`,sourceID: this.knotenName,targetID: targetid,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#6BA5D7', fill: '#6BA5D7', strokeWidth: 2}, }             
+                    console.log(diagramInstance.add(this.connectors))
+                    diagramInstance.add(this.connectors)
+                    //diagramInstance.dataBind();
                 }
             }
-        },
-        connectors: function(){
-            alert(connectors.length);
-            console.log("ARRAY: " + connectors[0].targetID);
-            /*let diagramObj = document.getElementById("diagram");
-            diagramInstance = diagramObj.ej2_instances[0];
-            diagramObj.add(connectors);*/
         }
     },
     methods: {
