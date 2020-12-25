@@ -3,7 +3,10 @@
       <button id="btnAdd3" @click="addItem">Add Item</button>
       <SlickList id="test" axis="xy" v-model="items">
         <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
-          <span id="spanElement" @contextmenu.prevent="removeItem(item)">{{ item.titel }}</span>
+            <span id="spanElement">
+          <span @contextmenu.prevent="removeItem(item)">{{ item.titel }}</span>
+          <span id="netzSwitch" @mousedown="openNetz(item)"> </span>
+            </span>
         </SlickItem>
       </SlickList>
     </div>
@@ -147,7 +150,6 @@ export default {
                 r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})}
-
             var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie {index:$index})--(Wissensnetz) RETURN Wissensnetz"
             var params={benutzername: name, index: kat.index}
             var cb=function(err,data) 
@@ -167,7 +169,10 @@ export default {
             }.bind(this)
              cypher(query,params,cb)
     
-}
+        },
+        openNetz: function(value){
+            this.$emit('openNetz',value)
+        }
     }
 }
 </script>
@@ -183,6 +188,20 @@ export default {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+#netzSwitch{
+    position: absolute;
+    //margin: 0.75em;
+    //right: 1em;
+    //left: 0.01em;
+    font-size: 1em;
+    width: 1.5em;
+    height: 1.5em;
+    border: 1px solid black;
+    cursor: pointer;
+    &:hover{
+        background: orangered;
+    }
 }
 
 #test{
