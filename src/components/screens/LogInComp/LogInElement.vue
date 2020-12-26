@@ -166,6 +166,7 @@ export default {
 <style lang="scss">
 @import "@/assets/theme.scss";
 #container {
+  color: #ffffff;
   display: grid;
   position: absolute;
   left: 700px;

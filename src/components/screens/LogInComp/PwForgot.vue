@@ -85,6 +85,7 @@ export default {
 
 <style>
 #pwScreen{
+    color: #ffffff;
     display: grid;
     position: absolute;
     z-index: 2;

@@ -178,6 +178,7 @@ export default {
 
 <style scoped>
 #regScreen{
+    color: #ffffff;
     display: grid;
     position: absolute;
     z-index: 2;

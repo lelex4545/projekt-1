@@ -1,8 +1,8 @@
 <template>
   <div class="canttouchme" id="canttouch">
-    <div id="headerNet" class="containerDesignHome">
+    <!--<div id="headerNet" class="containerDesignHome">
       <H1>Insert Wissensnetzname</H1>
-    </div>
+    </div>-->
     <LogInElement 
       @catcher="catchData"
       @accEvent=accScreen
