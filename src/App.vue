@@ -2,7 +2,8 @@
   <div id="app">
     <div id="nav">
       <router-link to="/login">LogIn</router-link> |
-      <router-link to="/">Home</router-link> 
+      <router-link to="/">Home</router-link> |
+      <router-link to="/netz">Netz</router-link>
     </div>
     <router-view/>
   </div>
@@ -19,7 +20,10 @@
 
 #nav {
   padding: 30px;
-
+  position: absolute;
+  z-index: 50;
+  top: 0.5em;
+  left: 20em;
   a {
     font-weight: bold;
     color: #2c3e50;
@@ -48,7 +52,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center; 
-  //color: #ffffff;
+  color: #ffffff;
   height: 100%;
   width: 100%;
   margin: 0em;

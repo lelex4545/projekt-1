@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'LogIn',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -13,10 +13,17 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../components/screens/LogIn.vue')
   },
   {
-    path: '/',
+    path: '/home',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "about" */ '../components/screens/Home.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../components/screens/Home.vue'),
+    props: true,
   },
+  {
+    path: '/netz',
+    name: 'NetzScreen',
+    component: () => import(/* webpackChunkName: "about" */ '../components/screens/NetzScreen.vue'),
+    props: true,
+  }
 ]
 
 const router = new VueRouter({

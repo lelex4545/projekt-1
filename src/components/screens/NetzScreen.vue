@@ -18,6 +18,7 @@
     let existingNodes = []
 
     export default {
+        props: [ 'item' ],
         data: ()=> ({
             knotenName: "",
             connectorNodes: [],
@@ -52,7 +53,8 @@
                 wheelPropagation: false
         },
         mounted(){
-            document.documentElement.style.overflow = 'hidden' 
+            document.documentElement.style.overflow = 'hidden'
+            alert(this.item.titel)
         }
     }
 </script>
@@ -107,5 +109,4 @@
         width: 100%;  
         height: 100%; 
     }
-
 </style>

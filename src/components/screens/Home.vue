@@ -7,7 +7,7 @@
             @aktKategorie2="catchData"
         />
         <keep-alive>
-        <component :name2="name" :kategorie="aktKategorie" @openNetz="transportItem" v-bind:is="currentTabComponent"></component>
+        <component :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
         </keep-alive>
 
         <!-- <button

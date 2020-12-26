@@ -1,10 +1,9 @@
 <template>
   <div class="canttouchme" id="canttouch">
     <!--<div id="headerNet" class="containerDesignHome">
-      <H1>Insert Wissensnetzname</H1>
+      <H1>Insert Wissensnetzname</H1> 
     </div>-->
     <LogInElement 
-      @catcher="catchData"
       @accEvent=accScreen
       @pwEvent=pwScreen
     />
@@ -50,10 +49,10 @@ export default {
     test(){
       console.log(this.possitionsREG)
     },
-    catchData(value) {
+    /*catchData(value) {
      console.log(1);
      this.$emit('catcher2', value);
-    }
+    }*/
   }
 };
 </script>

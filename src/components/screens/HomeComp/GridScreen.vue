@@ -171,7 +171,8 @@ export default {
     
         },
         openNetz: function(value){
-            this.$emit('openNetz',value)
+            //this.$emit('openNetz',value)
+            this.$router.push({ name: 'NetzScreen', params: {item: value}})
         }
     }
 }

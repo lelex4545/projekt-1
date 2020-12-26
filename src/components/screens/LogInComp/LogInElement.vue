@@ -151,7 +151,8 @@ export default {
         }
         else{
           alert("Anmeldung erfolgreich.");
-          this.$emit('catcher',this.name);
+          //this.$emit('catcher',this.name);
+          this.$router.push({ name: 'Home', params: {name: this.name }})
         }
        }.bind(this);
 
