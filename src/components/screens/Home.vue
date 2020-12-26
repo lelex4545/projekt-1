@@ -6,8 +6,9 @@
             @profilSwitch=profilSwitch
             @aktKategorie2="catchData"
         />
-        <component :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
-        
+        <keep-alive>
+        <component :name2="name" :kategorie="aktKategorie" @openNetz="transportItem" v-bind:is="currentTabComponent"></component>
+        </keep-alive>
 
         <!-- <button
         v-for="tab in tabs"
@@ -44,6 +45,7 @@
           /*tabs: ["grid-screen", "Profil"],*/
           logInfo: ["", ""],
           aktKategorie: null,
+          item: null,
         }),
         computed: {
           currentTabComponent: function() {
@@ -55,7 +57,12 @@
                 this.currentTab = "Profil"
             },
             catchData(kategorie){
+                this.currentTab ="Grid-Screen"
                 this.aktKategorie=kategorie;
+            },
+            transportItem(item){
+                this.item = item;
+                this.currentTab = "Netz"
             }
         }
     }
