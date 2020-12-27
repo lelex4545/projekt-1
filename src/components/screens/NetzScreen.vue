@@ -54,7 +54,7 @@
         },
         mounted(){
             document.documentElement.style.overflow = 'hidden'
-            alert(this.item.titel)
+            //alert(this.item.titel)
         }
     }
 </script>

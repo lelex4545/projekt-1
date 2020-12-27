@@ -47,7 +47,11 @@ export default {
                 }
         },
         kategorie: function(){
-            var name = this.name2
+                var name;
+                if(this.name2 === undefined)
+                    name=this.$cookies.get("benutzername")
+                else 
+                    name = this.name2
                 var kat = this.kategorie;
                 var r=require("request");
                 var txUrl = "http://localhost:7474/db/data/transaction/commit";
@@ -142,6 +146,7 @@ export default {
             this.items.splice(index,1)
         },
         mounted: function(){
+                
                 var name = this.name2
                 var kat = this.kategorie;
                 var r=require("request");

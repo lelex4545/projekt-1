@@ -5,7 +5,7 @@
                 <!--<img src="https://i.redd.it/mzz6i3sjrsd11.png" id="pb">-->
                 <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb">
             </div>
-            <p id="name">{{bname}}</p>
+            <p id="name">{{name}}</p>
         </div>
         <Kategorie @aktKategorie="catchData" :name2="bname"  />
     </div>
@@ -29,6 +29,10 @@ export default {
         catchData(kategorie){
             this.$emit('aktKategorie2',kategorie);
         }
+    },
+    mounted: function(){
+        this.name = this.bname;
+        this.name=this.$cookies.get("benutzername") 
     }
 }
 </script>

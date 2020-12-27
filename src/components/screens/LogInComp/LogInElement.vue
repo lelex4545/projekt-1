@@ -152,6 +152,7 @@ export default {
         else{
           alert("Anmeldung erfolgreich.");
           //this.$emit('catcher',this.name);
+          this.$cookies.set("benutzername", this.name, "expiring time");
           this.$router.push({ name: 'Home', params: {name: this.name }})
         }
        }.bind(this);

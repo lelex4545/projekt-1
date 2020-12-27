@@ -20,7 +20,7 @@
             <input type="text" size="20" maxlength="20" v-model="firstname"  autocomplete="off" spellcheck="false">
             <input type="text" size="20" maxlength="20" v-model="lastname"  autocomplete="off" spellcheck="false">  
             <input type="text" size="20" maxlength="32" v-model="email"  autocomplete="off" spellcheck="false">
-            <textarea :placeholder="hi" maxlength="64" v-model="bio" autocomplete="off" spellcheck="false"></textarea>
+            <textarea :placeholder="'hi'" maxlength="64" v-model="bio" autocomplete="off" spellcheck="false"></textarea>
             <span @click="saveAll">
                 <Button  id="updateProfil" class="canttouchme" name="Save changes" />
             </span>
@@ -264,9 +264,13 @@ export default {
         json:{statements:[{statement:query,parameters:params}]}},
         function(err,res) { cb(err,res.body)})
       }
-
+        var name;
+        if(this.name2 === undefined)
+            name=this.$cookies.get("benutzername")
+        else 
+            name = this.name2
         var query="MATCH (b:Benutzer { benutzername: $benutzername }) RETURN b";
-        var params={benutzername: this.name2};
+        var params={benutzername: name};
         var cb=function(err,data) {
             if(data.results[0].data.length!=0) {
                this.usernameold = this.username = data.results[0].data[0].row[0].benutzername;

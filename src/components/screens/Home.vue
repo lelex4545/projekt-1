@@ -64,6 +64,9 @@
                 this.item = item;
                 this.currentTab = "Netz"
             }
+        },
+        mounted: function(){
+           //this.name=this.$cookies.get("benutzername") 
         }
     }
 
