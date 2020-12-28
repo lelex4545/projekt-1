@@ -113,11 +113,26 @@ export default {
             var cb2=function(err,data) 
             {
                 console.log(data)
+                var query3="CREATE(k:Netz {serialisierung:$serialisierung}) RETURN k"
+                var params3={serialisierung: ""};
+                cypher(query3,params3,cb3);
 
+            }.bind(this)
+            var cb3=function(err,data) 
+            {
+                console.log(data.results[0].data[0].meta[0].id);
+                var query4="MATCH (a:Wissensnetz),(b:Netz) WHERE id(a)=$id AND id(b)=$id2 CREATE (a)-[r:beinhaltet]->(b) RETURN type(r)"
+                var params4={id: this.items[this.items.length-1].id, id2: data.results[0].data[0].meta[0].id}
+                cypher(query4,params4,cb4)
+            }.bind(this)
+            var cb4=function(err,data) 
+            {
+                console.log(data);
             }.bind(this)
 
             cypher(query,params,cb)
         },
+        
         removeItem: function(value){
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
@@ -137,7 +152,7 @@ export default {
             var cb=function(err,data) 
             {
                 console.log(data)
-                var query2="MATCH (k:Kategorie) WHERE id(k)=$id CALL apoc.path.subgraphNodes(k, {}) YIELD node DETACH DELETE node"
+                var query2="MATCH (k:Wissensnetz) WHERE id(k)=$id CALL apoc.path.subgraphNodes(k, {}) YIELD node DETACH DELETE node, k"
                 var params2={id:idIndex}
                 cypher(query2,params2,cb2)
                 

@@ -88,11 +88,45 @@ export default {
             diagramInstance.dataBind();
 
             document.documentElement.style.overflow = 'hidden' 
+
+            var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+
+            var cb=function(err,data) 
+            {
+                console.log(data);
+                data.results[0].data[0].row[0].serialisierung
+                if(data.results[0].data[0].row[0].serialisierung != "")
+                diagramInstance.loadDiagram(data.results[0].data[0].row[0].serialisierung)
+                this.$emit('sendExistingNodes', diagramInstance.nodes);
+
+            }.bind(this)
+            var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id RETURN n"
+            var params={id: this.gridItem.id};
+            cypher(query,params,cb);
     },
     watch:{
         knotenName: function(){
             var x = 1;
-            
+            var serialisierung;
+            var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+
+            var cb=function(err,data) 
+            {
+                console.log(data.results[0].data[0].meta[0].id);
+
+            }.bind(this)
+
+
             for(var i = 0; i < nodes.length; i++){
                 if(this.knotenName.toUpperCase() == nodes[i].annotations[0].content.toUpperCase()){  
                     x = 0
@@ -120,6 +154,11 @@ export default {
                     diagramInstance.add(this.connectors)
                     //diagramInstance.dataBind();
                 }
+                //  Datenbankanbindung/Serialisierung
+                serialisierung = diagramInstance.saveDiagram();
+                var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
+                var params={id: this.gridItem.id, serialisierung: serialisierung};
+                cypher(query,params,cb);
             }
         }
     },
@@ -134,7 +173,7 @@ export default {
             this.isActive = "false";
         }
     },
-    props: ['knotenName', 'connectorNodes']
+    props: ['knotenName', 'connectorNodes', 'gridItem']
 }
 </script>
 

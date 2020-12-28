@@ -3,7 +3,7 @@
         <header-net id="head"/>
         <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes"/>
         <vue-custom-scrollbar class="scroll-area"  settings="settings" @ps-scroll-y="scrollHanle">
-            <netz id="net" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes"/>
+            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes"/>
         </vue-custom-scrollbar>  
     </div>
 </template>

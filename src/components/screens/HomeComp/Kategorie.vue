@@ -58,6 +58,11 @@ export default {
             console.log(this.items)
         },
         addItem: function(){
+            var name;
+                if(this.name2 === undefined)
+                    name=this.$cookies.get("benutzername")
+                else 
+                    name = this.name2
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             function cypher(query,params,cb) {
@@ -73,7 +78,7 @@ export default {
                 console.log(data)
                 this.items[this.items.length-1].id = data.results[0].data[0].meta[0].id;
                 var query2="MATCH (a:Benutzer),(b:Kategorie) WHERE a.benutzername=$benutzername AND id(b)=$id CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
-                var params2={benutzername: this.name2, id: this.items[this.items.length-1].id}
+                var params2={benutzername: name, id: this.items[this.items.length-1].id}
                 cypher(query2,params2,cb2)
             }.bind(this)
 
@@ -87,7 +92,11 @@ export default {
 
         },
         removeItem: function(value){
-            var name = this.name2;
+            var name;
+                if(this.name2 === undefined)
+                    name=this.$cookies.get("benutzername")
+                else 
+                    name = this.name2
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             function cypher(query,params,cb) {
