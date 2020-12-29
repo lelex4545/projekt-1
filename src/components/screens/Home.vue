@@ -1,13 +1,9 @@
 <template>
     <div id="containerHome" class="canttouchme">
-        <HeaderNet/>
-        <ControlCenter
-            :bname="name" 
-            @profilSwitch=profilSwitch
-            @aktKategorie2="catchData"
-        />
+        <HeaderNet id="head"/>
+        <ControlCenter id="controlCenter" :bname="name" @profilSwitch=profilSwitch @aktKategorie2="catchData"/>
         <keep-alive>
-        <component :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
+            <component id="flexComp" :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
         </keep-alive>
 
         <!-- <button
@@ -26,7 +22,6 @@
     import Profil from "./HomeComp/Profil";
     import HeaderNet from "./HomeComp/HeaderNet";
     //import Grid_ui from "./HomeComp/Grid_ui";
-    import Netz from "./HomeComp/Netz"; 
     import GridScreen from "./HomeComp/GridScreen";
     
     export default {
@@ -35,7 +30,6 @@
             Profil,
             HeaderNet,
             //Grid_ui,
-            Netz,
             GridScreen
         },
      
@@ -88,7 +82,60 @@ button{
   transition: font-size 0.8s;
 }
 #containerHome {
+    display: grid;
+
+
+    grid-template-areas:
+        "he he"
+        "navi comp";
+
+    grid-auto-columns: 15% 80%;
+    grid-auto-rows: 45px 925px;
+
     //font-size: 1.1em;
+}
+
+#head{
+    grid-area: he;
+
+    width: 100vw;
+    color: $div_color;
+    display: flex;
+    padding-left: 1em;
+    align-items: center;
+    border-radius: 0;
+    border: 0px;
+    z-index: 20;
+    font-size: .6em;
+    background-color: whitesmoke;
+
+    box-shadow: 1px 1px 2px rgb(126, 126, 126);
+}
+
+#controlCenter{
+    grid-area: navi;
+
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    border-radius: 0;  
+    padding-top: 2em;
+    z-index: 1; 
+    height: 100vh;
+    background-color: whitesmoke;
+}
+
+#flexComp{
+    grid-area: comp;
+
+    /*display: flex;
+    align-items: center;
+    flex-flow: column;*/
+
+    color: $div_color; 
+    profil{
+        margin-left: 10em;
+    }
 }
 
 .canttouchme {
@@ -99,10 +146,6 @@ button{
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
-}
-
-body {
-    background-color: $home_background_color;
 }
 
 </style>

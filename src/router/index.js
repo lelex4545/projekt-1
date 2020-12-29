@@ -24,6 +24,12 @@ const routes = [
     name: 'NetzScreen',
     component: () => import(/* webpackChunkName: "about" */ '../components/screens/NetzScreen.vue'),
     props: true,
+  },
+  {
+    path:'/editor',
+    name: 'Editor',
+    component: () => import(/* webpackChunkName: "about" */ '../components/screens/EditorScreen.vue'),
+    props: true,
   }
 ]
 

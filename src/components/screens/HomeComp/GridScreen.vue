@@ -231,15 +231,14 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    margin-left: 300px;
-    padding-top: 40px;
+    
 }
 
 #btnAdd3{
     position: relative;
     z-index: 21;
-    top: 2em;
-    left: -30em;
+    top: 0.3em;
+    left: -53em;
 
 }
 

@@ -87,6 +87,7 @@
         border: 0px;
         z-index: 20;
         font-size: .6em;
+        background-color: whitesmoke;
 
         box-shadow: 1px 1px 2px rgb(126, 126, 126);
     }
@@ -100,6 +101,7 @@
         padding-top: 2em;
         z-index: 1; 
         height: 100vh;
+        background-color: whitesmoke;
     }
 
     .scroll-area {

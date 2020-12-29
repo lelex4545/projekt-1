@@ -3,7 +3,8 @@
     <div id="nav">
       <router-link to="/">LogIn</router-link> |
       <router-link to="/home">Home</router-link> |
-      <router-link to="/netz">Netz</router-link>
+      <router-link to="/netz">Netz</router-link> |
+      <router-link to="/editor">Editor</router-link>
     </div>
     <router-view/>
   </div>
@@ -19,11 +20,12 @@
 }
 
 #nav {
-  padding: 30px;
+  padding-right: 30px;
   position: absolute;
   z-index: 50;
-  top: 0.5em;
-  left: 20em;
+  top: 0.85em;
+  left: 18em;
+  color: #2c3e50;
   a {
     font-weight: bold;
     color: #2c3e50;

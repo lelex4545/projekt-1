@@ -1,5 +1,5 @@
 <template>
-        <ejs-diagram id="diagram" :width='width' :height='height'  :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click"></ejs-diagram>
+        <ejs-diagram id="diagram" :width='width' :height='height'  :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click" :doubleClick="doubleClick" :positionChange="positionChange"></ejs-diagram>
 </template>
 
 <script>
@@ -57,6 +57,10 @@ export default {
                 }
                 
             },
+            /*positionChange: () =>{
+                console.log("DRAG")            
+            },*/
+            
             //--------------------------------------------
             scrollSettings: {
                 canAutoScroll: true,
@@ -190,6 +194,12 @@ export default {
         },
         onDeactivated(){
             this.isActive = "false";
+        },
+        doubleClick: function(args){
+            if(args['source'].id != null){
+                console.log(args['source'].id+ "DOUBLE")
+                this.$router.push({name: "Editor", params: {knotenId: args['source'].id}})
+            }
         }
     },
     props: ['knotenName', 'connectorNodes', 'gridItem']

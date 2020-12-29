@@ -41,7 +41,7 @@ export default {
 @import "@/assets/theme.scss";
 
 #controlCenter{
-    display: flex;
+    /*display: flex;
     align-items: center;
     flex-flow: column;
     border-radius: 0;  
@@ -52,7 +52,7 @@ export default {
     padding-top: 4em;
     height: 100vh;
     width: 283px;
-    z-index: 10;
+    z-index: 10;*/
 }
 
 #profil{

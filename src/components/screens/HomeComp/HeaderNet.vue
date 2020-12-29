@@ -13,11 +13,8 @@ export default {
 <style lang="scss" scoped>
 @import "@/assets/theme.scss";
 
-#headerNet {
-    position: fixed;
+#headerNet{
     width: 100vw;
-    height: 30px;
-
     color: $div_color;
     display: flex;
     padding-left: 1em;
@@ -26,6 +23,7 @@ export default {
     border: 0px;
     z-index: 20;
     font-size: .6em;
+    background-color: whitesmoke;
 
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
 }

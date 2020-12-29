@@ -1,19 +1,20 @@
 <template>
-<div>
-<div class="control-section">
-    <div class="sample-container">
-        <div class="default-section">
-        <ejs-richtexteditor ref="rteObj" :height="500" :toolbarSettings="toolbarSettings">
-            <p>Gib mir Wissen :)</p>
-          </ejs-richtexteditor>
+    <div>
+        <!--<HeaderNet/>-->
+        <div class="control-section">
+            <div class="sample-container">
+                <div class="default-section">
+                <ejs-richtexteditor ref="rteObj" :height="500" :toolbarSettings="toolbarSettings">
+                    <p>Gib mir Wissen :) {{knotenId}}</p>
+                </ejs-richtexteditor>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-
-</div>
 </template>
 <script>
 import Vue from "vue";
+//import HeaderNet from "./HeaderNet";
 import { RichTextEditorPlugin, Toolbar, HtmlEditor } from "@syncfusion/ej2-vue-richtexteditor";
 
 Vue.use(RichTextEditorPlugin);
@@ -36,7 +37,11 @@ export default {
     },
     provide:{
         richtexteditor:[Toolbar, HtmlEditor]
-    }
+    },
+    components:{
+        //HeaderNet,
+    },
+    props:['knotenId']
 }
 </script>
 
@@ -49,4 +54,15 @@ export default {
 @import "../../../../node_modules/@syncfusion/ej2-navigations/styles/material.css";
 @import "../../../../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
 @import "../../../../node_modules/@syncfusion/ej2-vue-richtexteditor/styles/material.css";
+
+.sample-container{
+  margin-top: 50px;
+  height: 500px;
+  border-radius: 30px;
+  padding: 50px;
+  background-color: white;
+  color: black;
+  width: 1120px;
+  text-align: left;
+}
 </style>
