@@ -32,9 +32,28 @@ export default {
             nodes: nodes,
             dragging: false,
             click: (args) => {
+                let diagramInstance;
+                let diagramObj = this.$el;
+                diagramInstance = diagramObj.ej2_instances[0];
+                var serialisierung;
+                var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+
+                var cb=function(err,data) {
+                        console.log(data.results[0].data[0].meta[0].id);
+                    }.bind(this)
+
                 let clickedItem = args.actualObject
                 if(args.button === 'Left' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){ //Überprüfe, ob ein Node geklickt wurde
                     console.log(clickedItem.id)
+                    serialisierung = diagramInstance.saveDiagram();
+                    var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
+                    var params={id: this.gridItem.id, serialisierung: serialisierung};
+                    cypher(query,params,cb);
                 }
                 
             },
