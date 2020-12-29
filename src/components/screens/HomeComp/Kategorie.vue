@@ -57,7 +57,7 @@ export default {
         show: function(){
             console.log(this.items)
         },
-        addItem: function(){
+        async addItem() {
             var name;
                 if(this.name2 === undefined)
                     name=this.$cookies.get("benutzername")
@@ -65,33 +65,39 @@ export default {
                     name = this.name2
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
-            function cypher(query,params,cb) {
-                r.post({uri:txUrl,
+            async function cypher(query,params,cb) {
+                await r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
-            this.items.push({titel:'Item ' + (this.items.length+1), id:-1, index:this.items.length-1})
+            var i = this.items.push({titel:'Item ' + (this.items.length+1), id:-1, index:this.items.length-1});
+            if(i!=0)
+            i= i-1;
+            console.log(this.items.length-1)
+            console.log(i)
             var query="CREATE(k:Kategorie {titel:$titel, index:$index}) RETURN k"
             var params={titel: this.items[this.items.length-1].titel, index: this.items.length-1}
-            var cb=function(err,data) 
+            var cb= async function(err,data) 
             {
-                console.log(data)
-                this.items[this.items.length-1].id = data.results[0].data[0].meta[0].id;
+                //console.log(data)
+                console.log("ok")
+                this.items[i].id = data.results[0].data[0].meta[0].id;
                 var query2="MATCH (a:Benutzer),(b:Kategorie) WHERE a.benutzername=$benutzername AND id(b)=$id CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
-                var params2={benutzername: name, id: this.items[this.items.length-1].id}
-                cypher(query2,params2,cb2)
+                var params2={benutzername: name, id: this.items[i].id}
+                await cypher(query2,params2,cb2)
             }.bind(this)
 
-            var cb2=function(err,data) 
+            var cb2= async function(err,data) 
             {
                 console.log(data)
 
             }.bind(this)
 
-            cypher(query,params,cb)
+            await cypher(query,params,cb)
 
         },
-        removeItem: function(value){
+        async removeItem(value) {
+             //this.rmvBtnClicked = false;
             var name;
                 if(this.name2 === undefined)
                     name=this.$cookies.get("benutzername")
@@ -99,8 +105,8 @@ export default {
                     name = this.name2
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
-            function cypher(query,params,cb) {
-                r.post({uri:txUrl,
+            async function cypher(query,params,cb) {
+                await r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
@@ -108,22 +114,29 @@ export default {
             var idIndex = this.items[index].id;
             var query="MATCH (n { benutzername: $name })-[r:besitzt]->(m:Kategorie) WHERE id(m)=$id DELETE r"
             var params={name: name, id: this.items[index].id}
-            var cb2=function(err,data) 
+            var cb2=async function(err,data) 
             {
-                console.log(data)
+                console.log("-------------------")
+                //console.log(data)
+                data;
+                //setTimeout(this.setBtn, 1000);
             }.bind(this)
 
-            var cb=function(err,data) 
+            var cb=async function(err,data) 
             {
+                console.log("-------------------")
                 console.log(data)
                 var query2="MATCH (k:Kategorie) WHERE id(k)=$id CALL apoc.path.subgraphNodes(k, {}) YIELD node DETACH DELETE node"
                 var params2={id:idIndex}
-                cypher(query2,params2,cb2)
+                await cypher(query2,params2,cb2)
                 
             }.bind(this)
-            cypher(query,params,cb);
+            await cypher(query,params,cb);
             this.items.splice(index,1)
 
+        },
+        setBtn() {
+            this.rmvBtnClicked = true;
         },
         aktuelleKategorie: function(kategorie)
         {
