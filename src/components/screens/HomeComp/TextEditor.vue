@@ -1,11 +1,10 @@
 <template>
     <div>
-        <!--<HeaderNet/>-->
         <div class="control-section">
             <div class="sample-container">
                 <div class="default-section">
-                <ejs-richtexteditor ref="rteObj" :height="500" :toolbarSettings="toolbarSettings">
-                    <p>Gib mir Wissen :) {{knotenId}}</p>
+                <ejs-richtexteditor ref="rteObj" :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings">
+                    <p>{{text}}</p>
                 </ejs-richtexteditor>
                 </div>
             </div>
@@ -14,32 +13,33 @@
 </template>
 <script>
 import Vue from "vue";
-//import HeaderNet from "./HeaderNet";
-import { RichTextEditorPlugin, Toolbar, HtmlEditor } from "@syncfusion/ej2-vue-richtexteditor";
+import {RichTextEditor, RichTextEditorPlugin, Toolbar, HtmlEditor, Link, Image, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor" ;
 
 Vue.use(RichTextEditorPlugin);
+RichTextEditor.Inject(Link, Image, QuickToolbar);
 
 export default {
      data: function() {
         return {
-        toolbarSettings: {
-            type: 'Expand',
-            items: ['Bold', 'Italic', 'Underline', 'StrikeThrough',
-            'FontName', 'FontSize', 'FontColor', 'BackgroundColor',
-            'LowerCase', 'UpperCase', '|',
-            'Formats', 'Alignments', 'OrderedList', 'UnorderedList',
-            'Outdent', 'Indent', '|',
-            'CreateLink', 'Image', '|', 'ClearFormat', 'Print',
-            'SourceCode', 'FullScreen', '|', 'Undo', 'Redo'
-          ]
-        },
+            text: "Gib mir Wissen :)",
+            height: "500px",
+            insertImageSettings:{
+                saveFormat: 'Blob'
+            },
+            toolbarSettings: {
+                type: 'Expand',
+                items: ['Bold', 'Italic', 'Underline', 'StrikeThrough',
+                'FontName', 'FontSize', 'FontColor', 'BackgroundColor',
+                'LowerCase', 'UpperCase', '|',
+                'Formats', 'Alignments', 'OrderedList', 'UnorderedList',
+                'Outdent', 'Indent', '|',
+                'CreateLink', 'Image', '|', 'ClearFormat', 'Print',
+                'SourceCode', 'FullScreen', '|', 'Undo', 'Redo']
+            },
         };
     },
     provide:{
         richtexteditor:[Toolbar, HtmlEditor]
-    },
-    components:{
-        //HeaderNet,
     },
     props:['knotenId']
 }
@@ -57,7 +57,7 @@ export default {
 
 .sample-container{
   margin-top: 50px;
-  height: 500px;
+  height: height;
   border-radius: 30px;
   padding: 50px;
   background-color: white;

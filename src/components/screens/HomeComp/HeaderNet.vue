@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/theme.scss";
-
+/*
 #headerNet{
     width: 100vw;
     color: $div_color;
@@ -26,5 +26,5 @@ export default {
     background-color: whitesmoke;
 
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
-}
+}*/
 </style>

@@ -31,7 +31,7 @@ export default {
 
     grid-template-areas:
         "he he"
-        "nav edit";
+        "navi edit";
 
     grid-auto-columns: 15% 85%;
     grid-auto-rows: 45px 925px;
@@ -48,7 +48,6 @@ export default {
 #head{  
     grid-area: he;
 
-    width: 100vw;
     color: $div_color;
     display: flex;
     padding-left: 1em;
@@ -63,14 +62,13 @@ export default {
 }
 
 #navCenter{
-    grid-area: nav;
+    grid-area: navi;
     display: flex;
     align-items: center;
     flex-flow: column;
     border-radius: 0;  
     padding-top: 2em;
     z-index: 1; 
-    height: 100vh;
     background-color: whitesmoke;
 }
 </style>
