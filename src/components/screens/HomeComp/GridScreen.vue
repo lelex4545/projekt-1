@@ -1,10 +1,10 @@
 <template>
     <div class="root" @click="show">
-      <button id="btnAdd3" @click="addItem">Add Item</button>
+      <button id="btnAdd3" @click="addItemView">Add Item</button>
       <SlickList id="test" axis="xy" v-model="items">
         <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
             <span id="spanElement">
-          <span @contextmenu.prevent="removeItem(item)">{{ item.titel }}</span>
+          <span @contextmenu.prevent="removeItemView(item)">{{ item.titel }}</span>
           <span id="netzSwitch" @mousedown="openNetz(item)"> </span>
             </span>
         </SlickItem>
@@ -14,6 +14,9 @@
 
 <script>
 import { SlickList, SlickItem } from 'vue-slicksort';
+import Vue from 'vue'
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 export default {
     props: [ 'name2', 'kategorie' ],
     name: 'GridScreen',
@@ -91,7 +94,34 @@ export default {
         show: function(){
             console.log(this.items)
         },
-        addItem: function(){
+        addItemView() {
+            this.$swal.mixin({
+            input: 'text',
+            confirmButtonText: 'Next &rarr;',
+            showCancelButton: true,
+            progressSteps: ['1']
+            }).queue([
+            {
+                title: 'Wie soll das neue Wissensnetz heißen?',
+                text: '[Maximal 20 Zeichen]'
+            }
+            ]).then((result) => {
+            if (result.value) {
+                const answers = JSON.stringify(result.value[0])
+                this.addItem(result.value[0])
+                this.$swal.fire({
+                title: 'Erfolgreich erstellt !',
+                html: `
+                    Wissensnetz:
+                    <pre><code>${answers}</code></pre>
+                `,
+                confirmButtonText: 'Zurück',
+                icon: 'success'
+                })
+            }
+            })
+        },
+        addItem: function(titel){
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             function cypher(query,params,cb) {
@@ -99,7 +129,7 @@ export default {
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
-            var i = this.items.push({titel:'Item ' + (this.items.length+1), id:-1, index:this.items.length-1})
+            var i = this.items.push({titel:titel, id:-1, index:this.items.length-1})
             if(i!=0)
             i= i-1;
             var query="CREATE(k:Wissensnetz {titel:$titel, index:$index}) RETURN k"
@@ -134,7 +164,26 @@ export default {
 
             cypher(query,params,cb)
         },
-        
+        removeItemView(item) {
+            this.$swal.fire({
+            title: 'Wissensnetz "'+item.titel+'" wirklich löschen ?',
+            text: "Die Löschung kann danach nicht rückgängig gemacht werden !",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ja, löschen!'
+            }).then((result) => {
+                this.removeItem(item)
+            if (result.isConfirmed) {
+                this.$swal.fire(
+                'Gelöscht!',
+                'Die Kategorie "'+item.titel+'" wurde gelöscht.',
+                'success'
+                )
+            }
+            })
+        },
         removeItem: function(value){
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";

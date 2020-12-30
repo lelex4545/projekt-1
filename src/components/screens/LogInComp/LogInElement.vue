@@ -17,6 +17,9 @@
 
 <script>
 import Button from "./Button";
+import Vue from 'vue'
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 export default {
   name: "LogIn",
   props: [ 'nameLog', 'passwortLog' ],
@@ -109,6 +112,8 @@ export default {
     },*/
     login() {
       var r=require("request");
+      var swal = this.$swal;
+      var text = "";
       var txUrl = "http://localhost:7474/db/data/transaction/commit";
         function cypher(query,params,cb) {
         r.post({uri:txUrl,
@@ -129,17 +134,23 @@ export default {
 
         if(name == "" || pw == "") {
           if(name=="")
-            alert("Benutzername bitte eingeben")
+            text = text+"Benutzername bitte eingeben\n"
           if(pw=="")
-            alert("Passwort bitte eingeben");
+            text = text+"Passwort bitte eingeben\n"
         }
         else if(vorhanden != true) {
-          alert("Benutzername existiert nicht") //Fehlermeldung und rotes Häckchen
+          text = text+"Benutzername existiert nicht" //Fehlermeldung und rotes Häckchen
         }
         else
           cypher(query2,params2,cb2)
-
-       }
+          if(text!=="")
+          swal.fire({
+          icon: 'error',
+          title: text,
+          text: '',
+          footer: ''
+          })
+       }.bind(this)
 
       var cb2=function(err,data) { 
         vorhanden = false;
@@ -147,17 +158,32 @@ export default {
           vorhanden = true;
 
         if(vorhanden != true) {
-          alert("Passwort ist falsch! Überprüfen sie ihren Passwort") // Fehlermeldung rotes Häckchen
+          text = text+"Passwort ist falsch! Überprüfen sie ihren Passwort" // Fehlermeldung rotes Häckchen
         }
         else{
-          alert("Anmeldung erfolgreich.");
+          swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Anmeldung erfolgreich',
+          showConfirmButton: false,
+          timer: 1500
+          })
           //this.$emit('catcher',this.name);
           this.$cookies.set("benutzername", this.name, "expiring time");
           this.$router.push({ name: 'Home', params: {name: this.name }})
         }
+        if(text!=="")
+        swal.fire({
+        icon: 'error',
+        title: text,
+        text: '',
+        footer: ''
+        })
+
        }.bind(this);
 
       cypher(query,params,cb)
+      
       
     }
   },
