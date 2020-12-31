@@ -93,8 +93,12 @@ export default {
                     sel.addRange(range);
                 }
             }
+            document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
             })
 
+        },
+        changeEditor() {
+            alert("JUHUUU")
         }
     }
 }
