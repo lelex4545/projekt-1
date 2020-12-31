@@ -42,7 +42,7 @@ export default {
     provide:{
         richtexteditor:[Toolbar, HtmlEditor]
     },
-    props:['knotenId', 'existingNodes'],
+    props:['knotenId'],
     methods:{
         linkEvent(){
             //let text2 = window.getSelection();
@@ -65,6 +65,8 @@ export default {
                 }
             }
             console.log(sel)
+            console.log(this.knotenId)
+            console.log(this.$route.query.existingNodes)
         }
     }
 }
