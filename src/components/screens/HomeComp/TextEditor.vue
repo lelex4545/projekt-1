@@ -1,10 +1,11 @@
 <template>
     <div>
+        <button id="linkButton" @click="linkEvent">Link</button>
         <div class="control-section">
             <div class="sample-container">
                 <div class="default-section">
                 <ejs-richtexteditor ref="rteObj" :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings">
-                    <p>{{text}}</p>
+                    <p id="editorText">Gib mir Wissen :)</p>
                 </ejs-richtexteditor>
                 </div>
             </div>
@@ -21,7 +22,7 @@ RichTextEditor.Inject(Link, Image, QuickToolbar);
 export default {
      data: function() {
         return {
-            text: "Gib mir Wissen :)",
+            elementArray: [],
             height: "500px",
             insertImageSettings:{
                 saveFormat: 'Blob'
@@ -41,7 +42,31 @@ export default {
     provide:{
         richtexteditor:[Toolbar, HtmlEditor]
     },
-    props:['knotenId']
+    props:['knotenId', 'existingNodes'],
+    methods:{
+        linkEvent(){
+            //let text2 = window.getSelection();
+            //let text3 = document.getElementById("editorText");
+            //let html =  document.getElementById("editorText");
+
+            
+
+            var span = document.createElement("span");
+            span.setAttribute("id", this.elementArray.length);
+
+            this.elementArray.push({id: this.elementArray.length, knotenName: ""});
+            if (window.getSelection) {
+                var sel = window.getSelection();
+                if (sel.rangeCount) {
+                    var range = sel.getRangeAt(0).cloneRange();
+                    range.surroundContents(span);
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+            console.log(sel)
+        }
+    }
 }
 </script>
 
@@ -65,4 +90,9 @@ export default {
   width: 1120px;
   text-align: left;
 }
+
+#linkButton{
+    height: 2em;
+}
+
 </style>

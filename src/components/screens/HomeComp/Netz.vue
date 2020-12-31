@@ -196,9 +196,12 @@ export default {
             this.isActive = "false";
         },
         doubleClick: function(args){
+            let diagramInstance;
+            let diagramObj = this.$el;
+            diagramInstance = diagramObj.ej2_instances[0];
             if(args['source'].id != null){
                 console.log(args['source'].id+ "DOUBLE")
-                this.$router.push({name: "Editor", params: {knotenId: args['source'].id}})
+                this.$router.push({name: "Editor", params: {knotenId: args['source'].id, existingNodes: diagramInstance.nodes}})
             }
         }
     },
