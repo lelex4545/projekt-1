@@ -60,7 +60,7 @@ export default {
             let htmlStr = ""
             if(this.$route.query.existingNodes){
                 this.$route.query.existingNodes.forEach(function(element){
-                    htmlStr +=  `<input class="form-check-input" type="radio" value="" name="node" id="${element.id}1">${element.annotations[0].content} \n`;
+                    htmlStr +=  `<input class="form-check-input" type="radio" value="" name="node" id="${element.id}">${element.annotations[0].content} \n`;
                 });
             }
             if(htmlStr == "")
@@ -76,11 +76,15 @@ export default {
                 html: wrapper,
             }).then(() => {
                 var checkboxes = wrapper.getElementsByTagName('input');
-                console.log(checkboxes);
-            })
-
-            this.elementArray.push({id: this.elementArray.length, knotenName: ""});
-            if (window.getSelection) {
+                var value = "";
+                checkboxes.forEach((check) => {
+                        if(check.checked){
+                            value = check.id
+                        }
+                    });
+                   this.elementArray.push({id: this.elementArray.length, knotenName: value});
+                    console.log(this.elementArray[0].id)
+           if (window.getSelection) {
                 var sel = window.getSelection();
                 if (sel.rangeCount) {
                     var range = sel.getRangeAt(0).cloneRange();
@@ -89,9 +93,8 @@ export default {
                     sel.addRange(range);
                 }
             }
-            console.log(sel)
-            console.log(this.knotenId)
-            console.log(this.$route.query.existingNodes)
+            })
+
         }
     }
 }
