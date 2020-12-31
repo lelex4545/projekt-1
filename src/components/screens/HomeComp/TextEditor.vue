@@ -55,6 +55,7 @@ export default {
 
             var span = document.createElement("span");
             span.setAttribute("id", this.elementArray.length);
+            span.setAttribute("style", "background-color: yellowgreen; border-radius: 0.3em; cursor: pointer;");
 
             //---------------------------------------------------------------------------
             let htmlStr = ""
@@ -78,22 +79,22 @@ export default {
                 var checkboxes = wrapper.getElementsByTagName('input');
                 var value = "";
                 checkboxes.forEach((check) => {
-                        if(check.checked){
-                            value = check.id
-                        }
-                    });
-                   this.elementArray.push({id: this.elementArray.length, knotenName: value});
-                    console.log(this.elementArray[0].id)
-           if (window.getSelection) {
-                var sel = window.getSelection();
-                if (sel.rangeCount) {
-                    var range = sel.getRangeAt(0).cloneRange();
-                    range.surroundContents(span);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                }
-            }
-            document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
+                    if(check.checked){
+                        value = check.id
+                    }
+                });
+                this.elementArray.push({id: this.elementArray.length, knotenName: value});
+                console.log(this.elementArray[0].id)
+                if (window.getSelection) {
+                    var sel = window.getSelection();
+                    if (sel.rangeCount) {
+                        var range = sel.getRangeAt(0).cloneRange();
+                        range.surroundContents(span);
+                        sel.removeAllRanges();
+                        sel.addRange(range);
+                    }
+                 }
+                document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
             })
 
         },
@@ -127,6 +128,10 @@ export default {
 
 #linkButton{
     height: 2em;
+}
+
+span{
+    background-color: yellowgreen;
 }
 
 </style>
