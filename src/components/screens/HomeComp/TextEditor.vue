@@ -15,6 +15,8 @@
 <script>
 import Vue from "vue";
 import {RichTextEditor, RichTextEditorPlugin, Toolbar, HtmlEditor, Link, Image, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor" ;
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
 
 Vue.use(RichTextEditorPlugin);
 RichTextEditor.Inject(Link, Image, QuickToolbar);
@@ -53,6 +55,29 @@ export default {
 
             var span = document.createElement("span");
             span.setAttribute("id", this.elementArray.length);
+
+            //---------------------------------------------------------------------------
+            let htmlStr = ""
+            if(this.$route.query.existingNodes){
+                this.$route.query.existingNodes.forEach(function(element){
+                    htmlStr +=  `<input class="form-check-input" type="radio" value="" name="node" id="${element.id}1">${element.annotations[0].content} \n`;
+                });
+            }
+            if(htmlStr == "")
+                htmlStr = '<h3>Keine weiteren Knoten vorhanden</h3>'
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = htmlStr;
+            //---------------------------------------------------------------------------
+
+            this.$swal.fire({
+                showCancelButton: true,
+                title: 'Wähle Knoten',
+                html: wrapper,
+            }).then(() => {
+                var checkboxes = wrapper.getElementsByTagName('input');
+                console.log(checkboxes);
+            })
 
             this.elementArray.push({id: this.elementArray.length, knotenName: ""});
             if (window.getSelection) {
