@@ -2,7 +2,7 @@
     <div id="quizContainer">
         <div id="question">
             <span id="questionH" class="unmarkable">Frage</span>
-            <span id="questionB" contenteditable @input="onInput">{{questionContent}}</span>
+            <span id="questionB">{{questionContent}}</span>
         </div>
         <div id="answer">
             <span id="answerH" class="unmarkable">Antwort</span>
@@ -12,9 +12,9 @@
             </div>
         </div>
         <div id="buttonBox" class="unmarkable">
-            <button id="btnE" @click="easyEvent">Easy</button>
-            <button id="btnN" @click="normalEvent">Normal</button>
-            <button id="btnH" @click="hardEvent">Hard</button>
+            <button id="btnE" @click="easyEvent">Easy ({{calculatePlaceholder(5)}} Days)</button>
+            <button id="btnN" @click="normalEvent">Normal ({{calculatePlaceholder(3)}} Days)</button>
+            <button id="btnH" @click="hardEvent">Hard ({{calculatePlaceholder(0)}} Days)</button>
         </div>
     </div>
 </template>
@@ -25,14 +25,24 @@ export default {
     props: ['item'],
     data: () => ({
         blury: true,
-        difficulty: 0,
         questionContent: '',
         answerContent: '',
-        questionEditable: false
+
+        //SM2-Algorithmus Implementierung
+        repetitions: 0,     //Wiederholungen                                    //0 Standardwert
+        easiness: 2.5,      //Je einfacher, desto seltener kommt eine Frage     //2.5 Standardwert
+        interval: 1,        //Anzahl der Tage, bis eine neue Karte erscheint    //1 Standardwert
+        nextDate : null
+        //quality: 0,                       Schwierigkeit der Frage
+        //nextPracticeTimeMsDay: Date       Der Tag, an welchem die Karte erneut gezeigt werden soll
     }),
     mounted(){
-        this.questionContent = this.item.question;
-        this.answerContent = this.item.answer;
+        this.questionContent = this.item.question
+        this.answerContent = this.item.answer
+        this.repetitions = this.item.repetitions
+        this.easiness = this.item.easiness
+        this.interval = this.item.interval
+        this.nextDate = this.item.nextDate
 
         window.addEventListener("keypress", this._spaceListener);
     },
@@ -40,32 +50,83 @@ export default {
         window.removeEventListener('keypress', this._spaceListener)
     },
     methods:{
-        onInput(e){
-            this.questionContent = e.target.innerText
-            console.log(this.questionContent)
-        },
         _spaceListener(e){
             e.preventDefault()
             if (e.key === ' ' || e.key === 'Spacebar')
                 this.blury = !this.blury;
         },
         easyEvent() {
-            this.$emit("nextCardEvent")
+            //this.$emit("nextCardEvent")
+            this.calculateSuperMemo2Algorithm(4)
         },
         normalEvent() {
-            this.$emit("nextCardEvent")
+            //this.$emit("nextCardEvent")
+            this.calculateSuperMemo2Algorithm(3)
         },
         hardEvent(){
-            this.$emit("nextCardEvent")
+            //this.$emit("nextCardEvent")
+            this.calculateSuperMemo2Algorithm(1)
         },
-        calculateDay(){
+        calculateSuperMemo2Algorithm(quality){
+            if(quality < 0 || quality > 5){
+                //Der Schwierigkeitswert darf nicht diesen Intervall über-/unterschreiten. Wenn ja, dann Exception
+                quality = 0;
+            }
 
-        }
+            //Easiness factor berechnen
+            this.easiness = Math.max(1.3, this.easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
+            //Wiederholungen berechnen
+            if(quality < 3) this.repetitions = 0
+            else this.repetitions = this.repetitions + 1
+
+            //Intervall berechnen
+            if(this.repetitions <= 1) this.interval = 1
+            else if(this.repetitions == 2) this.interval = 6
+            else this.interval = Math.round(this.interval * this.easiness)
+
+            //Nächsten Tag berechnen
+            var tageInMillisekunden = 60 * 60 * 24 * 1000
+            /*
+            var time = new Date().getTime()
+            var nextPracticeDate = time + tageInMillisekunden * this.interval
+            this.nextDate = new Date(nextPracticeDate)
+            */
+            //TEST, OB DIE TAGE GEZÄHLT WERDEN
+            var nextPracticeTimeMs
+            if(this.nextDate === null)
+            {
+                var time = new Date().getTime()
+                nextPracticeTimeMs = time + tageInMillisekunden * this.interval
+                this.nextDate = new Date(nextPracticeTimeMs)
+            } 
+            else{
+                nextPracticeTimeMs = this.nextDate.getTime() + tageInMillisekunden * this.interval
+                this.nextDate = new Date(nextPracticeTimeMs)
+            }
+            console.log("test")
+            this.$emit("nextCardEvent", this.item.id, this.repetitions, this.easiness, this.interval, this.nextDate)
+        },
+        calculatePlaceholder(quality){
+            var ease = this.easiness
+            ease = Math.max(1.3, ease + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
+
+            var rep = this.repetitions
+            if(quality < 3) rep = 0
+            else rep = rep + 1
+
+            //Intervall berechnen
+            var intv = this.interval
+            if(rep <= 1) intv = 1
+            else if(rep == 2) intv = 6
+            else intv = Math.round(intv * ease)
+            
+            return intv
+        },
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 #quizContainer{
     border: 1px solid black;
     border-radius: 1em;
@@ -103,6 +164,8 @@ export default {
 }
 #questionB{
     flex: 1;
+    overflow-wrap: break-word;
+    word-wrap: break-word;  //FOR_BROWSER_SUPPORT
 }
 
 #answer{
@@ -125,6 +188,8 @@ export default {
     flex: 6;
     //overflow: hidden;
     transition: .3s ease;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 #answerB span{
     display: block;
