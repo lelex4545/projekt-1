@@ -31,6 +31,8 @@ export default {
             connectors: connectors,
             nodes: nodes,
             dragging: false,
+            netzId: -1,
+            item: undefined,
             click: (args) => {
                 let diagramInstance;
                 let diagramObj = this.$el;
@@ -52,7 +54,7 @@ export default {
                     console.log(clickedItem.id)
                     serialisierung = diagramInstance.saveDiagram();
                     var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
-                    var params={id: this.gridItem.id, serialisierung: serialisierung};
+                    var params={id: this.item.id, serialisierung: serialisierung};
                     cypher(query,params,cb);
                 }
                 
@@ -122,14 +124,16 @@ export default {
             var cb=function(err,data) 
             {
                 console.log(data);
+                this.netzId = data.results[0].data[0].meta[0].id;
                 data.results[0].data[0].row[0].serialisierung
                 if(data.results[0].data[0].row[0].serialisierung != "")
                 diagramInstance.loadDiagram(data.results[0].data[0].row[0].serialisierung)
                 this.$emit('sendExistingNodes', diagramInstance.nodes);
 
             }.bind(this)
+            this.item =this.$cookies.get("item");
             var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id RETURN n"
-            var params={id: this.gridItem.id};
+            var params={id: this.item.id};
             cypher(query,params,cb);
     },
     watch:{
@@ -180,7 +184,7 @@ export default {
                 //  Datenbankanbindung/Serialisierung
                 serialisierung = diagramInstance.saveDiagram();
                 var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
-                var params={id: this.gridItem.id, serialisierung: serialisierung};
+                var params={id: this.item.id, serialisierung: serialisierung};
                 cypher(query,params,cb);
             }
         }
@@ -201,7 +205,7 @@ export default {
             diagramInstance = diagramObj.ej2_instances[0];
             if(args['source'].id != null){
                 console.log(args['source'].id+ "DOUBLE")
-                this.$router.push({name: "Editor", params: {knotenId: args['source'].id}, query: {existingNodes: diagramInstance.nodes}})
+                this.$router.push({name: "Editor", params: {knotenId: args['source'].id}, query: {existingNodes: diagramInstance.nodes, netzId: this.netzId}})
             }
         }
     },

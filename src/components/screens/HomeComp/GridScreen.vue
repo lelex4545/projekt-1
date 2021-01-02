@@ -243,6 +243,7 @@ export default {
         },
         openNetz: function(value){
             //this.$emit('openNetz',value)
+            this.$cookies.set("item", value, "expiring time");
             this.$router.push({ name: 'NetzScreen', params: {item: value}})
         }
     }
