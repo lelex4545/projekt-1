@@ -7,8 +7,8 @@
         <div class="control-section">
             <div class="sample-container">
                 <div class="default-section">
-                <ejs-richtexteditor id="html" ref="rteObj" :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings">
-                    <p id="editorText">&nbsp;</p>
+                <ejs-richtexteditor id="html" ref="rteObj" v-model="htmlString" v-bind:value="htmlString" :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings">
+
                 </ejs-richtexteditor>
                 </div>
             </div>
@@ -28,6 +28,7 @@ export default {
      data: function() {
         return {
             elementArray: [],
+            htmlString: "",
             textExist: false,
             knotenName: "",
             historyArray: [],
@@ -67,7 +68,7 @@ export default {
             {   
                 if(data.results[0].data.length > 0){
                     this.elementArray = JSON.parse(data.results[0].data[0].row[0].array);
-                    document.getElementById('editorText').innerHTML = data.results[0].data[0].row[0].htmlString;
+                    this.htmlString = data.results[0].data[0].row[0].htmlString;
                     console.log(data);
                     for(var i = 0;i<this.elementArray.length;i++){
                         document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
@@ -95,7 +96,7 @@ export default {
             {   
                 if(data.results[0].data.length > 0){
                     this.elementArray = JSON.parse(data.results[0].data[0].row[0].array);
-                    document.getElementById('editorText').innerHTML = data.results[0].data[0].row[0].htmlString;
+                    this.htmlString = data.results[0].data[0].row[0].htmlString;
                     console.log(data);
                     for(var i = 0;i<this.elementArray.length;i++){
                         document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
@@ -154,9 +155,10 @@ export default {
                     range.surroundContents(span);
                     sel.removeAllRanges();
                     sel.addRange(range);
+                    console.log(sel)
                 }
             }
-            document.getElementById('editorText').innerHTML = document.getElementById('editorText').innerHTML + "&nbsp;"
+            console.log(window.getSelection)
             document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
                 }
             })
@@ -185,11 +187,7 @@ export default {
             alert(this.historyArray[this.historyArray.length-1])
             this.knotenName = this.historyArray[this.historyArray.length-1]
             }
-            //console.log(document.getElementById('editorText').innerHTML)
-            //var x = document.getElementById("html").value
-
-            console.log(document.getElementById("html").value)
-            console.log(document.getElementById("html").innerHTML)
+ 
            
         },
         saveEditor() {
@@ -221,13 +219,13 @@ export default {
 
             if(this.textExist == false){
                 var query="CREATE(k:Text {htmlString:$htmlString, array:$array, knotenId:$id}) RETURN k"
-                var params={htmlString: document.getElementById('editorText').innerHTML, array: JSON.stringify(this.elementArray), id: this.knotenName}
+                var params={htmlString: this.htmlString, array: JSON.stringify(this.elementArray), id: this.knotenName}
                 cypher(query,params, cb);
             }
             else
             {
                 var query3="MATCH (n:Netz)-[r:besitzt]->(m:Text) WHERE id(n)=$id AND m.knotenId=$knoten SET m +={ array:$array, htmlString:$htmlString} RETURN m"
-                var params3={id: this.$route.query.netzId, knoten: this.knotenName, array: JSON.stringify(this.elementArray), htmlString: document.getElementById('editorText').innerHTML}
+                var params3={id: this.$route.query.netzId, knoten: this.knotenName, array: JSON.stringify(this.elementArray), htmlString: this.htmlString}
                 cypher(query3,params3,cb3);
             }
             
