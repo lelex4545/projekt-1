@@ -148,7 +148,7 @@ export default {
     background: #EEFBFB;
 }
 #question{
-    flex: 2;   
+    flex: 2 0;   
     border: 1px solid black;
     background: #EEFBFB;
     padding: 1em;
@@ -169,7 +169,7 @@ export default {
 }
 
 #answer{
-    flex: 7;
+    flex: 7 0;
     border: 1px solid black;
     background: #EEFBFB;
     padding: 1em;
@@ -228,7 +228,7 @@ export default {
 
 
 #buttonBox{
-    flex: 1;
+    flex: 1 0;
     
     background: none !important;
 

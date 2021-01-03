@@ -1,9 +1,12 @@
 <template>
 <div>
     <div id="quizManagerItem">
+        <!--
         <div id="questionManager">
             {{card.question}}
         </div>
+        -->
+        <textarea id="questionManager" v-model="card.question" readonly></textarea>
         <button id="deleteBtn" @click="deleteEvent">
             Delete
         </button>
@@ -104,15 +107,18 @@ export default {
 }
 #questionManager{ 
     border: 1px solid black;
+    border-radius: .75em;
     background: #EEFBFB;
     padding: 1em;
     width: 22em;
+    resize: none;
+    outline: 1;
 }
 #quizManagerItem>button{
     border: 1px solid black;
     border-radius: .75em;
     background: #EEFBFB;
-    padding: 1.3em;
+    padding: 1.6em;
 }
 .quizContainerEXTRA{
     margin-top: 1em;

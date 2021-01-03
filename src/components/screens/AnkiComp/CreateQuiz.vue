@@ -9,7 +9,7 @@
             <textarea id="answerEdit" v-model="answer" placeholder="Insert answer here :)"></textarea>
         </div>
         <div id="buttonBox">
-            <button id="btnD" @click="resetEvent">Verwerfen</button>
+            <button class="btnD" @click="resetEvent" :class="{'btnEmpty': empty}">Verwerfen</button>
             <button id="btnS" @click="createMethod">Speichern</button>
         </div>
     </div>
@@ -22,22 +22,76 @@ export default {
         question: "",
         answer: ""
     }),
+    computed: {
+        empty: function(){
+            return this.question === "" && this.answer === "" ? true : false
+        },
+    },
     methods: {
         resetEvent: function(){
-            this.question = "";
-            this.answer = ""
+          if(!this.empty)
+            this.$swal.fire({
+                title: 'Sind Sie sich sicher?',
+                text: "Möchten Sie den aktuellen Stand verwerfen?",
+                icon: 'warning',
+                showCancelButton: true,
+                cancelButtonText: 'Abbrechen',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Verwerfen'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                this.$swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                  )
+                this.question = "";
+                this.answer = ""
+                }
+            })
         },
         createMethod: function() {
             if(this.question !== "" && this.answer !== ""){
                 this.$emit('createCardEvent',this.question,this.answer)
+                this.$swal.fire({
+                    position: 'bottom',
+                    icon: 'success',
+                    title: 'Gespeichert',
+                    showConfirmButton: false,
+                    timer: 500
+                })
+                this.question = ""
+                this.answer = ""
+                return
             }
+            if(this.question === "" && this.answer === "") {
+                this.$swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Antwort- und Fragefeld dürfen nicht leer sein'
+                })
+                return
+            }
+            else if(this.question === "") 
+                this.$swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Das Fragefeld darf nicht leer sein!'
+                })
+            else if(this.answer === "")
+                this.$swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Das Antwortfeld darf nicht leer sein!'
+                })
         }
     }
 }
 </script>
 
 <style lang="scss">
-#btnD{
+.btnD{
     background: #b64137;
     cursor: pointer;
     &:hover{
@@ -73,5 +127,16 @@ export default {
     border: none;
     background: transparent;
     text-align: center;
+}
+.btnEmpty{
+    background: #61241f;
+    cursor: default;
+    &:hover{
+        background:  #61241f;
+    }
+    &:focus {
+        background:  #61241f;
+        outline: 0;
+    }
 }
 </style>
