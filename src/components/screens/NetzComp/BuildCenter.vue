@@ -1,11 +1,6 @@
 <template>
     <div id="buildCenter" class="containerDesignHome">
-        <div id ="profil" @click ="profilSwitch" class="canttouchme">
-            <div id="profilBild">
-                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb">
-            </div>
-            <p id="name">{{bname}}</p>
-        </div>
+        
         <button @click="createNode">Erstellen</button>
     </div>
 </template>
