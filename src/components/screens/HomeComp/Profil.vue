@@ -289,6 +289,10 @@ export default {
 <style lang="scss" scoped>
     @import "@/assets/theme.scss";
 
+    h2{
+        margin-right: 5em;
+    }
+
     #profilSettings{
         position: absolute;
         top: 3em;
@@ -305,6 +309,7 @@ export default {
         box-shadow: 1px 1px 2px rgb(126, 126, 126);
         background-color: $home_menu_color;
         margin-bottom: 2em;
+        margin-left: 5em;
         border-radius: 1em;
     }
 
@@ -380,7 +385,7 @@ export default {
         align-self: flex-start;
         margin-bottom: 0.5em;
         margin-top: 0.5em;
-        margin-left: 1em;
+        margin-left: 5em;
     }
 
     #changePw{

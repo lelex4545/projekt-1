@@ -2,9 +2,9 @@
     <div id="netContainer">
         <header-net id="head"/>
         <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes" :netzId="netzId"/>
-        <vue-custom-scrollbar class="scroll-area"  settings="settings" @ps-scroll-y="scrollHanle">
-            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes" @sendNetzId="catchNetzId"/>
-        </vue-custom-scrollbar>  
+        <vuescroll :ops="ops">
+            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes"/>
+        </vuescroll>
     </div>
 </template>
 
@@ -12,8 +12,7 @@
     import BuildCenter from "./NetzComp/BuildCenter";
     import HeaderNet from "./HomeComp/HeaderNet";
     import Netz from "./HomeComp/Netz";
-    import vueCustomScrollbar from 'vue-custom-scrollbar'
-    import "vue-custom-scrollbar/dist/vueScrollbar.css"
+    import vuescroll from 'vuescroll';
 
     let existingNodes = []
 
@@ -22,20 +21,25 @@
         data: ()=> ({
             knotenName: "",
             connectorNodes: [],
-            existingNodes: existingNodes,
             netzId: -1,
+            existingNodes: existingNodes,
+            ops: {
+                vuescroll: {},
+                scrollPanel: {},
+                rail: {gutterOfSide: '6px',},
+                bar: {
+                    size: '10px',
+                    background: '#c1c1c1',
+                }
+            }
         }),
         components: {
             BuildCenter,
             HeaderNet,
             Netz,
-            vueCustomScrollbar
+            vuescroll
         },
         methods:{
-            scrollHanle(evt) {
-                console.log(evt)
-            },
-
             sendNode(value){
                 this.knotenName = value;
             },
@@ -50,11 +54,6 @@
             catchNetzId(id){
                 this.netzId = id;
             }
-        },
-        settings: {
-                suppressScrollY: false,
-                suppressScrollX: false,
-                wheelPropagation: false
         },
         mounted(){
             document.documentElement.style.overflow = 'hidden'

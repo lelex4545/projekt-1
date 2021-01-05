@@ -98,7 +98,7 @@ export default {
             diagramInstance.bringToFront();
             diagramInstance.dataBind();
 
-            document.documentElement.style.overflow = 'hidden' 
+            document.documentElement.style.overflow = 'hidden'
 
             var r=require("request");
                 var txUrl = "http://localhost:7474/db/data/transaction/commit";
@@ -145,7 +145,7 @@ export default {
     },
     watch:{
         knotenName: function(){
-            var x = 1;
+
             var serialisierung;
             var r=require("request");
                 var txUrl = "http://localhost:7474/db/data/transaction/commit";
@@ -174,40 +174,30 @@ export default {
             {
                data;
             }.bind(this)
-            for(var i = 0; i < nodes.length; i++){
-                if(this.knotenName.toUpperCase() == nodes[i].annotations[0].content.toUpperCase()){  
-                    x = 0
-                }
+            //--------------------------------------------Knoten
+
+            let diagramInstance;
+            let diagramObj = this.$el;
+            diagramInstance = diagramObj.ej2_instances[0];
+        
+            this.nodes = {id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, }
+            diagramInstance.add(this.nodes)
+            //vorhandene knoten aus diagram benötigt
+            this.$emit('sendExistingNodes', diagramInstance.nodes);
+
+            //--------------------------------------Connector
+
+            for(var j = 0; j < this.connectorNodes.length; j++){
+                var targetid = this.connectorNodes[j].substring(0, this.connectorNodes[j].length-1);
+                this.connectors = {id: `${this.knotenName} ${j}`,sourceID: this.knotenName,targetID: targetid,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#6BA5D7', fill: '#6BA5D7', strokeWidth: 2}, }             
+                diagramInstance.add(this.connectors)
             }
+            //  Datenbankanbindung/Serialisierung
+            serialisierung = diagramInstance.saveDiagram();
+            var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
+            var params={id: this.item.id, serialisierung: serialisierung};
+            cypher(query,params,cb);
             
-            if(x){
-                let diagramInstance;
-                let diagramObj = document.getElementById("diagram")
-                diagramInstance = diagramObj.ej2_instances[0];
-                console.log(diagramInstance.nodes)
-                console.log(this.$el)
-                //this.nodes.push({id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, });
-                this.nodes = {id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, }
-                diagramInstance.add(this.nodes)
-                //vorhandene knoten aus diagram benötigt
-                this.$emit('sendExistingNodes', diagramInstance.nodes);
-
-                //--------------------------------------TODO
-
-                for(var j = 0; j < this.connectorNodes.length; j++){
-                    var targetid = this.connectorNodes[j].substring(0, this.connectorNodes[j].length-1);
-                    //this.connectors.push({id: `${this.knotenName} ${j}`, sourceID: this.knotenName, targetID: targetid, targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select});
-                    this.connectors = {id: `${this.knotenName} ${j}`,sourceID: this.knotenName,targetID: targetid,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#6BA5D7', fill: '#6BA5D7', strokeWidth: 2}, }             
-                    diagramInstance.add(this.connectors)
-                    //console.log(diagramInstance.add(this.connectors)) //connector ID ist nicht eindeutig wenn erneut verbindungen erstellt werden
-                    //diagramInstance.dataBind();
-                }
-                //  Datenbankanbindung/Serialisierung
-                serialisierung = diagramInstance.saveDiagram();
-                var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
-                var params={id: this.item.id, serialisierung: serialisierung};
-                cypher(query,params,cb);
-            }
         }
     },
     methods: {

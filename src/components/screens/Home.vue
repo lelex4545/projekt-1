@@ -2,9 +2,11 @@
     <div id="containerHome" class="canttouchme">
         <HeaderNet id="head"/>
         <ControlCenter id="controlCenter" :bname="name" @profilSwitch=profilSwitch @aktKategorie2="catchData"/>
-        <keep-alive>
-            <component id="flexComp" :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
-        </keep-alive>
+        <vuescroll :ops="ops">
+            <keep-alive>
+                <component id="flexComp" :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
+            </keep-alive>
+        </vuescroll>
 
         <!-- <button
         v-for="tab in tabs"
@@ -21,7 +23,7 @@
     import ControlCenter from "./HomeComp/ControlCenter";
     import Profil from "./HomeComp/Profil";
     import HeaderNet from "./HomeComp/HeaderNet";
-    //import Grid_ui from "./HomeComp/Grid_ui";
+    import vuescroll from 'vuescroll';
     import GridScreen from "./HomeComp/GridScreen";
     
     export default {
@@ -29,8 +31,8 @@
             ControlCenter,
             Profil,
             HeaderNet,
-            //Grid_ui,
-            GridScreen
+            GridScreen,
+            vuescroll
         },
      
         props: [ 'name' ],
@@ -40,6 +42,17 @@
           logInfo: ["", ""],
           aktKategorie: null,
           item: null,
+          ops: {
+                vuescroll: {},
+                scrollPanel: {},
+                rail: {gutterOfSide: '3px', opacity: 0.5,background: 'black',size: '10px',},
+                bar: {
+                    size: '10px',
+                    background: 'whitesmoke',
+                    opacity: 1,
+                    keepShow: true,
+                }
+          }
         }),
         computed: {
           currentTabComponent: function() {
@@ -89,7 +102,7 @@ button{
         "he he"
         "navi comp";
 
-    grid-auto-columns: 15% 80%;
+    grid-auto-columns: 15% 85%;
     grid-auto-rows: 45px 925px;
 
     //font-size: 1.1em;
@@ -98,7 +111,7 @@ button{
 #head{
     grid-area: he;
 
-    width: 100vw;
+    //width: 100vw;
     color: $div_color;
     display: flex;
     padding-left: 1em;
@@ -121,7 +134,7 @@ button{
     border-radius: 0;  
     padding-top: 2em;
     z-index: 1; 
-    height: 100vh;
+    //height: 100vh;
     background-color: whitesmoke;
 }
 

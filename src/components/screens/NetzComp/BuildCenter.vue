@@ -23,9 +23,6 @@ export default {
     components: {
     },
     methods:{
-        profilSwitch(){
-            this.$emit("profilSwitch")
-        },
         startAnki(){
             alert(this.netzId)
         },
@@ -68,41 +65,38 @@ export default {
                 },
             
             ]).then((result) => {
+                var check = 1
                 if (result.value) {
                     this.knotenName = result.value[0];
                     this.existingNodes.forEach((elem) => {
                         if(elem.annotations[0].content.toUpperCase() == this.knotenName.toUpperCase()){
                             alert(this.knotenName + " existiert bereits")
                             this.createNode();
+                            check = 0
                         }
                     });
-
                     //checkbox daten zurück senden---------------------------------
+                    if(check){
+                        var checkboxes = wrapper.getElementsByTagName('input');
+                        
+                        //checked überprüfem
+                        checkboxes.forEach((check) => {
+                            if(check.checked){
+                                this.values.push(check.id)
+                            }
+                        });
 
-                    var checkboxes = wrapper.getElementsByTagName('input');
-                    
-                    //checked überprüfem
-                    checkboxes.forEach((check) => {
-                        if(check.checked){
-                            this.values.push(check.id)
-                        }
-                    });
+                        //-----------------------------------------------------------
+                        this.$emit('sendConnectorNodes', this.values);
+                        this.values = []
 
-                    //-----------------------------------------------------------
-                    this.$emit('sendConnectorNodes', this.values);
-                    this.values = []
-
-                    this.$emit('sendNode',this.knotenName);
+                        this.$emit('sendNode',this.knotenName);
+                    }
                 }
             })
             
         },
     },
-    watch:{
-        existingNodes: function(){
-            //alert(this.existingNodes[2].id)
-        }
-    }
 }
 </script>
 
