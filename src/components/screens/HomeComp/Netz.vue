@@ -4,18 +4,11 @@
         :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click" :doubleClick="doubleClick"
         >
         </ejs-diagram>
-        <context-menu :display="showContextMenu" ref="menu">
-            <ul>
-                <li> List item 1 </li>
-                <li> List item 2 </li>
-            </ul>
-        </context-menu>
     </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import ContextMenu from '../NetzComp/ContextMenu';
 import { DiagramPlugin, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
 Vue.use(DiagramPlugin);
 
@@ -27,7 +20,6 @@ let nodes = {}
 
 export default {
     components: {
-        ContextMenu,
     },
     data() {
         return {
@@ -50,7 +42,6 @@ export default {
                 if(args.button === 'Right' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){
                     console.log(args)
                     console.log(clickedItem)
-                    this.$refs.menu.open(args.position);
                 }
             },
             /*positionChange: () =>{
@@ -99,10 +90,6 @@ export default {
         }
     },
     mounted(){ 
-            document.getElementById("diagram").addEventListener("contextmenu", function(e){
-                e.preventDefault()
-            }, false);
-        
             let diagramInstance;
             let diagramObj = document.getElementById("diagram")
             //console.log(this.$el)
@@ -125,6 +112,7 @@ export default {
                 console.log(data);
                 
                 this.netzId = data.results[0].data[0].meta[0].id;
+                this.$emit('sendNetzId', this.netzId);
                 data.results[0].data[0].row[0].serialisierung
                 if(data.results[0].data[0].row[0].serialisierung != "")
                 diagramInstance.loadDiagram(data.results[0].data[0].row[0].serialisierung)

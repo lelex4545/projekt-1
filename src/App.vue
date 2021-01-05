@@ -4,7 +4,8 @@
       <router-link to="/">LogIn</router-link> |
       <router-link to="/home">Home</router-link> |
       <router-link to="/netz">Netz</router-link> |
-      <router-link to="/editor">Editor</router-link>
+      <router-link to="/editor">Editor</router-link>  |
+      <router-link to="/learningscreen">LearningScreen</router-link>
     </div>
     <router-view/>
   </div>

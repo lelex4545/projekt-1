@@ -1,7 +1,8 @@
 <template>
     <div id="buildCenter" class="containerDesignHome">
         
-        <button @click="createNode">Erstellen</button>
+        <button @click="createNode">Erstellen</button><br>
+        <button @click="startAnki">Anki starten</button>
     </div>
 </template>
 
@@ -11,7 +12,7 @@ import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
 
 export default {
-    props: [ 'bname', 'existingNodes'],
+    props: [ 'bname', 'existingNodes','netzId'],
     data: ()=> ({
         name: "",
         passwort: "",
@@ -24,6 +25,9 @@ export default {
     methods:{
         profilSwitch(){
             this.$emit("profilSwitch")
+        },
+        startAnki(){
+            alert(this.netzId)
         },
         createNode(){
 

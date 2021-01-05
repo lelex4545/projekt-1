@@ -1,9 +1,9 @@
 <template>
     <div id="netContainer">
         <header-net id="head"/>
-        <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes"/>
+        <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes" :netzId="netzId"/>
         <vue-custom-scrollbar class="scroll-area"  settings="settings" @ps-scroll-y="scrollHanle">
-            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes"/>
+            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes" @sendNetzId="catchNetzId"/>
         </vue-custom-scrollbar>  
     </div>
 </template>
@@ -22,7 +22,8 @@
         data: ()=> ({
             knotenName: "",
             connectorNodes: [],
-            existingNodes: existingNodes
+            existingNodes: existingNodes,
+            netzId: -1,
         }),
         components: {
             BuildCenter,
@@ -45,6 +46,9 @@
 
             sendExistingNodes(value){
                 this.existingNodes = value;
+            },
+            catchNetzId(id){
+                this.netzId = id;
             }
         },
         settings: {

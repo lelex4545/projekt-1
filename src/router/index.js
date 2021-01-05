@@ -30,6 +30,12 @@ const routes = [
     name: 'Editor',
     component: () => import(/* webpackChunkName: "about" */ '../components/screens/EditorScreen.vue'),
     props: true,
+  },
+  {
+    path:'/learningscreen',
+    name: 'LearningScreen',
+    component: () => import(/* webpackChunkName: "about" */ '../components/screens/LearningScreen.vue'),
+    props: true,
   }
 ]
 

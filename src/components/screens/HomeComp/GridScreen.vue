@@ -136,6 +136,7 @@ export default {
                 function(err,res) { cb(err,res.body)})
                 }
             var i = this.items.push({titel:titel, id:-1, index:this.items.length-1})
+            var netzId;
             if(i!=0)
             i= i-1;
             var query="CREATE(k:Wissensnetz {titel:$titel, index:$index}) RETURN k"
@@ -159,15 +160,29 @@ export default {
             var cb3=function(err,data) 
             {
                 console.log(data.results[0].data[0].meta[0].id);
-                var query4="MATCH (a:Wissensnetz),(b:Netz) WHERE id(a)=$id AND id(b)=$id2 CREATE (a)-[r:beinhaltet]->(b) RETURN type(r)"
+                var query4="MATCH (a:Wissensnetz),(b:Netz) WHERE id(a)=$id AND id(b)=$id2 CREATE (a)-[r:beinhaltet]->(b) RETURN b"
                 var params4={id: this.items[i].id, id2: data.results[0].data[0].meta[0].id}
+                netzId = data.results[0].data[0].meta[0].id; 
                 cypher(query4,params4,cb4)
             }.bind(this)
             var cb4=function(err,data) 
             {
                 console.log(data);
+                var query5="CREATE(n:Anki {cards:''}) RETURN n"
+                var params5={}
+                cypher(query5,params5,cb5)
             }.bind(this)
-
+            var cb5=function(err,data) 
+            {
+                console.log(data);
+                var query6="MATCH (a:Netz),(b:Anki) WHERE id(a)=$id AND id(b)=$id2 CREATE (a)-[r:beinhaltet]->(b) RETURN b"
+                var params6={id: netzId, id2: data.results[0].data[0].meta[0].id}
+                cypher(query6,params6,cb6)
+            }.bind(this)
+            var cb6=function(err,data) 
+            {
+                console.log(data);
+            }.bind(this)
             cypher(query,params,cb)
         },
         removeItemView(item) {
