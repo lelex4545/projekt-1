@@ -1,6 +1,6 @@
 <template>
     <div class="root" @click="show">
-      <button id="btnAdd3" @click="addItemView">Add Item</button>
+      <button v-if="rmvBtn" id="btnAdd3" @click="addItemView">Add Item</button>
       <SlickList id="test" axis="xy" v-model="items">
         <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
             <span id="spanElement">
@@ -27,7 +27,8 @@ export default {
     data() {
         return{
             items: [],
-            rmvBtnClicked: false
+            rmvBtnClicked: false,
+            rmvBtn: true,
         }
     },
     watch: {
@@ -64,6 +65,7 @@ export default {
                 function(err,res) { cb(err,res.body)})}
             if(kat!=null){
             this.items = [];
+            this.rmvBtn = true;
             var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie {index:$index})--(Wissensnetz) RETURN Wissensnetz"
             var params={benutzername: name, index: kat.index}
             var cb=function(err,data) 
@@ -87,6 +89,10 @@ export default {
                     console.log(this.items)
                 }.bind(this)
              cypher(query,params,cb)
+            }
+            else{
+                this.items = [];
+                this.rmvBtn = false;
             }
         }
     },
@@ -145,8 +151,8 @@ export default {
             var cb2=function(err,data) 
             {
                 console.log(data)
-                var query3="CREATE(k:Netz {serialisierung:$serialisierung}) RETURN k"
-                var params3={serialisierung: ""};
+                var query3="CREATE(k:Netz {serialisierung:$serialisierung, puffer:$puffer}) RETURN k"
+                var params3={serialisierung: "", puffer: ""};
                 cypher(query3,params3,cb3);
 
             }.bind(this)
@@ -174,8 +180,8 @@ export default {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ja, löschen!'
             }).then((result) => {
-                this.removeItem(item)
             if (result.isConfirmed) {
+                this.removeItem(item)
                 this.$swal.fire(
                 'Gelöscht!',
                 'Die Kategorie "'+item.titel+'" wurde gelöscht.',

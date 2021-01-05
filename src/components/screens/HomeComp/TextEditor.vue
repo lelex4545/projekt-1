@@ -7,7 +7,10 @@
         <div class="control-section">
             <div class="sample-container">
                 <div class="default-section">
-                <ejs-richtexteditor id="html" ref="rteObj" v-model="htmlString" v-bind:value="htmlString" :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings">
+                <ejs-richtexteditor id="html" ref="rteObj" v-model="htmlString" v-bind:value="htmlString" 
+                    :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings"
+
+                    >
 
                 </ejs-richtexteditor>
                 </div>
@@ -17,6 +20,7 @@
 </template>
 <script>
 import Vue from "vue";
+//import EventBus from '@/event-bus'
 import {RichTextEditor, RichTextEditorPlugin, Toolbar, HtmlEditor, Link, Image, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor" ;
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
@@ -24,12 +28,15 @@ Vue.use(VueSweetalert2);
 Vue.use(RichTextEditorPlugin);
 RichTextEditor.Inject(Link, Image, QuickToolbar);
 
+
+
 export default {
      data: function() {
         return {
             elementArray: [],
             htmlString: "",
             textExist: false,
+            puffer: [],
             knotenName: "",
             historyArray: [],
             height: "500px",
@@ -67,12 +74,17 @@ export default {
             var cb = async function(err,data) 
             {   
                 if(data.results[0].data.length > 0){
+                    if(data.results[0].data[0].row[0].array!="")
                     this.elementArray = JSON.parse(data.results[0].data[0].row[0].array);
+
                     this.htmlString = data.results[0].data[0].row[0].htmlString;
-                    console.log(data);
-                    for(var i = 0;i<this.elementArray.length;i++){
-                        document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
-                    }
+
+                    this.$nextTick(function(){
+                        for(var i = 0; i<this.elementArray.length; i++){
+                            document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
+                        }
+                    })
+                    
                     this.textExist=true; //Keine endgültige Lösung
                 }
 
@@ -95,26 +107,38 @@ export default {
             var cb = async function(err,data)
             {   
                 if(data.results[0].data.length > 0){
+                    if(data.results[0].data[0].row[0].array!="")
                     this.elementArray = JSON.parse(data.results[0].data[0].row[0].array);
+                    else
+                    this.elementArray = [];
                     this.htmlString = data.results[0].data[0].row[0].htmlString;
-                    console.log(data);
+                    /*
                     for(var i = 0;i<this.elementArray.length;i++){
                         document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
-                    }
+                    }*/
+                    this.$nextTick(function(){
+                        for(var i = 0; i<this.elementArray.length; i++){
+                            document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
+                        }
+                    })
                     this.textExist=true; //Keine endgültige Lösung
                 }
             }.bind(this)
-            //if(this.knotenId != this.knotenName)
+
                 cypher(query,params,cb)
-        }
+        },
     },
     methods:{
         linkEvent(){
             //let text2 = window.getSelection();
             //let text3 = document.getElementById("editorText");
             //let html =  document.getElementById("editorText");
-
-            
+            function cypher(query,params,cb) {
+                    r.post({uri:txUrl,
+                    json:{statements:[{statement:query,parameters:params}]}},
+                    function(err,res) { cb(err,res.body)})}
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
 
             var span = document.createElement("span");
             span.setAttribute("id", this.elementArray.length);
@@ -139,27 +163,40 @@ export default {
                 html: wrapper,
             }).then((result) => {
                 if(!result.isDismissed){
-                var checkboxes = wrapper.getElementsByTagName('input');
-                var value = "";
-                checkboxes.forEach((check) => {
-                        if(check.checked){
-                            value = check.id
+                    var checkboxes = wrapper.getElementsByTagName('input');
+                    var value = "";
+                    checkboxes.forEach((check) => {
+                            if(check.checked){
+                                value = check.id
+                            }
+                        });
+                    this.elementArray.push({id: this.elementArray.length, knotenName: value});
+                        console.log(this.elementArray[0].id)
+                    if (window.getSelection) {
+                        var sel = window.getSelection();
+                        if (sel.rangeCount) {
+                            var range = sel.getRangeAt(0).cloneRange();
+                            range.surroundContents(span);
+                            sel.removeAllRanges();
+                            sel.addRange(range);
+                            
                         }
-                    });
-                   this.elementArray.push({id: this.elementArray.length, knotenName: value});
-                    console.log(this.elementArray[0].id)
-           if (window.getSelection) {
-                var sel = window.getSelection();
-                if (sel.rangeCount) {
-                    var range = sel.getRangeAt(0).cloneRange();
-                    range.surroundContents(span);
-                    sel.removeAllRanges();
-                    sel.addRange(range);
-                    console.log(sel)
-                }
-            }
-            console.log(window.getSelection)
-            document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
+                    }
+                    document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
+                    var connectorKnoten = {knoten1: this.knotenName, knoten2: value}
+                    this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
+                    //this.$nextTick(() => EventBus.$emit('sendConnection', connectorKnoten));
+                    this.puffer.push(connectorKnoten);
+                    
+
+                    var cb=function(err,data) 
+                    {
+                        data;
+                    }.bind(this)
+                    var query="MATCH (n:Wissensnetz)-[r:beinhaltet]->(m:Netz) WHERE id(n)=$id SET m.puffer=$puffer RETURN n"
+                    var params={id: this.$cookies.get("item").id, puffer: JSON.stringify(this.puffer)};
+                    cypher(query,params,cb);
+                    this.saveEditor();
                 }
             })
 
@@ -177,9 +214,9 @@ export default {
                     alert("LINK START")
                     this.historyArray.push(this.elementArray[i].knotenName)
                     this.knotenName = this.elementArray[i].knotenName;
+
                 }
             }
-            
         },
         backEditor() {
             this.historyArray.pop()
@@ -187,7 +224,7 @@ export default {
             alert(this.historyArray[this.historyArray.length-1])
             this.knotenName = this.historyArray[this.historyArray.length-1]
             }
- 
+            console.log(this.htmlString)
            
         },
         saveEditor() {
@@ -198,36 +235,16 @@ export default {
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
+            
             var cb = async function(err,data) 
             {
-
-                var query2="MATCH (a:Netz),(b:Text) WHERE id(a)=$id AND id(b)=$id2 CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
-                var params2={id: this.$route.query.netzId, id2: data.results[0].data[0].meta[0].id}
-                cypher(query2,params2,cb2);
-            }.bind(this)
-            var cb2 = async function(err,data) 
-            {
-                data;
-                this.textExist = true;
-            }.bind(this)
-            var cb3 = async function(err,data) 
-            {
                 console.log(data);
-        
             }.bind(this)
-            
 
-            if(this.textExist == false){
-                var query="CREATE(k:Text {htmlString:$htmlString, array:$array, knotenId:$id}) RETURN k"
-                var params={htmlString: this.htmlString, array: JSON.stringify(this.elementArray), id: this.knotenName}
-                cypher(query,params, cb);
-            }
-            else
-            {
-                var query3="MATCH (n:Netz)-[r:besitzt]->(m:Text) WHERE id(n)=$id AND m.knotenId=$knoten SET m +={ array:$array, htmlString:$htmlString} RETURN m"
-                var params3={id: this.$route.query.netzId, knoten: this.knotenName, array: JSON.stringify(this.elementArray), htmlString: this.htmlString}
-                cypher(query3,params3,cb3);
-            }
+                var query="MATCH (n:Netz)-[r:besitzt]->(m:Text) WHERE id(n)=$id AND m.knotenId=$knoten SET m +={ array:$array, htmlString:$htmlString} RETURN m"
+                var params={id: this.$route.query.netzId, knoten: this.knotenName, array: JSON.stringify(this.elementArray), htmlString: this.htmlString}
+                cypher(query,params,cb);
+            
             
 
         }

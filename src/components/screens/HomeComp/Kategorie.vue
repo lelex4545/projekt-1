@@ -100,6 +100,7 @@ export default {
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
+            var tmp = this.items.length;
             var i = this.items.push({titel: titel, id:-1, index:this.items.length-1});
             if(i!=0)
             i= i-1;
@@ -120,6 +121,8 @@ export default {
             var cb2= async function(err,data) 
             {
                 console.log(data)
+                if(tmp == 0)
+                     this.$emit('aktKategorie',this.items[0]);
 
             }.bind(this)
 
@@ -164,12 +167,17 @@ export default {
             var idIndex = this.items[index].id;
             var query="MATCH (n { benutzername: $name })-[r:besitzt]->(m:Kategorie) WHERE id(m)=$id DELETE r"
             var params={name: name, id: this.items[index].id}
+            this.items.splice(index,1)
             var cb2=async function(err,data) 
             {
                 console.log("-------------------")
                 //console.log(data)
                 data;
                 //setTimeout(this.setBtn, 1000);
+                if(this.items.length!=0)
+                    this.$emit('aktKategorie',this.items[0]);
+                else
+                    this.$emit('aktKategorie',null);  
             }.bind(this)
 
             var cb=async function(err,data) 
@@ -182,7 +190,6 @@ export default {
                 
             }.bind(this)
             await cypher(query,params,cb);
-            this.items.splice(index,1)
 
         },
         setBtn() {
