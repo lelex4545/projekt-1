@@ -2,6 +2,7 @@
     <div>
         <ejs-diagram id="diagram" :width='width' :height='height'  :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' 
         :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click" :doubleClick="doubleClick"
+        :contextMenuSettings='contextMenuSettings'
         >
         </ejs-diagram>
     </div>
@@ -9,7 +10,8 @@
 
 <script>
 import Vue from 'vue'
-import { DiagramPlugin, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
+import { DiagramPlugin, ConnectorConstraints, SelectorConstraints, DiagramContextMenu, Diagram} from '@syncfusion/ej2-vue-diagrams';
+Diagram.Inject(DiagramContextMenu)
 Vue.use(DiagramPlugin);
 
 let connectors = {}
@@ -31,7 +33,9 @@ export default {
             dragging: false,
             netzId: -1,
             item: undefined,
-            showContextMenu: false,
+            contextMenuSettings: {
+                show: true
+            },
             click: (args) => {
                 
                 let clickedItem = args.actualObject
