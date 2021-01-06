@@ -46,6 +46,7 @@ export default {
                 if(args.button === 'Right' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){
                     console.log(args)
                     console.log(clickedItem)
+                    this.deleteNode(clickedItem)
                 }
             },
             /*positionChange: () =>{
@@ -162,7 +163,7 @@ export default {
             {
                 data;
 
-                var query2="CREATE(n:Text {array:'', htmlString:'', knotenId:$knotenId}) RETURN n"
+                var query2="CREATE(n:Text {array:'', htmlString:'', knotenId:$knotenId, counter:-1}) RETURN n"
                 var params2={knotenId: this.knotenName};
                 cypher(query2,params2,cb2)
 
@@ -181,7 +182,7 @@ export default {
             //--------------------------------------------Knoten
 
             let diagramInstance;
-            let diagramObj = this.$el;
+            let diagramObj = document.getElementById("diagram");
             diagramInstance = diagramObj.ej2_instances[0];
         
             this.nodes = {id: this.knotenName, offsetX: 600,offsetY: 300,width: 100,height: 100,style: {fill: '#6964FF',strokeColor: '#8D8AFF'},annotations: [{content: this.knotenName}],shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}, }
@@ -205,6 +206,19 @@ export default {
         }
     },
     methods: {
+        deleteNode(node){
+            let diagramInstance;
+            let diagramObj = document.getElementById("diagram");
+            diagramInstance = diagramObj.ej2_instances[0];
+            // Adds to the Diagram
+            diagramInstance.remove(node);
+
+            diagramInstance.connectors.forEach(function(element){
+                if(element.sourceID == node.id || element.targetID == node.id){
+                    diagramInstance.remove(element);
+                }
+            });
+        },
         resize(newRect) {
             this.width = newRect.width;
             this.height = newRect.height;

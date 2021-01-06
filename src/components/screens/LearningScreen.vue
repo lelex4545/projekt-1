@@ -57,12 +57,35 @@ export default {
     cards: [{id: 0, question: 'Wie heißt die Hauptstadt von Australien?', answer: 'Canberra', repetitions: 0, easiness: 2.5, interval: 1, nextDate : null},
             {id: 1, question: 'Wie lautet der Standardtext von HTML?', answer: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', repetitions: 0, easiness: 2.5, interval: 1, nextDate : null},
     ],
+    netzId: -1,
     index: 0,
     learning: false,
     createEvent: false,
     stats: false,
     editing: false
   }),
+  mounted(){
+    var r=require("request");
+                var txUrl = "http://localhost:7474/db/data/transaction/commit";
+                function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+    this.netzId = parseInt(this.$cookies.get("netzId"));
+    var query="MATCH(n:Netz)-[r:beinhaltet]->(m:Anki) WHERE id(n)=$id RETURN m"
+    var params={id: this.netzId};
+    var cb=function(err,data) 
+            {
+              console.log(data)
+              if(data.results[0].data[0].row[0].cards==='')
+                this.cards = []
+              else
+                this.cards = JSON.parse(data.results[0].data[0].row[0].cards)
+            }.bind(this)
+    cypher(query,params,cb);
+
+
+  },
   computed:{
     getNextCard: function(){
       return this.cards[this.index]
@@ -87,6 +110,7 @@ export default {
     },
     createCard: function(question, answer){
       this.cards.push({id: this.cards.length === 0 ? 0 : (this.cards[this.cards.length-1].id + 1), question: question, answer: answer, repetitions: 0, easiness: 2.5, interval: 1, nextDate : null})
+      this.saveCards()
     },
     saveEdit: function(id, question, answer) {
       this.cards.findIndex(e => {
@@ -95,6 +119,7 @@ export default {
           e.answer = answer
         }
       })
+      this.saveCards()
     },
     deleteEvent: function (id) {
       var pos = this.cards.findIndex(e => e.id === id)
@@ -102,6 +127,7 @@ export default {
       if(!this.cardsAvailable){
         this.editing=false;
       }
+      this.saveCards()
     },
     learningEvent: function() {
       if(this.cardsAvailable){
@@ -112,6 +138,21 @@ export default {
       if(this.cardsAvailable){
         this.editing=!this.editing; this.createEvent=false; this.learning=false; this.stats=false
       }else this.$swal('No cards available')
+    },
+    saveCards(){
+      var r=require("request");
+        var txUrl = "http://localhost:7474/db/data/transaction/commit";
+        function cypher(query,params,cb) {
+        r.post({uri:txUrl,
+        json:{statements:[{statement:query,parameters:params}]}},
+        function(err,res) { cb(err,res.body)})}
+      var query="MATCH(n:Netz)-[r:beinhaltet]->(m:Anki) WHERE id(n)=$id SET m.cards=$cards RETURN m"
+      var params={id: this.netzId,cards: JSON.stringify(this.cards)};
+      var cb=function(err,data) 
+        {
+          console.log(data)
+        }.bind(this)
+      cypher(query,params,cb);
     }
   }
 }

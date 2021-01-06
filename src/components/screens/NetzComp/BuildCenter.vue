@@ -24,7 +24,8 @@ export default {
     },
     methods:{
         startAnki(){
-            alert(this.netzId)
+            this.$cookies.set("netzId", this.netzId, "expiring time");
+            this.$router.push({ name: 'LearningScreen', params: {netzId: this.netzId}})
         },
         createNode(){
 

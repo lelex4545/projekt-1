@@ -3,7 +3,7 @@
         <header-net id="head"/>
         <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes" :netzId="netzId"/>
         <vuescroll :ops="ops">
-            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes"/>
+            <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes" @sendNetzId="catchNetzId"/>
         </vuescroll>
     </div>
 </template>

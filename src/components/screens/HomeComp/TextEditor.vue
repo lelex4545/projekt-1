@@ -81,7 +81,8 @@ export default {
 
                     this.$nextTick(function(){
                         for(var i = 0; i<this.elementArray.length; i++){
-                            document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
+                            document.getElementById(this.elementArray[i].id).addEventListener('mousedown',this.changeEditor)
+                            document.getElementById(this.elementArray[i].id).addEventListener('contextmenu',this.changeEditor)
                         }
                     })
                     
@@ -118,7 +119,7 @@ export default {
                     }*/
                     this.$nextTick(function(){
                         for(var i = 0; i<this.elementArray.length; i++){
-                            document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
+                            document.getElementById(this.elementArray[i].id).addEventListener('mousedown',this.changeEditor)
                         }
                     })
                     this.textExist=true; //Keine endgültige Lösung
@@ -155,12 +156,19 @@ export default {
 
             const wrapper = document.createElement('div');
             wrapper.innerHTML = htmlStr;
+            
+             if (window.getSelection) {
+                var sel = window.getSelection();
+                var range = sel.getRangeAt(0).cloneRange();
+                console.log(sel)
+             }
             //---------------------------------------------------------------------------
 
             this.$swal.fire({
                 showCancelButton: true,
                 title: 'Wähle Knoten',
                 html: wrapper,
+                
             }).then((result) => {
                 if(!result.isDismissed){
                     var checkboxes = wrapper.getElementsByTagName('input');
@@ -170,19 +178,25 @@ export default {
                                 value = check.id
                             }
                         });
-                    this.elementArray.push({id: this.elementArray.length, knotenName: value});
+                    var unique=-1;
+                    for(var i = 0; i<this.elementArray.length; i++){
+                        if(unique<this.elementArray[i].id)
+                            unique=this.elementArray[i].id
+                    }
+                    unique++         
+                    this.elementArray.push({id: unique, knotenName: value});
                         console.log(this.elementArray[0].id)
-                    if (window.getSelection) {
-                        var sel = window.getSelection();
+                    //if (window.getSelection) {
+                        //var sel = window.getSelection();
                         if (sel.rangeCount) {
-                            var range = sel.getRangeAt(0).cloneRange();
+                            
                             range.surroundContents(span);
                             sel.removeAllRanges();
                             sel.addRange(range);
                             
                         }
-                    }
-                    document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('click',this.changeEditor)
+                    //}
+                    document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('mousedown',this.changeEditor)
                     var connectorKnoten = {knoten1: this.knotenName, knoten2: value}
                     this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
                     //this.$nextTick(() => EventBus.$emit('sendConnection', connectorKnoten));
@@ -208,6 +222,8 @@ export default {
             //var serializedArr = JSON.stringify(this.elementArray);
             //var unpackArr = JSON.parse(serializedArr);
             //console.log(unpackArr);
+            console.log(args)
+            if(args.button==0){
             alert(args.srcElement.id)
             for(var i = 0; i<this.elementArray.length; i++){
                 if(args.srcElement.id == this.elementArray[i].id){
@@ -215,7 +231,21 @@ export default {
                     this.historyArray.push(this.elementArray[i].knotenName)
                     this.knotenName = this.elementArray[i].knotenName;
 
+                    }
                 }
+            }
+            else{
+                alert("löschen")
+                for(var j = 0; j<this.elementArray.length; j++){
+                    if(args.srcElement.id == this.elementArray[j].id){
+                        var span =document.getElementById(this.elementArray[j].id)
+                        var pa=span.parentNode;
+                        while(span.firstChild) pa.insertBefore(span.firstChild, span);
+                        pa.removeChild(span);
+                        this.elementArray.splice(j,1)
+                        }
+                }
+                
             }
         },
         backEditor() {
@@ -226,6 +256,9 @@ export default {
             }
             console.log(this.htmlString)
            
+        },
+        deleteLink(){
+            alert("löschen")
         },
         saveEditor() {
             var r=require("request");
