@@ -6,6 +6,7 @@
             <span id="spanElement">
           <span @contextmenu.prevent="removeItemView(item)">{{ item.titel }}</span>
           <span id="netzSwitch" @mousedown="openNetz(item)"> </span>
+          
             </span>
         </SlickItem>
       </SlickList>
@@ -302,6 +303,7 @@ export default {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    margin: 1em;
     
 }
 
@@ -329,10 +331,10 @@ export default {
 
 #kItem2{
     background: whitesmoke;
-    border-radius: .5rem;
+    border-radius: .7rem;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
-    height: 240px;
-    width: 240px;
+    height: 270px;
+    width: 270px;
     color: #384b5e;
 
     z-index: 10;

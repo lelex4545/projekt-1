@@ -11,14 +11,12 @@
 <script>
 import Vue from 'vue'
 import { DiagramPlugin, ConnectorConstraints, SelectorConstraints, DiagramContextMenu, Diagram} from '@syncfusion/ej2-vue-diagrams';
-Diagram.Inject(DiagramContextMenu)
 Vue.use(DiagramPlugin);
+Diagram.Inject(DiagramContextMenu);
 
 let connectors = {}
 
 let nodes = {}
-    /*{id: "xatar", offsetX: 600, offsetY: 300,width: 100,height: 100,annotations: [{content: 'XATAR23'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF',},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},
-    {id: "garingan",offsetX: 800,offsetY: 500,width: 100,height: 100,annotations: [{content: 'GARINGAN'}],style: {fill: '#6964FF',strokeColor: '#8D8AFF'},shape: {type: 'Basic',shape: 'Ellipse',cornerRadius: 10}},*/
 
 export default {
     components: {

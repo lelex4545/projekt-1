@@ -4,7 +4,7 @@
         <ControlCenter id="controlCenter" :bname="name" @profilSwitch=profilSwitch @aktKategorie2="catchData"/>
         <vuescroll :ops="ops">
             <keep-alive>
-                <component id="flexComp" :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
+                <component :id= compId :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
             </keep-alive>
         </vuescroll>
 
@@ -37,6 +37,7 @@
      
         props: [ 'name' ],
         data:() =>({
+          compId: "grid-screen",
           currentTab: "grid-screen",
           /*tabs: ["grid-screen", "Profil"],*/
           logInfo: ["", ""],
@@ -62,14 +63,17 @@
         methods:{
             profilSwitch(){
                 this.currentTab = "Profil"
+                this.compId = "profilComp"
             },
             catchData(kategorie){
                 this.currentTab ="Grid-Screen"
                 this.aktKategorie=kategorie;
+                this.compId = "grid-screen"
             },
             transportItem(item){
                 this.item = item;
                 this.currentTab = "Netz"
+                this.compId = "Netz"
             }
         },
         mounted: function(){
@@ -138,17 +142,22 @@ button{
     background-color: whitesmoke;
 }
 
-#flexComp{
+#grid-screen{
     grid-area: comp;
-
-    /*display: flex;
-    align-items: center;
-    flex-flow: column;*/
-
     color: $div_color; 
-    profil{
-        margin-left: 10em;
-    }
+}
+
+#Netz{
+    grid-area: comp;
+    color: $div_color; 
+}
+
+#profilComp{
+    grid-area: comp;
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    color: $div_color; 
 }
 
 .canttouchme {

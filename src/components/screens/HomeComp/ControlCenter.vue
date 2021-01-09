@@ -58,7 +58,7 @@ export default {
 #profil{
     display: flex;
     background-color: $div_color;
-    width: 250px;
+    width: 15em;
     height: 7em;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
     border-radius: 1em;

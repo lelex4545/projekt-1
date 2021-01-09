@@ -67,7 +67,8 @@ export default {
             
             ]).then((result) => {
                 var check = 1
-                if (result.value) {
+                if (result.value != null) {
+                    //alert(result.value[0])
                     this.knotenName = result.value[0];
                     this.existingNodes.forEach((elem) => {
                         if(elem.annotations[0].content.toUpperCase() == this.knotenName.toUpperCase()){

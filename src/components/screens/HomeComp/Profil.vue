@@ -1,7 +1,7 @@
 <template>
     <div id="profilSettings">
         <h2>Profile</h2>
-        <hr style="margin-bottom: 1em;">
+        <hr style="margin-bottom: 1em; width: 60em;">
         <div class="ueberschrift">Profile Picture</div>
         <div class="profilSetting">
             <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" id= "pb2">
@@ -289,9 +289,6 @@ export default {
 <style lang="scss" scoped>
     @import "@/assets/theme.scss";
 
-    h2{
-        margin-right: 5em;
-    }
 
     #profilSettings{
         position: absolute;
@@ -309,7 +306,7 @@ export default {
         box-shadow: 1px 1px 2px rgb(126, 126, 126);
         background-color: $home_menu_color;
         margin-bottom: 2em;
-        margin-left: 5em;
+        //margin-left: 20em;
         border-radius: 1em;
     }
 
@@ -382,10 +379,10 @@ export default {
     }
     .ueberschrift{
         display: flex;
-        align-self: flex-start;
+        //align-self: flex-start;
         margin-bottom: 0.5em;
         margin-top: 0.5em;
-        margin-left: 5em;
+        //margin-left: 21em;
     }
 
     #changePw{
