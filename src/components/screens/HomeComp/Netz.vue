@@ -15,9 +15,8 @@
 
 <script>
 import Vue from 'vue'
-import { DiagramPlugin, ConnectorConstraints, SelectorConstraints, DiagramContextMenu, Diagram} from '@syncfusion/ej2-vue-diagrams';
+import { DiagramPlugin, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
 Vue.use(DiagramPlugin);
-Diagram.Inject(DiagramContextMenu);
 
 import 'vue-simple-context-menu/dist/vue-simple-context-menu.css'
 import VueSimpleContextMenu from 'vue-simple-context-menu'
