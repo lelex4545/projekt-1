@@ -1,10 +1,15 @@
 <template>
-    <div>
+    <div oncontextmenu="return false">
         <ejs-diagram id="diagram" :width='width' :height='height'  :scrollSettings='scrollSettings' :pageSettings='pageSettings' backgroundColor='white' 
         :snapSettings='snapSettings' :selectedItems='selectedItems' :click="click" :doubleClick="doubleClick"
-        :contextMenuSettings='contextMenuSettings'
         >
         </ejs-diagram>
+        <vue-simple-context-menu
+            :elementId="'myUniqueId'"
+            :options="options"
+            :ref="'vueSimpleContextMenu'"
+            @option-clicked="optionClicked"
+        />
     </div>
 </template>
 
@@ -13,6 +18,10 @@ import Vue from 'vue'
 import { DiagramPlugin, ConnectorConstraints, SelectorConstraints, DiagramContextMenu, Diagram} from '@syncfusion/ej2-vue-diagrams';
 Vue.use(DiagramPlugin);
 Diagram.Inject(DiagramContextMenu);
+
+import 'vue-simple-context-menu/dist/vue-simple-context-menu.css'
+import VueSimpleContextMenu from 'vue-simple-context-menu'
+Vue.component('vue-simple-context-menu', VueSimpleContextMenu)
 
 let connectors = {}
 
@@ -31,20 +40,19 @@ export default {
             dragging: false,
             netzId: -1,
             item: undefined,
-            contextMenuSettings: {
-                show: true
-            },
+            options: [{name: 'Name ändern'},{name: 'Löschen'}],
             click: (args) => {
-                
                 let clickedItem = args.actualObject
                 if(args.button === 'Left' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){ //Überprüfe, ob ein Node geklickt wurde
                     this.saveInstance();
                 }
-                
-                if(args.button === 'Right' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){
-                    console.log(args)
-                    console.log(clickedItem)
-                    this.deleteNode(clickedItem)
+                if(args.button === 'Right') {
+                    this.itemContextMenu(args)
+                    /*
+                    if(clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){
+                        
+                    }
+                    */
                 }
             },
             /*positionChange: () =>{
@@ -92,7 +100,7 @@ export default {
             }
         }
     },
-    mounted(){ 
+    mounted(){
             let diagramInstance;
             let diagramObj = document.getElementById("diagram")
             //console.log(this.$el)
@@ -285,6 +293,19 @@ export default {
             var query="MATCH (n:Wissensnetz)-[r:beinhaltet]->(m:Netz) WHERE id(n)=$id SET m.puffer=$puffer RETURN n"
             var params={id: this.$cookies.get("item").id, puffer: JSON.stringify(this.puffer)};
             cypher(query,params,cb);
+        },
+        itemContextMenu: function(args){
+            var mousePosition = {pageX: args.position.x, pageY: args.position.y}
+            this.$refs.vueSimpleContextMenu.showMenu(mousePosition, args.actualObject)
+        },
+        optionClicked(e){
+            let clickedItem = e.item
+            if(e.option.name === 'Löschen' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){
+                this.deleteNode(clickedItem)
+            }
+            if(e.option.name === 'Name ändern' && clickedItem instanceof Object && clickedItem.constructor.name === 'Node'){
+                //INSERT NAME ÄNDERUNGSFUNKTION HERE
+            }
         }
     },
     props: ['knotenName', 'connectorNodes', 'gridItem']

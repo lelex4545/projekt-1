@@ -54,9 +54,7 @@ export default {
   name: 'AnkiScreen',
   components: { Quiz, CreateQuiz, QuizManager, QuizStats },
   data: () => ({
-    cards: [{id: 0, question: 'Wie heißt die Hauptstadt von Australien?', answer: 'Canberra', repetitions: 0, easiness: 2.5, interval: 1, nextDate : null},
-            {id: 1, question: 'Wie lautet der Standardtext von HTML?', answer: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.', repetitions: 0, easiness: 2.5, interval: 1, nextDate : null},
-    ],
+    cards: [],
     netzId: -1,
     index: 0,
     learning: false,
@@ -132,12 +130,12 @@ export default {
     learningEvent: function() {
       if(this.cardsAvailable){
         this.learning=!this.learning; this.createEvent=false; this.editing=false; this.stats=false
-      }else this.$swal('No cards available')
+      }else this.$swal('Keine Lernkarten vorhanden')
     },
     editEvent: function() {
       if(this.cardsAvailable){
         this.editing=!this.editing; this.createEvent=false; this.learning=false; this.stats=false
-      }else this.$swal('No cards available')
+      }else this.$swal('Keine Lernkarten vorhanden')
     },
     saveCards(){
       var r=require("request");
