@@ -136,9 +136,19 @@ export default {
                     }
                     this.saveInstance();
                 }
+                if(data.results[0].data[0].row[0].puffer2 != ""){
+                    var tmp2 = JSON.parse(data.results[0].data[0].row[0].puffer2);
+                    this.puffer2 = tmp2;
+                    console.log(this.puffer2)
+                    for(var j = 0;j<this.puffer2.length;j++) {
+                        this.connectors = {id: `${this.puffer2[j].knoten1}_${this.puffer2[j].knoten2}`,sourceID: this.puffer2[j].knoten1,targetID: this.puffer2[j].knoten2,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#7CDE7A', fill: '#7CDE7A', strokeWidth: 2}, }
+                        diagramInstance.remove(this.connectors)
+                    }
+                    this.saveInstance();
+                }
                 this.$emit('sendExistingNodes', diagramInstance.nodes);
 
-                var query2="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.puffer='' RETURN n"
+                var query2="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.puffer='', n.puffer2='' RETURN n"
                 var params2={id: this.item.id}
                 cypher(query2,params2,cb2)
             }.bind(this)

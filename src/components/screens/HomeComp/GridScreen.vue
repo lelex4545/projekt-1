@@ -153,8 +153,8 @@ export default {
             var cb2=function(err,data) 
             {
                 console.log(data)
-                var query3="CREATE(k:Netz {serialisierung:$serialisierung, puffer:$puffer}) RETURN k"
-                var params3={serialisierung: "", puffer: ""};
+                var query3="CREATE(k:Netz {serialisierung:$serialisierung, puffer:$puffer, puffer2:$puffer2}) RETURN k"
+                var params3={serialisierung: "", puffer: "", puffer2: ""};
                 cypher(query3,params3,cb3);
 
             }.bind(this)

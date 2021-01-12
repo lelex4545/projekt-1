@@ -37,6 +37,7 @@ export default {
             htmlString: "",
             textExist: false,
             puffer: [],
+            puffer2:[],
             knotenName: "",
             historyArray: [],
             height: "500px",
@@ -222,12 +223,23 @@ export default {
             //var serializedArr = JSON.stringify(this.elementArray);
             //var unpackArr = JSON.parse(serializedArr);
             //console.log(unpackArr);
-            console.log(args)
+            //console.log(this.knotenName)
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            async function cypher(query,params,cb) {
+                await r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})
+                }
+             var cb = async function(err,data)
+            {   
+                data;
+            }.bind(this)
             if(args.button==0){
             alert(args.srcElement.id)
             for(var i = 0; i<this.elementArray.length; i++){
                 if(args.srcElement.id == this.elementArray[i].id){
-                    alert("LINK START")
+                    //alert("LINK START")
                     this.historyArray.push(this.elementArray[i].knotenName)
                     this.knotenName = this.elementArray[i].knotenName;
 
@@ -238,15 +250,28 @@ export default {
                 alert("löschen")
                 for(var j = 0; j<this.elementArray.length; j++){
                     if(args.srcElement.id == this.elementArray[j].id){
-                        var span =document.getElementById(this.elementArray[j].id)
+                        var span = document.getElementById(this.elementArray[j].id)
                         var pa=span.parentNode;
                         while(span.firstChild) pa.insertBefore(span.firstChild, span);
                         pa.removeChild(span);
+                        var count = 0;
+                        for(var k = 0;k<this.elementArray.length;k++)
+                            if(this.elementArray[k].knotenName == this.elementArray[j].knotenName)
+                                count++
+                        if(count == 1){
+                            var connectorKnoten = {knoten1: this.knotenName, knoten2: this.elementArray[j].knotenName}
+                            this.puffer2.push(connectorKnoten)
+                            var query="MATCH (n:Wissensnetz)-[r:beinhaltet]->(m:Netz) WHERE id(n)=$id SET m.puffer2=$puffer2 RETURN n"
+                            var params={id: this.$cookies.get("item").id, puffer2: JSON.stringify(this.puffer2)};
+                            cypher(query,params,cb)
+                        }
                         this.elementArray.splice(j,1)
                         }
+                        //this.saveEditor()//warum speichert er nicht?
                 }
                 
             }
+            
         },
         backEditor() {
             this.historyArray.pop()
@@ -260,7 +285,7 @@ export default {
         deleteLink(){
             alert("löschen")
         },
-        saveEditor() {
+        async saveEditor() {
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             async function cypher(query,params,cb) {
@@ -275,6 +300,11 @@ export default {
             }.bind(this)
 
                 var query="MATCH (n:Netz)-[r:besitzt]->(m:Text) WHERE id(n)=$id AND m.knotenId=$knoten SET m +={ array:$array, htmlString:$htmlString} RETURN m"
+                
+                this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;  
+                console.log(this.htmlString)
+                
+                await this.$nextTick()
                 var params={id: this.$route.query.netzId, knoten: this.knotenName, array: JSON.stringify(this.elementArray), htmlString: this.htmlString}
                 cypher(query,params,cb);
             
