@@ -1,11 +1,12 @@
 <template>
-  <div class="canttouchme" id="canttouch">
+  <div id="canttouch" 
+    class="canttouchme">
     <LogInElement 
-      @accEvent=accScreen
-      @pwEvent=pwScreen
+      @accEvent="pwScope = false; regScope = !regScope;"
+      @pwEvent="regScope = false; pwScope = !pwScope;"
     />
     <br>
-    <span v-if="accScope">
+    <span v-if="regScope">
       <Regist/>
     </span>
     <span v-if="pwScope">
@@ -27,19 +28,9 @@ export default {
     LogInElement,
   },
   data: () => ({
-    accScope: false,
+    regScope: false,
     pwScope: false,
-  }),
-  methods: {
-    accScreen() {
-      this.pwScope = false;
-      this.accScope = !this.accScope;
-    },
-    pwScreen() {
-      this.accScope = false;
-      this.pwScope = !this.pwScope;
-    }
-  }
+  })
 };
 </script>
 
