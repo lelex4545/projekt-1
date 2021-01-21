@@ -14,8 +14,8 @@
             <input type="password" size="20" maxlength="20" v-model="passwortVerg" @mousedown.stop>
         </form>
         
-    <span @click="regist" id="abs">
-    <Button  name="Registrieren"/>
+    <span @click="regist" id="abs" class="canttouchme"  @mousedown.stop>
+      <Button  name="Absenden"/>
     </span>
     </div>
 </template>
@@ -33,18 +33,25 @@ export default {
       passwort: '',
       passwortVerg: '',
 
-    //für Draggable
-    positions: {
-      clientX: undefined,
-      clientY: undefined,
-      movementX: 0,
-      movementY: 0,
-    }
+      positions: {
+        clientX: undefined,
+        clientY: undefined,
+        movementX: 0,
+        movementY: 0,
+      }
   }),
+  mounted(){
+    /*
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.stayOnScreenRight);
+      window.addEventListener('resize', this.stayOnScreenBottom);
+    })
+    */
+  },
   methods: {
-      dragMouseDown: function (event) {
+    dragMouseDown: function (event) {
       event.preventDefault()
-      // get the mouse cursor position at startup:
+      //Mausposition durch event bestimmen
       this.positions.clientX = event.clientX
       this.positions.clientY = event.clientY
       document.onmousemove = this.elementDrag
@@ -56,25 +63,36 @@ export default {
       this.positions.movementY = this.positions.clientY - event.clientY
       this.positions.clientX = event.clientX 
       this.positions.clientY = event.clientY 
-      // set the element's new position:
+      //Neue Position des Elementes bestimmen
       this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
       this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
-
-      //
+    
+      //Div Elemente können nicht außerhalb des Bildes gezogen werden
+      //Top-Block
       if((this.$refs.draggableContainer.offsetTop - this.positions.movementY)<0) this.$refs.draggableContainer.style.top = 0 + 'px'
-      if((this.$refs.draggableContainer.offsetTop + document.getElementById('regScreen').offsetHeight - this.positions.movementY)>window.innerHeight) 
-            this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('regScreen').offsetHeight - 1 + 'px'
+      //Bottom-Block
+      if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
+        this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+      //Left-Block
       if((this.$refs.draggableContainer.offsetLeft - this.positions.movementX)<0) this.$refs.draggableContainer.style.left = 0 + 'px'
-      if((this.$refs.draggableContainer.offsetLeft + document.getElementById('regScreen').offsetWidth - this.positions.movementX)>window.innerWidth) 
-          this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('regScreen').offsetWidth - 1 + 'px'
-      
+      //Right-Block
+      if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
+        this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
     },
     closeDragElement () {
-      this.$emit('update:positions', this.positions)
-      this.$emit('test')
       document.onmouseup = null
       document.onmousemove = null
     },
+    stayOnScreenRight() {
+        if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
+          this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+		},
+		stayOnScreenBottom() {
+        if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
+          this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+    },
+
+
     async regist() {
       var vorhanden = false;
       var r=require("request");
@@ -181,7 +199,9 @@ export default {
     color: #ffffff;
     display: grid;
     position: absolute;
-    z-index: 2;
+    left: 500px;
+    top: 300px;
+    z-index: 3;
     grid-auto-rows: 10% 15% 15% 15% 15% 15% 15%;
     grid-auto-columns: 25% 75%;
     grid-template-areas: 
@@ -193,6 +213,7 @@ export default {
         "p f"
         ". a";
     height: 15em;
+    border: 1px solid black;
 }
 #regista{
     grid-area: r;

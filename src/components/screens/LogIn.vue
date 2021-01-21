@@ -1,18 +1,12 @@
 <template>
   <div class="canttouchme" id="canttouch">
-    <!--<div id="headerNet" class="containerDesignHome">
-      <H1>Insert Wissensnetzname</H1> 
-    </div>-->
     <LogInElement 
       @accEvent=accScreen
       @pwEvent=pwScreen
     />
     <br>
     <span v-if="accScope">
-      <Regist 
-        v-bind:positions.sync="positionsREG"
-        @test=test
-      />
+      <Regist/>
     </span>
     <span v-if="pwScope">
       <PwForgot/>
@@ -35,7 +29,6 @@ export default {
   data: () => ({
     accScope: false,
     pwScope: false,
-    positionsREG: {}
   }),
   methods: {
     accScreen() {
@@ -45,14 +38,7 @@ export default {
     pwScreen() {
       this.accScope = false;
       this.pwScope = !this.pwScope;
-    },
-    test(){
-      console.log(this.possitionsREG)
-    },
-    /*catchData(value) {
-     console.log(1);
-     this.$emit('catcher2', value);
-    }*/
+    }
   }
 };
 </script>
@@ -61,15 +47,12 @@ export default {
 @import "@/assets/theme.scss";
 .containerDesignHome {
   border-radius: 1em;
-  background-color: $home_menu_color;/*#009a93;*/
-  /*border: .5px solid black;*/
+  background-color: $home_menu_color;
   box-shadow: 1px 1px 2px rgb(126, 126, 126);
   letter-spacing: 0.1em;
   transition: font-size 0.8s;
 }
 #headerNet{
-    /*grid-area: h;*/
-
     position: fixed;
     left: 0;
     top: 0;

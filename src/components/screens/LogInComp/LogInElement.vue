@@ -7,8 +7,8 @@
       <input type="text" id="acc" name="acc" v-model="name" @mousedown.stop />
       <input type="password" id="pw" name="pw" v-model="passwort" @mousedown.stop />
     </form>
-    <span @click="login">
-    <Button id="anmelden" class="canttouchme" name="Anmelden"  @mousedown.stop />
+    <span @click="login" id="anmelden" class="canttouchme" @mousedown.stop>
+      <Button name="Anmelden"/>
     </span>
     <a id="pwv" @click="pwEvent" class="canttouchme" @mousedown.stop>Passwort vergessen?</a>
     <a id="reg" @click="accEvent" class="canttouchme" @mousedown.stop>Registrieren</a>
@@ -59,6 +59,8 @@ export default {
       window.addEventListener('resize', this.stayOnScreenRight);
       window.addEventListener('resize', this.stayOnScreenBottom);
     })
+
+    this.movementX 
   },
   methods: {
     accEvent() {
@@ -69,11 +71,10 @@ export default {
     },
     dragMouseDown: function (event) {
       event.preventDefault()
-      // get the mouse cursor position at startup:
+      //Mausposition durch event bestimmen
       this.positions.clientX = event.clientX
       this.positions.clientY = event.clientY
       document.onmousemove = this.elementDrag
-      console.log(document.onmousemove)
       document.onmouseup = this.closeDragElement
     },
     elementDrag: function (event) {
@@ -82,7 +83,7 @@ export default {
       this.positions.movementY = this.positions.clientY - event.clientY
       this.positions.clientX = event.clientX 
       this.positions.clientY = event.clientY 
-      // set the element's new position:
+      //Neue Position des Elementes bestimmen
       this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
       this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
     
@@ -101,7 +102,7 @@ export default {
     closeDragElement () {
       document.onmouseup = null
       document.onmousemove = null
-    },/*
+    },
     stayOnScreenRight() {
         if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
           this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
@@ -109,7 +110,7 @@ export default {
 		stayOnScreenBottom() {
         if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
           this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
-    },*/
+    },
     login() {
       var r=require("request");
       var swal = this.$swal;
@@ -197,8 +198,8 @@ export default {
   color: #ffffff;
   display: grid;
   position: absolute;
-  left: 700px;
-  top:100px;
+  left: 150px;
+  top: 50px;
   z-index: 2;
   grid-template-areas:
     "a a a"
@@ -208,6 +209,8 @@ export default {
     ". pwv reg";
   grid-auto-columns: 25% 40% 35%;
   grid-auto-rows: 15% 25% 25% 25% 10%;
+
+  border: 1px solid black;
 }
 #anmText {
   grid-area: a;
@@ -232,7 +235,7 @@ export default {
   display: flex;
   align-self: center;
   justify-self: center;
-  margin-right: 1.8em;
+  margin-right: 1.3em;
 }
 
 #reg {

@@ -1,11 +1,13 @@
 <template>
-    <div id="pwScreen" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
+    <div id="pwScreen" class="conDesign" ref="draggablePW" @mousedown="dragMouseDown">
             <p id="pwTitle">Passwort vergessen</p>
             <p id="elem1">Email Adresse eingeben</p>
         <form>
             <input type="text">
         </form>
-        <Button id="absPw" name="Absenden"/>
+        <span id="absPw" name="Absenden" class="canttouchme"  @mousedown.stop>
+          <Button name="Absenden"/>
+        </span>
     </div>
 </template>
 
@@ -23,21 +25,19 @@ export default {
       movementX: 0,
       movementY: 0,
     }
-  }),/*
+  }),
   mounted(){
+    /*
     this.$nextTick(function() {
       window.addEventListener('resize', this.stayOnScreenRight);
       window.addEventListener('resize', this.stayOnScreenBottom);
     })
-  },*/
+    */
+  },
   methods: {
-    dragMouseDown: function () {
-        this.$emit("dragEvent", event, this)
-    },
-    /*
     dragMouseDown: function (event) {
       event.preventDefault()
-      // get the mouse cursor position at startup:
+      //Mausposition durch event bestimmen
       this.positions.clientX = event.clientX
       this.positions.clientY = event.clientY
       document.onmousemove = this.elementDrag
@@ -49,35 +49,34 @@ export default {
       this.positions.movementY = this.positions.clientY - event.clientY
       this.positions.clientX = event.clientX 
       this.positions.clientY = event.clientY 
-      // set the element's new position:
-      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
-      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+      //Neue Position des Elementes bestimmen
+      this.$refs.draggablePW.style.top = (this.$refs.draggablePW.offsetTop - this.positions.movementY) + 'px'
+      this.$refs.draggablePW.style.left = (this.$refs.draggablePW.offsetLeft - this.positions.movementX) + 'px'
     
       //Div Elemente können nicht außerhalb des Bildes gezogen werden
       //Top-Block
-      if((this.$refs.draggableContainer.offsetTop - this.positions.movementY)<0) this.$refs.draggableContainer.style.top = 0 + 'px'
+      if((this.$refs.draggablePW.offsetTop - this.positions.movementY)<0) this.$refs.draggablePW.style.top = 0 + 'px'
       //Bottom-Block
-      if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
-        this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
+      if((this.$refs.draggablePW.offsetTop + document.getElementById('pwScreen').offsetHeight - this.positions.movementY)>window.innerHeight) 
+        this.$refs.draggablePW.style.top = window.innerHeight - document.getElementById('pwScreen').offsetHeight - 1 + 'px'
       //Left-Block
-      if((this.$refs.draggableContainer.offsetLeft - this.positions.movementX)<0) this.$refs.draggableContainer.style.left = 0 + 'px'
+      if((this.$refs.draggablePW.offsetLeft - this.positions.movementX)<0) this.$refs.draggablePW.style.left = 0 + 'px'
       //Right-Block
-      if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
-        this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
+      if((this.$refs.draggablePW.offsetLeft + document.getElementById('pwScreen').offsetWidth - this.positions.movementX)>window.innerWidth) 
+        this.$refs.draggablePW.style.left = window.innerWidth - document.getElementById('pwScreen').offsetWidth - 1 + 'px'
     },
     closeDragElement () {
       document.onmouseup = null
       document.onmousemove = null
     },
     stayOnScreenRight() {
-        if((this.$refs.draggableContainer.offsetLeft + document.getElementById('container').offsetWidth - this.positions.movementX)>window.innerWidth) 
-            this.$refs.draggableContainer.style.left = window.innerWidth - document.getElementById('container').offsetWidth - 1 + 'px'
-	},
-	stayOnScreenBottom() {
-        if((this.$refs.draggableContainer.offsetTop + document.getElementById('container').offsetHeight - this.positions.movementY)>window.innerHeight) 
-            this.$refs.draggableContainer.style.top = window.innerHeight - document.getElementById('container').offsetHeight - 1 + 'px'
-    }
-    */
+        if((this.$refs.draggablePW.offsetLeft + document.getElementById('pwScreen').offsetWidth - this.positions.movementX)>window.innerWidth) 
+          this.$refs.draggablePW.style.left = window.innerWidth - document.getElementById('pwScreen').offsetWidth - 1 + 'px'
+		},
+		stayOnScreenBottom() {
+        if((this.$refs.draggablePW.offsetTop + document.getElementById('pwScreen').offsetHeight - this.positions.movementY)>window.innerHeight) 
+          this.$refs.draggablePW.style.top = window.innerHeight - document.getElementById('pwScreen').offsetHeight - 1 + 'px'
+    },
   },
   
 };
@@ -88,7 +87,9 @@ export default {
     color: #ffffff;
     display: grid;
     position: absolute;
-    z-index: 2;
+    left: 500px;
+    top: 300px;
+    z-index: 3;
     grid-template-areas: 
         "t t"
         "n i"
@@ -96,6 +97,8 @@ export default {
     grid-auto-columns: 25% 75%;
     grid-auto-rows: 25% 50% 25%;
     height: 6em;
+
+    border: 1px solid black;
 }
 #pwTitle{
     grid-area: t;
