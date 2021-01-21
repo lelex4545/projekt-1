@@ -7,15 +7,6 @@
                 <component :id= compId :name2="name" :kategorie="aktKategorie" v-bind:is="currentTabComponent"></component>
             </keep-alive>
         </vuescroll>
-
-        <!-- <button
-        v-for="tab in tabs"
-        v-bind:key="tab"
-        v-bind:class="['tab-button', { active: currentTab === tab }]"
-        v-on:click="currentTab = tab"
-        >
-            {{ tab }}
-        </button> -->
     </div>
 </template>
 
@@ -39,7 +30,6 @@
         data:() =>({
           compId: "grid-screen",
           currentTab: "grid-screen",
-          /*tabs: ["grid-screen", "Profil"],*/
           logInfo: ["", ""],
           aktKategorie: null,
           item: null,
@@ -100,22 +90,17 @@ button{
 }
 #containerHome {
     display: grid;
-
-
     grid-template-areas:
         "he he"
         "navi comp";
 
     grid-auto-columns: 15% 85%;
     grid-auto-rows: 45px 925px;
-
-    //font-size: 1.1em;
 }
 
 #head{
     grid-area: he;
 
-    //width: 100vw;
     color: $div_color;
     display: flex;
     padding-left: 1em;
@@ -138,7 +123,7 @@ button{
     border-radius: 0;  
     padding-top: 2em;
     z-index: 1; 
-    //height: 100vh;
+
     background-color: whitesmoke;
 }
 
@@ -159,15 +144,4 @@ button{
     flex-flow: column;
     color: $div_color; 
 }
-
-.canttouchme {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
-}
-
 </style>
