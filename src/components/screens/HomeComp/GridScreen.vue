@@ -1,12 +1,13 @@
 <template>
     <div class="root" @click="show">
-      <button v-if="rmvBtn" id="btnAdd3" @click="addItemView">Add Item</button>
-      <SlickList id="test" axis="xy" v-model="items">
-        <SlickItem id="kItem2" v-for="(item, index) in items" :index="index" :key="index">
-            <span id="spanElement">
-          <span @contextmenu.prevent="removeItemView(item)">{{ item.titel }}</span>
-          <span id="netzSwitch" @mousedown="openNetz(item)"> </span>
-          
+      <button v-if="addBtn" id="btnAdd3" @click="addItemView">Add Item</button>
+      <SlickList id="slickContainer" axis="xy" v-model="items">
+        <SlickItem id="slickItem" v-for="(item, index) in items" :index="index" :key="index">
+            <!-- @mouseup="openNetz(item)" @contextmenu.prevent="removeItemView(item)" -->
+            {{item.titel}}
+            <span>
+                <button @click="openNetz(item)">Enter</button>
+                <button @click="removeItemView(item)">Delete</button>
             </span>
         </SlickItem>
       </SlickList>
@@ -28,8 +29,7 @@ export default {
     data() {
         return{
             items: [],
-            rmvBtnClicked: false,
-            rmvBtn: true,
+            addBtn: true,
         }
     },
     watch: {
@@ -66,7 +66,7 @@ export default {
                 function(err,res) { cb(err,res.body)})}
             if(kat!=null){
             this.items = [];
-            this.rmvBtn = true;
+            this.addBtn = true;
             var query="MATCH (Benutzer { benutzername:$benutzername })--(Kategorie {index:$index})--(Wissensnetz) RETURN Wissensnetz"
             var params={benutzername: name, index: kat.index}
             var cb=function(err,data) 
@@ -93,7 +93,7 @@ export default {
             }
             else{
                 this.items = [];
-                this.rmvBtn = false;
+                this.addBtn = false;
             }
         }
     },
@@ -286,9 +286,6 @@ export default {
 }
 #netzSwitch{
     position: absolute;
-    //margin: 0.75em;
-    //right: 1em;
-    //left: 0.01em;
     font-size: 1em;
     width: 1.5em;
     height: 1.5em;
@@ -299,7 +296,7 @@ export default {
     }
 }
 
-#test{
+#slickContainer{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -329,7 +326,7 @@ export default {
     }
 }
 
-#kItem2{
+#slickItem{
     background: whitesmoke;
     border-radius: .7rem;
     box-shadow: 1px 1px 2px rgb(126, 126, 126);
@@ -337,12 +334,16 @@ export default {
     width: 270px;
     color: #384b5e;
 
-    z-index: 10;
+    //z-index: 10;
     font-family: Helvetica, Arial, sans-serif;
     text-align: center;
     font-size: 1em;
     letter-spacing: 0.1em;
     margin: 1em;
-}
 
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 </style>

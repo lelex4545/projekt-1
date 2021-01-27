@@ -1,11 +1,6 @@
 <template>
 <div>
     <div id="quizManagerItem">
-        <!--
-        <div id="questionManager">
-            {{card.question}}
-        </div>
-        -->
         <textarea id="questionManager" v-model="card.question" readonly></textarea>
         <button id="deleteBtn" @click="deleteEvent">
             Delete

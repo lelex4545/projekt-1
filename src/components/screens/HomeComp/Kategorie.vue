@@ -4,11 +4,9 @@
       <button @click="rmvBtnClicked=!rmvBtnClicked">Remove Item</button>
       <SlickList lockAxis="y" v-model="items" :lockToContainerEdges="true" lockOffset="0%">
         <SlickItem id="kItem" v-for="(item, index) in items" :index="index" :key="index">
-          <span @mousedown="aktuelleKategorie(item)">
-          <div id="hi">
-          <span>{{ item.titel }}</span>
-          <span v-if="rmvBtnClicked" id="removeMode" @contextmenu.prevent="removeItemView(item)"></span>
-          </div>
+          <span id="hi" @mousedown="aktuelleKategorie(item)">
+            <span>{{ item.titel }}</span>
+            <span v-if="rmvBtnClicked" id="removeMode" @contextmenu.prevent="removeItemView(item)"></span>
           </span>
         </SlickItem>
       </SlickList>
@@ -252,13 +250,9 @@ export default {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 #hi{
-    //background: #384b5e;
-    //border-radius: .5rem;
-    //box-shadow: 1px 1px 2px rgb(126, 126, 126);
+
     height: 50px;
     width: 250px;
-    //color: white;
-    //border: 1px solid black;
 
     z-index: 10;
     font-family: Helvetica, Arial, sans-serif;
@@ -266,6 +260,10 @@ export default {
     font-size: 1em;
     letter-spacing: 0.1em;
     margin: .3em;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #kItem{
     background: #384b5e;

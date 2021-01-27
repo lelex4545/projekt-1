@@ -1,6 +1,6 @@
 <template>
-    <div id="learningScreen">
-      <div id="ankiNavbar">
+  <div id="learningScreen">
+    <div id="ankiNavbar">
         <transition name="button-animation" appear mode="out-in">
           <button class="buttonStyle" @click="createEvent=!createEvent; editing=false; learning=false; stats=false">Erstellen</button>
         </transition>
@@ -8,13 +8,10 @@
           <button class="buttonStyle" :class="{'blockBtn': !cardsAvailable}" @click="editEvent">Verwalten</button>
         </transition>
         <transition name="button-animation" appear mode="out-in">
-          <button class="buttonStyle" @click="stats=!stats; editing=false; learning=false; createEvent=false">Statistiken</button>
-        </transition>
-        <transition name="button-animation" appear mode="out-in">
           <button class="buttonStyle" :class="{'learning': cardsAvailable, 'blockBtn': !cardsAvailable}" @click="learningEvent">Lernen</button>
         </transition>
-      </div>
-<div id="ankiBody">
+    </div>
+    <div id="ankiBody">
       <transition v-if="createEvent" name="slide-fade" appear mode="out-in">
         <CreateQuiz @createCardEvent="createCard"/>
       </transition>
@@ -32,18 +29,15 @@
           />
         </transition-group>
       </transition>
-      <transition v-if="stats" name="slide-fade" appear mode="out-in">
-        <QuizStats />
-      </transition>
-</div>
     </div>
+  </div>
 </template>
 
 <script>
 import CreateQuiz from './AnkiComp/CreateQuiz.vue';
 import Quiz from './AnkiComp/Quiz.vue';
 import QuizManager from './AnkiComp/QuizManager.vue';
-import QuizStats from './AnkiComp/QuizStats.vue';
+//import QuizStats from './AnkiComp/QuizStats.vue';
 
 import Vue from 'vue'
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -52,7 +46,7 @@ Vue.use(VueSweetalert2);
 
 export default {
   name: 'AnkiScreen',
-  components: { Quiz, CreateQuiz, QuizManager, QuizStats },
+  components: { Quiz, CreateQuiz, QuizManager, /*QuizStats*/ },
   data: () => ({
     cards: [],
     netzId: -1,
@@ -81,8 +75,6 @@ export default {
                 this.cards = JSON.parse(data.results[0].data[0].row[0].cards)
             }.bind(this)
     cypher(query,params,cb);
-
-
   },
   computed:{
     getNextCard: function(){
@@ -96,7 +88,7 @@ export default {
     changeCard: function(id, repetitions, easiness, interval, nextDate){
       //Update Card Arraydata
       this.cards.find(e => {
-        if(e.id === id){
+        if(e.id === id){ // && (e.nextDate==null || this.checkIfSameDay(e.nextDate))){
           e.repetitions = repetitions
           e.easiness = easiness
           e.interval = interval
@@ -105,6 +97,12 @@ export default {
       })
       //Change Card
       this.index = this.index < this.cards.length-1 ? this.index + 1 : 0;
+    },
+    checkIfSameDay: function(e){
+      var today = new Date()
+      return  e.getFullYear()  === today.getFullYear() &&
+              (e.getMonth()+1) === (today.getMonth()+1) &&
+              e.getDate()      === today.getDate()
     },
     createCard: function(question, answer){
       this.cards.push({id: this.cards.length === 0 ? 0 : (this.cards[this.cards.length-1].id + 1), question: question, answer: answer, repetitions: 0, easiness: 2.5, interval: 1, nextDate : null})
@@ -129,7 +127,8 @@ export default {
     },
     learningEvent: function() {
       if(this.cardsAvailable){
-        this.learning=!this.learning; this.createEvent=false; this.editing=false; this.stats=false
+        this.learning=!this.learning; this.createEvent=false; this.editing=false; this.stats=false;
+
       }else this.$swal('Keine Lernkarten vorhanden')
     },
     editEvent: function() {
@@ -214,11 +213,4 @@ export default {
   opacity: 0;
   transform: translateX(-70vw);
 }
-
-@media only screen and (max-width: 1400px) {
-  #ankiNavbar{
-    //width: 45em;
-  }
-}
-
 </style>
