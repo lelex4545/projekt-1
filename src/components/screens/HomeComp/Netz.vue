@@ -143,6 +143,7 @@ export default {
                     for(var j = 0;j<this.puffer2.length;j++) {
                         this.connectors = {id: `${this.puffer2[j].knoten1}_${this.puffer2[j].knoten2}`,sourceID: this.puffer2[j].knoten1,targetID: this.puffer2[j].knoten2,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#7CDE7A', fill: '#7CDE7A', strokeWidth: 2}, }
                         diagramInstance.remove(this.connectors)
+                        //Wir wollen einfach umbringen
                     }
                     this.saveInstance();
                 }
@@ -168,8 +169,8 @@ export default {
 
             var serialisierung;
             var r=require("request");
-                var txUrl = "http://localhost:7474/db/data/transaction/commit";
-                function cypher(query,params,cb) {
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) {
                 r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})}
@@ -178,7 +179,7 @@ export default {
             {
                 data;
 
-                var query2="CREATE(n:Text {array:'', htmlString:'', knotenId:$knotenId, counter:-1}) RETURN n"
+                var query2="CREATE(n:Text {array:'', htmlString:'', knotenId:$knotenId, counter:-1, deleteLinks:'[]'}) RETURN n"
                 var params2={knotenId: this.knotenName};
                 cypher(query2,params2,cb2)
 
@@ -222,17 +223,67 @@ export default {
     },
     methods: {
         deleteNode(node){
+            var r=require("request");
+            var txUrl = "http://localhost:7474/db/data/transaction/commit";
+            function cypher(query,params,cb) {
+                r.post({uri:txUrl,
+                json:{statements:[{statement:query,parameters:params}]}},
+                function(err,res) { cb(err,res.body)})}
+            var tmp2D = [];
+            var cb=function(err,data) 
+            {
+                data;
+                for(var i = 0; i < data.results[0].data.length; i++){
+                    var knotenName = data.results[0].data[i].row[0].knotenId;
+                    if(data.results[0].data[i].row[0].deleteLinks === ''){
+                        tmp2D[i]= {name: knotenName, array: []}
+                    }
+                    else{
+                        tmp2D[i]= {name: knotenName, array: JSON.parse(data.results[0].data[i].row[0].deleteLinks)}
+                    }
+                }
+                for(var j = 0; j < tmp2D.length;j++){
+                    tmp2D[j].array.push(node.id)
+                }
+                for(var k = 0; k < tmp2D.length; k++){
+                var query2="MATCH(n:Netz)-[r:besitzt]->(t:Text) WHERE id(n)=$id SET t.deleteLinks=$array RETURN t"
+                var params2={id: this.netzId, array: JSON.stringify(tmp2D[k].array)};
+                cypher(query2,params2,cb2)
+                }
+            }.bind(this)
+            var cb2=function(err,data) 
+            {
+                data
+            }.bind(this)
+            var cb3=function(err,data) 
+            {
+                data
+            var query4="MATCH(n:Text) WHERE id(n)=$id DELETE n"
+            var params4={id: data.results[0].data[0].meta[0].id};
+            cypher(query4, params4, cb4)
+            }.bind(this)
+            var cb4=function(err,data) 
+            {
+                data
+            }.bind(this)
             let diagramInstance;
             let diagramObj = document.getElementById("diagram");
             diagramInstance = diagramObj.ej2_instances[0];
             // Adds to the Diagram
             diagramInstance.remove(node);
-
             diagramInstance.connectors.forEach(function(element){
                 if(element.sourceID == node.id || element.targetID == node.id){
                     diagramInstance.remove(element);
                 }
             });
+            this.saveInstance();
+            var query="MATCH(n:Netz)-[r:besitzt]->(t:Text) WHERE id(n)=$id RETURN t"
+            var params={id: this.netzId};
+            var query3="MATCH(n:Netz)-[r:besitzt]->(t:Text) WHERE id(n)=$id AND t.knotenId=$id2 DELETE r RETURN t"
+            var params3={id: this.netzId, id2: node.id};
+            cypher(query,params,cb);
+            cypher(query3,params3,cb3)
+
         },
         resize(newRect) {
             this.width = newRect.width;

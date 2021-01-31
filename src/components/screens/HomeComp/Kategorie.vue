@@ -87,7 +87,8 @@ export default {
             }
             })
         },
-        async addItem(titel) {
+        
+        addItem(titel) {
             var name;
                 if(this.name2 === undefined)
                     name=this.$cookies.get("benutzername")
@@ -96,7 +97,7 @@ export default {
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             async function cypher(query,params,cb) {
-                await r.post({uri:txUrl,
+                r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
@@ -115,7 +116,7 @@ export default {
                 this.items[i].id = data.results[0].data[0].meta[0].id;
                 var query2="MATCH (a:Benutzer),(b:Kategorie) WHERE a.benutzername=$benutzername AND id(b)=$id CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
                 var params2={benutzername: name, id: this.items[i].id}
-                await cypher(query2,params2,cb2)
+                cypher(query2,params2,cb2)
             }.bind(this)
 
             var cb2= async function(err,data) 
@@ -126,7 +127,7 @@ export default {
 
             }.bind(this)
 
-            await cypher(query,params,cb)
+             cypher(query,params,cb)
 
         },
         removeItemView(item){
@@ -149,7 +150,7 @@ export default {
             }
             })
         },
-        async removeItem(value) {
+        removeItem(value) {
              //this.rmvBtnClicked = false;
             var name;
                 if(this.name2 === undefined)
@@ -159,7 +160,7 @@ export default {
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             async function cypher(query,params,cb) {
-                await r.post({uri:txUrl,
+                r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
@@ -170,7 +171,6 @@ export default {
             this.items.splice(index,1)
             var cb2=async function(err,data) 
             {
-                console.log("-------------------")
                 //console.log(data)
                 data;
                 //setTimeout(this.setBtn, 1000);
@@ -182,14 +182,13 @@ export default {
 
             var cb=async function(err,data) 
             {
-                console.log("-------------------")
                 console.log(data)
                 var query2="MATCH (k:Kategorie) WHERE id(k)=$id CALL apoc.path.subgraphNodes(k, {}) YIELD node DETACH DELETE node"
                 var params2={id:idIndex}
-                await cypher(query2,params2,cb2)
+                cypher(query2,params2,cb2)
                 
             }.bind(this)
-            await cypher(query,params,cb);
+            cypher(query,params,cb);
 
         },
         setBtn() {

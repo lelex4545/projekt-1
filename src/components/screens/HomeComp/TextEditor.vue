@@ -20,6 +20,7 @@
 </template>
 <script>
 import Vue from "vue";
+//import $ from 'jquery';
 //import EventBus from '@/event-bus'
 import {RichTextEditor, RichTextEditorPlugin, Toolbar, HtmlEditor, Link, Image, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor" ;
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -89,10 +90,33 @@ export default {
                     
                     this.textExist=true; //Keine endgültige Lösung
                 }
-
+                var tmp = JSON.parse(data.results[0].data[0].row[0].deleteLinks)
+                this.$nextTick(function(){
+                if(tmp !== []){
+                    for(var i = 0; i<tmp.length; i++){
+                        for(var j = 0; j<this.elementArray.length; j++){
+                            if(tmp[i]===this.elementArray[j].knotenName){
+                                     this.deleteLink(this.elementArray[j].id)
+                            }
+                        }
+                    }
+                }
+                tmp = [];
+                var query2="MATCH (a:Netz)-[r:besitzt]->(b:Text) WHERE id(a)=$id AND b.knotenId=$id2 SET b.deleteLinks=$empty RETURN b"
+                var params2={id: this.$route.query.netzId, id2: this.knotenId, empty: JSON.stringify(tmp)}
+                cypher(query2,params2,cb2)
+                })
+            }.bind(this)
+             var cb2 = async function(err,data) 
+            {
+                data //Fehlermeldung vermeiden
             }.bind(this)
 
             cypher(query,params,cb)
+
+           /* $("html").on("keypress", function () {
+                        alert("Element was removed");
+                    })*/ //Siehe Readonly
             
     },
     watch: {
@@ -145,6 +169,9 @@ export default {
             var span = document.createElement("span");
             span.setAttribute("id", this.elementArray.length);
             span.setAttribute("style", "background-color: yellowgreen; border-radius: 0.3em; cursor: pointer;");
+            span.setAttribute("contenteditable", "false");
+            span.setAttribute("unselectable", "off");
+            span.setAttribute("onkeyup", "");
             //---------------------------------------------------------------------------
             let htmlStr = ""
             if(this.$route.query.existingNodes){
@@ -198,8 +225,10 @@ export default {
                         }
                     //}
                     document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('mousedown',this.changeEditor)
+
                     var connectorKnoten = {knoten1: this.knotenName, knoten2: value}
-                    this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
+                    //this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
+                    this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
                     //this.$nextTick(() => EventBus.$emit('sendConnection', connectorKnoten));
                     this.puffer.push(connectorKnoten);
                     
@@ -267,11 +296,24 @@ export default {
                         }
                         this.elementArray.splice(j,1)
                         }
-                        //this.saveEditor()//warum speichert er nicht?
+                        this.saveEditor()
                 }
                 
             }
             
+        },
+        deleteLink(value){
+            for(var j = 0; j<this.elementArray.length; j++){
+                    if(value == this.elementArray[j].id){
+                        var span;
+                        span = document.getElementById(this.elementArray[j].id)
+                        var pa=span.parentNode;
+                        while(span.firstChild) pa.insertBefore(span.firstChild, span);
+                        pa.removeChild(span);
+                         this.elementArray.splice(j,1)
+                        }
+                        this.saveEditor()
+                }
         },
         backEditor() {
             this.historyArray.pop()
@@ -282,14 +324,11 @@ export default {
             console.log(this.htmlString)
            
         },
-        deleteLink(){
-            alert("löschen")
-        },
-        async saveEditor() {
+        saveEditor() {
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             async function cypher(query,params,cb) {
-                await r.post({uri:txUrl,
+                r.post({uri:txUrl,
                 json:{statements:[{statement:query,parameters:params}]}},
                 function(err,res) { cb(err,res.body)})
                 }
@@ -301,10 +340,14 @@ export default {
 
                 var query="MATCH (n:Netz)-[r:besitzt]->(m:Text) WHERE id(n)=$id AND m.knotenId=$knoten SET m +={ array:$array, htmlString:$htmlString} RETURN m"
                 
-                this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;  
+                //this.$nextTick(function() {
+                    //this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
+                    //this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
+                    //console.log(document.getElementById("html_rte-edit-view").innerHTML)
+                //})
+                this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
                 console.log(this.htmlString)
-                
-                await this.$nextTick()
+                this.$nextTick()
                 var params={id: this.$route.query.netzId, knoten: this.knotenName, array: JSON.stringify(this.elementArray), htmlString: this.htmlString}
                 cypher(query,params,cb);
             
