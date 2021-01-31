@@ -8,13 +8,17 @@
             <span id="answerH" class="unmarkable">Antwort</span>
             <div id="answerB">
                 <span :class="{'blur-content': blury, 'unmarkable': blury}">{{answerContent}}</span>
-                <transition name="h1-fade"><h1 v-if="blury" class="unmarkable" @click="blury=!blury">Click or press Space to reveal</h1></transition>
+                <transition name="h1-fade">
+                    <h1 v-if="blury" class="unmarkable" @click="blury=!blury">
+                        Click or press Space to reveal
+                    </h1>
+                </transition>
             </div>
         </div>
         <div id="buttonBox" class="unmarkable">
             <button id="btnE" @click="easyEvent">Easy ({{calculatePlaceholder(5)}} Days)</button>
             <button id="btnN" @click="normalEvent">Normal ({{calculatePlaceholder(3)}} Days)</button>
-            <button id="btnH" @click="hardEvent">Hard ({{calculatePlaceholder(0)}} Days)</button>
+            <button id="btnH" @click="hardEvent">Hard ({{calculatePlaceholder(1)}} Days)</button>
         </div>
     </div>
 </template>
@@ -29,12 +33,10 @@ export default {
         answerContent: '',
 
         //SM2-Algorithmus Implementierung
-        repetitions: 0,     //Wiederholungen                                    //0 Standardwert
-        easiness: 2.5,      //Je einfacher, desto seltener kommt eine Frage     //2.5 Standardwert
-        interval: 1,        //Anzahl der Tage, bis eine neue Karte erscheint    //1 Standardwert
+        repetitions: 0,     
+        easiness: 2.5,      
+        interval: 0,        
         nextDate : null
-        //quality: 0,                       Schwierigkeit der Frage
-        //nextPracticeTimeMsDay: Date       Der Tag, an welchem die Karte erneut gezeigt werden soll
     }),
     mounted(){
         this.questionContent = this.item.question
@@ -57,7 +59,7 @@ export default {
         },
         easyEvent() {
             //this.$emit("nextCardEvent")
-            this.calculateSuperMemo2Algorithm(4)
+            this.calculateSuperMemo2Algorithm(5)
         },
         normalEvent() {
             //this.$emit("nextCardEvent")
@@ -69,10 +71,50 @@ export default {
         },
         calculateSuperMemo2Algorithm(quality){
             if(quality < 0 || quality > 5){
-                //Der Schwierigkeitswert darf nicht diesen Intervall über-/unterschreiten. Wenn ja, dann Exception
                 quality = 0;
             }
+            if(quality >= 3) {
+                if(this.repetitions==0) this.interval = 1;
+                else if (this.repetitions==1) this.interval = 6;
+                else if (this.repetitions>1) this.interval = Math.round(this.interval * this.easiness)
+                this.repetitions = this.repetitions + 1
+                this.easiness = Math.max(1.3, this.easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
+            }else if(quality < 3){
+                this.repetitions = 0
+                this.interval = 1
+            }
 
+            var tageInMillisekunden = 60 * 60 * 24 * 1000
+            var nextPracticeTimeMs
+            if(this.nextDate === null)
+            {
+                var time = new Date().getTime()
+                nextPracticeTimeMs = time + tageInMillisekunden * this.interval
+                this.nextDate = new Date(nextPracticeTimeMs)
+            } 
+            else{
+                nextPracticeTimeMs = this.nextDate.getTime() + tageInMillisekunden * this.interval
+                this.nextDate = new Date(nextPracticeTimeMs)
+            }
+            this.$emit("nextCardEvent", this.item.id, this.repetitions, this.easiness, this.interval, this.nextDate)
+        },
+        calculatePlaceholder(quality){
+            var intv
+            if(quality >= 3) {
+                if(this.repetitions==0) intv = 1;
+                else if (this.repetitions==1) intv = 6;
+                else intv = Math.round(this.interval * this.easiness)
+            }else if(quality < 3){
+                intv = 1
+            }
+            return intv
+        },
+        /*
+        calculateSuperMemo2Algorithm(quality){
+            if(quality < 0 || quality > 5){
+                quality = 0;
+            }
+            
             //Easiness factor berechnen
             this.easiness = Math.max(1.3, this.easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
             //Wiederholungen berechnen
@@ -86,11 +128,11 @@ export default {
 
             //Nächsten Tag berechnen
             var tageInMillisekunden = 60 * 60 * 24 * 1000
-            /*
-            var time = new Date().getTime()
-            var nextPracticeDate = time + tageInMillisekunden * this.interval
-            this.nextDate = new Date(nextPracticeDate)
-            */
+            
+            //var time = new Date().getTime()
+            //var nextPracticeDate = time + tageInMillisekunden * this.interval
+            //this.nextDate = new Date(nextPracticeDate)
+            
             //TEST, OB DIE TAGE GEZÄHLT WERDEN
             var nextPracticeTimeMs
             if(this.nextDate === null)
@@ -103,9 +145,11 @@ export default {
                 nextPracticeTimeMs = this.nextDate.getTime() + tageInMillisekunden * this.interval
                 this.nextDate = new Date(nextPracticeTimeMs)
             }
-            console.log("test")
+            console.log(this.nextDate)
             this.$emit("nextCardEvent", this.item.id, this.repetitions, this.easiness, this.interval, this.nextDate)
         },
+        */
+        /*
         calculatePlaceholder(quality){
             var ease = this.easiness
             ease = Math.max(1.3, ease + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
@@ -119,9 +163,9 @@ export default {
             if(rep <= 1) intv = 1
             else if(rep == 2) intv = 6
             else intv = Math.round(intv * ease)
-            
             return intv
         },
+        */
     }
 }
 </script>
@@ -226,7 +270,6 @@ export default {
   opacity: 0;
 }
 
-
 #buttonBox{
     flex: 1 0;
     
@@ -282,11 +325,4 @@ export default {
   -ms-user-select: none;
   user-select: none;
 }
-/*
-@media only screen and (max-width: 900px) {
-  #quizContainer{
-      font-size: 0.5em;
-  }
-}
-*/
 </style>

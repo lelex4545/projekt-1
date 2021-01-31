@@ -1,5 +1,5 @@
 <template>
-  <div id="container" class="conDesign" ref="draggableContainer" @mousedown="dragMouseDown">
+  <div id="container" class="conDesign" ref="draggableContainer" @mousedown.left="dragMouseDown">
     <p id="anmText">Anmelden</p>
     <p id="p1">Name</p>
     <p id="p2">Passwort</p>
@@ -59,8 +59,6 @@ export default {
       window.addEventListener('resize', this.stayOnScreenRight);
       window.addEventListener('resize', this.stayOnScreenBottom);
     })
-
-    this.movementX 
   },
   methods: {
     accEvent() {
