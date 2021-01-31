@@ -1,8 +1,8 @@
 <template>
     <div id="editContainer">
         <header-net id="head"/>
-        <navigation-center id="navCenter"/>
-        <text-editor id="textEditor" :knotenId="knotenId"/>
+        <navigation-center id="navCenter"  @sendLinkEvent="sendLinkEvent" @sendSaveEvent="sendSaveEvent" @sendBackEvent="sendBackEvent" :knotenId="knotenId"/>
+        <text-editor id="textEditor" ref="childComponent" :knotenId="knotenId"/>
     </div>
 </template>
 
@@ -16,6 +16,17 @@ export default {
         TextEditor, 
         NavigationCenter, 
         HeaderNet 
+    },
+    methods:{
+        sendLinkEvent(){
+            this.$refs.childComponent.linkEvent();
+        },
+        sendSaveEvent(){
+            this.$refs.childComponent.saveEditor();
+        },
+        sendBackEvent(){
+            this.$refs.childComponent.backEditor();
+        }
     },
     props:['knotenId']
     
@@ -70,5 +81,6 @@ export default {
     padding-top: 2em;
     z-index: 1; 
     background-color: whitesmoke;
+    height: 100vh;
 }
 </style>

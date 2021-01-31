@@ -124,15 +124,17 @@ export default {
                 this.netzId = data.results[0].data[0].meta[0].id;
                 this.$emit('sendNetzId', this.netzId);
                 data.results[0].data[0].row[0].serialisierung
+
                 if(data.results[0].data[0].row[0].serialisierung != "")
-                diagramInstance.loadDiagram(data.results[0].data[0].row[0].serialisierung)
+                    diagramInstance.loadDiagram(data.results[0].data[0].row[0].serialisierung)
+
                 if(data.results[0].data[0].row[0].puffer != ""){
                     var tmp = JSON.parse(data.results[0].data[0].row[0].puffer);
                     this.puffer = tmp;
                     console.log(this.puffer)
                     for(var i = 0;i<this.puffer.length;i++) {
                         this.connectors = {id: `${this.puffer[i].knoten1}_${this.puffer[i].knoten2}`,sourceID: this.puffer[i].knoten1,targetID: this.puffer[i].knoten2,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#7CDE7A', fill: '#7CDE7A', strokeWidth: 2}, }
-                        diagramInstance.add(this.connectors)
+                        diagramInstance.add(this.connectors)     //Link Connector hinzufügen
                     }
                     this.saveInstance();
                 }
@@ -153,7 +155,7 @@ export default {
                 var params2={id: this.item.id}
                 cypher(query2,params2,cb2)
             }.bind(this)
-            var cb2=function(err,data) 
+                var cb2=function(err,data) 
             {
                 data;
             }.bind(this)
@@ -208,11 +210,11 @@ export default {
 
             //--------------------------------------Connector
 
-            for(var j = 0; j < this.connectorNodes.length; j++){
+            /*for(var j = 0; j < this.connectorNodes.length; j++){
                 var targetid = this.connectorNodes[j].substring(0, this.connectorNodes[j].length-1);
                 this.connectors = {id: `${this.knotenName} ${j}`,sourceID: this.knotenName,targetID: targetid,targetDecorator: {shape: 'Custom'}, constraints: ConnectorConstraints.Default & ~ConnectorConstraints.Select, style: {strokeColor: '#6BA5D7', fill: '#6BA5D7', strokeWidth: 2}, }             
                 diagramInstance.add(this.connectors)
-            }
+            }*/
             //  Datenbankanbindung/Serialisierung
             serialisierung = diagramInstance.saveDiagram();
             var query="MATCH(k:Wissensnetz)-[r:beinhaltet]->(n:Netz) WHERE id(k)=$id SET n.serialisierung=$serialisierung RETURN n"
@@ -269,8 +271,9 @@ export default {
             let diagramInstance;
             let diagramObj = document.getElementById("diagram");
             diagramInstance = diagramObj.ej2_instances[0];
-            // Adds to the Diagram
+            // Removes from the Diagram
             diagramInstance.remove(node);
+            // removes associated Connectors
             diagramInstance.connectors.forEach(function(element){
                 if(element.sourceID == node.id || element.targetID == node.id){
                     diagramInstance.remove(element);
@@ -376,7 +379,6 @@ export default {
     @import "../../../../node_modules/@syncfusion/ej2-vue-diagrams/styles/material.css";
 
     #diagram{
-        position: relative;
         z-index: 0;
     }
 

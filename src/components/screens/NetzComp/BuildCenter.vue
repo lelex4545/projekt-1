@@ -2,7 +2,7 @@
     <div id="buildCenter" class="containerDesignHome">
         
         <button @click="createNode">Erstellen</button><br>
-        <button @click="startAnki">Anki starten</button>
+        <button @click="startAnki">Lernmodus</button>
     </div>
 </template>
 
@@ -27,11 +27,36 @@ export default {
             this.$cookies.set("netzId", this.netzId, "expiring time");
             this.$router.push({ name: 'LearningScreen', params: {netzId: this.netzId}})
         },
-        createNode(){
+        createNode(){ 
+            //---------------------------------------------------------------------------------------
+            this.$swal.fire({
+                title: 'Name',
+                input: 'text',
+                showCancelButton: true,
+            }).then((result) => {
+                var check = 1
+                if (result.value != null) {
+                    //alert(result.value[0])
+                    this.knotenName = result.value;
+                    this.existingNodes.forEach((elem) => {
+                        if(elem.annotations[0].content.toUpperCase() == this.knotenName.toUpperCase()){
+                            alert(this.knotenName + " existiert bereits")
+                            this.createNode();
+                            check = 0
+                        }
+                    });
 
+                    if(check){
+                        this.$emit('sendNode',this.knotenName);
+                    }
+                }
+            })
+            //--------------------------------------------------------------------------------------- Verbindungen erstellen
             //erstelle checkbox Liste mit allen vorhandenen Knoten:
+            /* 
             let htmlStr = ""
-            this.existingNodes.forEach(function(element){
+            this.existingNodes.forEach(function(element){ 
+            */
                 /*htmlStr +=  `
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" value="" name="node" id="${element.id}">
@@ -40,6 +65,7 @@ export default {
                                 </label>
                             </div>
                             `*/
+            /*    
                 htmlStr +=  `<input class="form-check-input" type="checkbox" value="" name="node" id="${element.id}1">${element.annotations[0].content} \n`;
             });
 
@@ -49,7 +75,6 @@ export default {
             const wrapper = document.createElement('div');
             wrapper.innerHTML = htmlStr;
 
-            //---------------------------------------------------------------------------------------
             this.$swal.mixin({                
                 showCancelButton: true,
                 progressSteps: ['1', '2']
@@ -95,7 +120,7 @@ export default {
                         this.$emit('sendNode',this.knotenName);
                     }
                 }
-            })
+            })*/
             
         },
     },
@@ -119,45 +144,5 @@ export default {
     width: 283px;
     z-index: 10;
 }
-
-#profil{
-    display: flex;
-    background-color: $div_color;
-    width: 250px;
-    height: 7em;
-    box-shadow: 1px 1px 2px rgb(126, 126, 126);
-    border-radius: 1em;
-
-    justify-content: center;
-    align-items: center;
-    flex-flow: column;
-
-    &:hover {
-        color: $hover_color_change;
-        cursor: pointer;
-    }
-}
-
-#profilBild{
-    width: 4em;
-    height: 4em;
-   
-    transition: font-size 0.8s;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#pb{
-    width: 100%;
-    border-radius: 5em;
-    height: auto;
-}
-
-#name{
-    margin: .5em;
-}
-
 
 </style>

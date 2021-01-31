@@ -1,18 +1,15 @@
 <template>
     <div>
-        <button id="linkButton" @click="linkEvent">Link</button>
+        <!--<button id="linkButton" @click="linkEvent">Link</button>
         <button id="linkButton" @click="saveEditor">Save</button>
         <button id="linkButton" @click="backEditor">Zurück</button>
-        <button id="linkButton">{{knotenName}}</button>
+        <button id="linkButton">{{knotenName}}</button>-->
         <div class="control-section">
             <div class="sample-container">
                 <div class="default-section">
-                <ejs-richtexteditor id="html" ref="rteObj" v-model="htmlString" v-bind:value="htmlString" 
-                    :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings"
-
-                    >
-
-                </ejs-richtexteditor>
+                    <ejs-richtexteditor id="html" ref="rteObj" v-model="htmlString" v-bind:value="htmlString" 
+                        :height="height" :toolbarSettings="toolbarSettings" :insertImageSettings="insertImageSettings">
+                    </ejs-richtexteditor>
                 </div>
             </div>
         </div>

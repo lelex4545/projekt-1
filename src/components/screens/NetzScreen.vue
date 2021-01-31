@@ -2,7 +2,7 @@
     <div id="netContainer">
         <header-net id="head"/>
         <build-center id="control" @sendNode="sendNode" @sendConnectorNodes="sendConnectorNodes" :existingNodes="existingNodes" :netzId="netzId"/>
-        <vuescroll :ops="ops">
+        <vuescroll id="scroll-area" :ops="ops">
             <netz id="net" :gridItem="item" :knotenName="knotenName" :connectorNodes="connectorNodes" @sendExistingNodes="sendExistingNodes" @sendNetzId="catchNetzId"/>
         </vuescroll>
     </div>
@@ -30,6 +30,7 @@
                 bar: {
                     size: '10px',
                     background: '#c1c1c1',
+                    keepShow: true,
                 }
             }
         }),
@@ -56,7 +57,7 @@
             }
         },
         mounted(){
-            document.documentElement.style.overflow = 'hidden'
+            //document.documentElement.style.overflow = 'hidden'
             //alert(this.item.titel)
         }
     }
@@ -107,11 +108,18 @@
         background-color: whitesmoke;
     }
 
-    .scroll-area {
-        grid-area: net;
-        position: relative;
+    #scroll-area {
+        position: fixed;
+        /*grid-area: net;
+        
         margin: auto;
         width: 100%;  
-        height: 100%; 
+        height: 100%; */
     }
+
+    #net{
+        grid-area: net;
+        //position: fixed;
+    }
+
 </style>
