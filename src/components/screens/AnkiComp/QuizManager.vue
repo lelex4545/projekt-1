@@ -119,10 +119,4 @@ export default {
     margin-top: 1em;
     margin-bottom: 1em;
 }
-#editBtn{
-    
-}
-#deleteBtn{
-
-}
 </style>

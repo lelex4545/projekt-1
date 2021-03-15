@@ -37,7 +37,6 @@
 import CreateQuiz from './AnkiComp/CreateQuiz.vue';
 import Quiz from './AnkiComp/Quiz.vue';
 import QuizManager from './AnkiComp/QuizManager.vue';
-//import QuizStats from './AnkiComp/QuizStats.vue';
 
 import Vue from 'vue'
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -46,7 +45,7 @@ Vue.use(VueSweetalert2);
 
 export default {
   name: 'AnkiScreen',
-  components: { Quiz, CreateQuiz, QuizManager, /*QuizStats*/ },
+  components: { Quiz, CreateQuiz, QuizManager},
   data: () => ({
     cards: [],
     netzId: -1,
@@ -88,7 +87,7 @@ export default {
     changeCard: function(id, repetitions, easiness, interval, nextDate){
       //Update Card Arraydata
       this.cards.find(e => {
-        if(e.id === id){ // && (e.nextDate==null || this.checkIfSameDay(e.nextDate))){
+        if(e.id === id){ 
           e.repetitions = repetitions
           e.easiness = easiness
           e.interval = interval

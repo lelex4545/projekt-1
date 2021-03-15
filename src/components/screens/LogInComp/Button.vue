@@ -1,6 +1,5 @@
 <template>
   <a :href="url" class="button">{{name}}</a>
-  <!--<button class="button">{{name}}</button>-->
 </template>
 
 <script>
