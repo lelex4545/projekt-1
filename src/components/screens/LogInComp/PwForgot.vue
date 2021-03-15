@@ -28,10 +28,8 @@ export default {
   }),
   mounted(){
     /*
-    this.$nextTick(function() {
-      window.addEventListener('resize', this.stayOnScreenRight);
-      window.addEventListener('resize', this.stayOnScreenBottom);
-    })
+    window.addEventListener('resize', this.stayOnScreenRight2);
+    window.addEventListener('resize', this.stayOnScreenBottom2);
     */
   },
   methods: {
@@ -69,11 +67,11 @@ export default {
       document.onmouseup = null
       document.onmousemove = null
     },
-    stayOnScreenRight() {
+    stayOnScreenRight2() {
         if((this.$refs.draggablePW.offsetLeft + document.getElementById('pwScreen').offsetWidth - this.positions.movementX)>window.innerWidth) 
           this.$refs.draggablePW.style.left = window.innerWidth - document.getElementById('pwScreen').offsetWidth - 1 + 'px'
 		},
-		stayOnScreenBottom() {
+		stayOnScreenBottom2() {
         if((this.$refs.draggablePW.offsetTop + document.getElementById('pwScreen').offsetHeight - this.positions.movementY)>window.innerHeight) 
           this.$refs.draggablePW.style.top = window.innerHeight - document.getElementById('pwScreen').offsetHeight - 1 + 'px'
     },

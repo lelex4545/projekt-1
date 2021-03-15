@@ -42,10 +42,8 @@ export default {
   }),
   mounted(){
     /*
-    this.$nextTick(function() {
-      window.addEventListener('resize', this.stayOnScreenRight);
-      window.addEventListener('resize', this.stayOnScreenBottom);
-    })
+    window.addEventListener('resize', this.stayOnScreenRight);
+    window.addEventListener('resize', this.stayOnScreenBottom);
     */
   },
   methods: {

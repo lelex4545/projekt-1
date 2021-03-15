@@ -56,6 +56,7 @@ export default {
     editing: false
   }),
   mounted(){
+    //Datenbankanbindung
     var r=require("request");
                 var txUrl = "http://localhost:7474/db/data/transaction/commit";
                 function cypher(query,params,cb) {
@@ -84,6 +85,7 @@ export default {
     }
   },
   methods: {
+    //Methode zum ändern der Karten
     changeCard: function(id, repetitions, easiness, interval, nextDate){
       //Update Card Arraydata
       this.cards.find(e => {
@@ -97,16 +99,20 @@ export default {
       //Change Card
       this.index = this.index < this.cards.length-1 ? this.index + 1 : 0;
     },
+    /*
     checkIfSameDay: function(e){
       var today = new Date()
       return  e.getFullYear()  === today.getFullYear() &&
               (e.getMonth()+1) === (today.getMonth()+1) &&
               e.getDate()      === today.getDate()
     },
+    */
+   //Erstellen
     createCard: function(question, answer){
       this.cards.push({id: this.cards.length === 0 ? 0 : (this.cards[this.cards.length-1].id + 1), question: question, answer: answer, repetitions: 0, easiness: 2.5, interval: 1, nextDate : null})
       this.saveCards()
     },
+    //Speichern
     saveEdit: function(id, question, answer) {
       this.cards.findIndex(e => {
         if(e.id === id){
@@ -116,6 +122,7 @@ export default {
       })
       this.saveCards()
     },
+    //Löschen
     deleteEvent: function (id) {
       var pos = this.cards.findIndex(e => e.id === id)
       this.cards.splice(pos,1)
@@ -124,17 +131,19 @@ export default {
       }
       this.saveCards()
     },
+    //Lernen
     learningEvent: function() {
       if(this.cardsAvailable){
         this.learning=!this.learning; this.createEvent=false; this.editing=false; this.stats=false;
-
       }else this.$swal('Keine Lernkarten vorhanden')
     },
+    //Bearbeiten
     editEvent: function() {
       if(this.cardsAvailable){
         this.editing=!this.editing; this.createEvent=false; this.learning=false; this.stats=false
       }else this.$swal('Keine Lernkarten vorhanden')
     },
+    //Speichern
     saveCards(){
       var r=require("request");
         var txUrl = "http://localhost:7474/db/data/transaction/commit";

@@ -3,7 +3,6 @@
       <button v-if="addBtn" id="btnAdd3" @click="addItemView">Add Item</button>
       <SlickList id="slickContainer" axis="xy" v-model="items">
         <SlickItem id="slickItem" v-for="(item, index) in items" :index="index" :key="index">
-            <!-- @mouseup="openNetz(item)" @contextmenu.prevent="removeItemView(item)" -->
             {{item.titel}}
             <span>
                 <button @click="openNetz(item)">Enter</button>

@@ -149,7 +149,6 @@ export default {
             })
         },
         removeItem(value) {
-             //this.rmvBtnClicked = false;
             var name;
                 if(this.name2 === undefined)
                     name=this.$cookies.get("benutzername")
@@ -169,9 +168,7 @@ export default {
             this.items.splice(index,1)
             var cb2=async function(err,data) 
             {
-                //console.log(data)
                 data;
-                //setTimeout(this.setBtn, 1000);
                 if(this.items.length!=0)
                     this.$emit('aktKategorie',this.items[0]);
                 else

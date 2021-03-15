@@ -33,10 +33,10 @@ export default {
         answerContent: '',
 
         //SM2-Algorithmus Implementierung
-        repetitions: 0,     
-        easiness: 2.5,      
-        interval: 0,        
-        nextDate : null
+        repetitions: 0,     //Die Anzahl, wie oft die Karte "erfolgreich" gelernt wurde
+        easiness: 2.5,      //Der Faktor, welches den Schwierigkeitsgrad abbildet
+        interval: 0,        //Anzahl der Tage, wann eine Karte erneut angezeigt werden soll
+        nextDate : null     //Datum des nächsten Tages
     }),
     mounted(){
         this.questionContent = this.item.question
@@ -67,40 +67,61 @@ export default {
             this.calculateSuperMemo2Algorithm(1)
         },
         calculateSuperMemo2Algorithm(quality){
+            //Die quality gibt den Lernerfolg wieder und wird durch die Tasten "easy", "normal" und "hard" bestimmt
             if(quality < 0 || quality > 5){
                 quality = 0;
             }
-            if(quality >= 3) {
+            if(quality >= 3) {  //Wenn der Lernerfolg gut war
                 if(this.repetitions==0) this.interval = 1;
-                else if (this.repetitions==1) this.interval = 6;
-                else if (this.repetitions>1) this.interval = Math.round(this.interval * this.easiness)
+                else if (this.repetitions==1){
+                    if(quality>=4) this.interval = 6;
+                    if(quality==3) this.interval = 3;
+                } 
+                else if (this.repetitions>1) {
+                    if(quality>=4) this.interval = Math.round(this.interval * this.easiness)
+                    if(quality==3) {
+                        this.interval = Math.round((this.interval - 1) * this.easiness)
+                        if(this.interval==0) this.interval = 1;
+                    }
+                    if(this.interval > 365) this.interval = 365
+                }
                 this.repetitions = this.repetitions + 1
-                this.easiness = Math.max(1.3, this.easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
+                this.easiness = Math.max(1.3, this.easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02)) //Formel zur berechnung des Easiness Faktors
             }else if(quality < 3){
                 this.repetitions = 0
                 this.interval = 1
             }
-
+            //Berechne den nächsten Tag zum lernen
             var tageInMillisekunden = 60 * 60 * 24 * 1000
             var nextPracticeTimeMs
-            if(this.nextDate === null)
+            if(this.nextDate === null)  //Beim ersten Lernen
             {
                 var time = new Date().getTime()
                 nextPracticeTimeMs = time + tageInMillisekunden * this.interval
                 this.nextDate = new Date(nextPracticeTimeMs)
             } 
-            else{
+            else{                       //Beim erneuten Lernen
                 nextPracticeTimeMs = this.nextDate.getTime() + tageInMillisekunden * this.interval
                 this.nextDate = new Date(nextPracticeTimeMs)
             }
             this.$emit("nextCardEvent", this.item.id, this.repetitions, this.easiness, this.interval, this.nextDate)
         },
-        calculatePlaceholder(quality){
+        calculatePlaceholder(quality){  //Berechnet und zeigt beim lernen an, nach wie vielen Tagen eine Karte erneut angezeigt wird
             var intv
             if(quality >= 3) {
                 if(this.repetitions==0) intv = 1;
-                else if (this.repetitions==1) intv = 6;
-                else intv = Math.round(this.interval * this.easiness)
+                else if (this.repetitions==1){
+                    if(quality>=4) intv = 6;
+                    if(quality==3) intv = 3;
+                }
+                else {
+                    if(quality>=4) intv = Math.round(this.interval * this.easiness)
+                    if(quality==3) {
+                        intv = Math.round((this.interval - 1) * this.easiness)
+                        if(intv==0) intv = 1;
+                    }
+                    if(intv > 365) intv = 365
+                }
             }else if(quality < 3){
                 intv = 1
             }

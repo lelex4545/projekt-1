@@ -28,6 +28,7 @@ export default {
         },
     },
     methods: {
+        //Methode wo die Eingabefelder geleert werden
         resetEvent: function(){
           if(!this.empty)
             this.$swal.fire({
@@ -51,6 +52,7 @@ export default {
                 }
             })
         },
+        //Methode zum erstellen einer Karte
         createMethod: function() {
             if(this.question !== "" && this.answer !== ""){
                 this.$emit('createCardEvent',this.question,this.answer)

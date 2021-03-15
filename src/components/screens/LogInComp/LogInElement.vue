@@ -60,6 +60,10 @@ export default {
       window.addEventListener('resize', this.stayOnScreenBottom);
     })
   },
+  unmounted(){
+    window.removeEventListener('resize', this.stayOnScreenRight)
+    window.removeEventListener('resize', this.stayOnScreenBottom)
+  },
   methods: {
     accEvent() {
         this.$emit('accEvent', this.item)
