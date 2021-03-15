@@ -15,6 +15,7 @@
 
 <script>
 import Vue from 'vue'
+import $ from 'jquery'
 import { DiagramPlugin, ConnectorConstraints, SelectorConstraints} from '@syncfusion/ej2-vue-diagrams';
 Vue.use(DiagramPlugin);
 
@@ -157,6 +158,9 @@ export default {
             }.bind(this)
                 var cb2=function(err,data) 
             {
+                diagramInstance.connectors.forEach(function(element){
+                    console.log(element)
+                });
                 data;
             }.bind(this)
             this.item =this.$cookies.get("item");
@@ -234,8 +238,8 @@ export default {
             var tmp2D = [];
             var cb=function(err,data) 
             {
-                data;
-                for(var i = 0; i < data.results[0].data.length; i++){
+                console.log(data);
+                /*for(var i = 0; i < data.results[0].data.length; i++){
                     var knotenName = data.results[0].data[i].row[0].knotenId;
                     if(data.results[0].data[i].row[0].deleteLinks === ''){
                         tmp2D[i]= {name: knotenName, array: []}
@@ -251,11 +255,52 @@ export default {
                 var query2="MATCH(n:Netz)-[r:besitzt]->(t:Text) WHERE id(n)=$id SET t.deleteLinks=$array RETURN t"
                 var params2={id: this.netzId, array: JSON.stringify(tmp2D[k].array)};
                 cypher(query2,params2,cb2)
+                }*/
+                for(var i = 0; i < data.results[0].data.length; i++){
+                    var knotenName = data.results[0].data[i].row[0].knotenId;
+                    var tmpA = [];
+                    var tmpB = "";
+                    if(JSON.parse(data.results[0].data[i].row[0].array !== ""))
+                        tmpA = JSON.parse(data.results[0].data[i].row[0].array);
+                    console.log(data.results[0].data[i].row[0].htmlString)
+                    if(JSON.parse(data.results[0].data[i].row[0].htmlString !== ""))
+                        tmpB = data.results[0].data[i].row[0].htmlString;
+
+                    tmp2D[i] = {name: knotenName, array: tmpA, htmlString: tmpB}
+                }
+                for(var j = 0; j < tmp2D.length; j++){
+                    var array = tmp2D[j].array;
+                    var htmlString = tmp2D[j].htmlString;
+                    var deleteIndex = [];
+                    for(var k = 0; k<array.length; k++){
+                        if(array[k].knotenName === node.id){
+                            deleteIndex.push(k) //muss array ändern
+                            var element = $('<div></div>').html(htmlString);
+                            console.log(element.html())
+                            element.find("#"+array[k].id).contents().unwrap();
+                            console.log(element.html())
+                            htmlString = element.html()
+                            console.log(htmlString)
+                            tmp2D[j].htmlString = htmlString;
+                        }
+                    }
+                    console.log(array)
+                    for(var l = deleteIndex.length-1; l>=0;l--){
+                        array.splice(deleteIndex[l],1)
+                    }
+                    //console.log(array)
+                    tmp2D[j].array = array
+                }
+
+                for(var x = 0; x < tmp2D.length; x++){
+                var query2="MATCH(n:Netz)-[r:besitzt]->(t:Text) WHERE id(n)=$id AND t.knotenId=$id2 SET t.array=$array, t.htmlString=$htmlString RETURN t"
+                var params2={id: this.netzId, id2: tmp2D[x].name, array: JSON.stringify(tmp2D[x].array), htmlString: tmp2D[x].htmlString};
+                cypher(query2,params2,cb2)
                 }
             }.bind(this)
             var cb2=function(err,data) 
             {
-                data
+                console.log(data)
             }.bind(this)
             var cb3=function(err,data) 
             {
@@ -271,14 +316,22 @@ export default {
             let diagramInstance;
             let diagramObj = document.getElementById("diagram");
             diagramInstance = diagramObj.ej2_instances[0];
-            // Removes from the Diagram
-            diagramInstance.remove(node);
+            diagramInstance.connectors.forEach(function(element){
+                    console.log(element)
+                });
             // removes associated Connectors
+            
             diagramInstance.connectors.forEach(function(element){
                 if(element.sourceID == node.id || element.targetID == node.id){
                     diagramInstance.remove(element);
                 }
             });
+            diagramInstance.connectors.forEach(function(element){
+                    console.log(element)
+                });
+            // Removes from the Diagram
+            diagramInstance.remove(node);
+
             this.saveInstance();
             var query="MATCH(n:Netz)-[r:besitzt]->(t:Text) WHERE id(n)=$id RETURN t"
             var params={id: this.netzId};

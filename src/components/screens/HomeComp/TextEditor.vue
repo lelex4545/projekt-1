@@ -26,8 +26,6 @@ Vue.use(VueSweetalert2);
 Vue.use(RichTextEditorPlugin);
 RichTextEditor.Inject(Link, Image, QuickToolbar);
 
-
-
 export default {
      data: function() {
         return {
@@ -87,7 +85,7 @@ export default {
                     
                     this.textExist=true; //Keine endgültige Lösung
                 }
-                var tmp = JSON.parse(data.results[0].data[0].row[0].deleteLinks)
+                /*var tmp = JSON.parse(data.results[0].data[0].row[0].deleteLinks)
                 this.$nextTick(function(){
                 if(tmp !== []){
                     for(var i = 0; i<tmp.length; i++){
@@ -98,16 +96,17 @@ export default {
                         }
                     }
                 }
+
                 tmp = [];
                 var query2="MATCH (a:Netz)-[r:besitzt]->(b:Text) WHERE id(a)=$id AND b.knotenId=$id2 SET b.deleteLinks=$empty RETURN b"
                 var params2={id: this.$route.query.netzId, id2: this.knotenId, empty: JSON.stringify(tmp)}
                 cypher(query2,params2,cb2)
-                })
+                })*/
             }.bind(this)
-             var cb2 = async function(err,data) 
+            /*var cb2 = async function(err,data) 
             {
                 data //Fehlermeldung vermeiden
-            }.bind(this)
+            }.bind(this)*/
 
             cypher(query,params,cb)
 
@@ -208,7 +207,15 @@ export default {
                         if(unique<this.elementArray[i].id)
                             unique=this.elementArray[i].id
                     }
-                    unique++         
+                    unique++
+
+                    //Überprüfen ob Connector schon vorhanden
+                    var count = 0;
+                    for(var k = 0;k<this.elementArray.length;k++)
+                        if(this.elementArray[k].knotenName == value)
+                            count++  
+                            
+                            
                     this.elementArray.push({id: unique, knotenName: value});
                         console.log(this.elementArray[0].id)
                     //if (window.getSelection) {
@@ -224,10 +231,11 @@ export default {
                     document.getElementById(this.elementArray[this.elementArray.length-1].id).addEventListener('mousedown',this.changeEditor)
 
                     var connectorKnoten = {knoten1: this.knotenName, knoten2: value}
-                    //this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
                     this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
-                    //this.$nextTick(() => EventBus.$emit('sendConnection', connectorKnoten));
-                    this.puffer.push(connectorKnoten);
+                    
+                    // Connector noch nicht vorhanden, dann Connectorinformationen in den Puffer laden
+                    if(count == 0)
+                        this.puffer.push(connectorKnoten);
                     
 
                     var cb=function(err,data) 
@@ -307,7 +315,7 @@ export default {
                         var pa=span.parentNode;
                         while(span.firstChild) pa.insertBefore(span.firstChild, span);
                         pa.removeChild(span);
-                         this.elementArray.splice(j,1)
+                        this.elementArray.splice(j,1)
                         }
                         this.saveEditor()
                 }
@@ -342,6 +350,7 @@ export default {
                     //this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
                     //console.log(document.getElementById("html_rte-edit-view").innerHTML)
                 //})
+                this.$nextTick()
                 this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
                 console.log(this.htmlString)
                 this.$nextTick()
