@@ -58,6 +58,7 @@ export default {
         show: function(){
             console.log(this.items)
         },
+        //Menü zum Erstellen eines Items
         addItemView() {
             this.$swal.mixin({
             input: 'text',
@@ -85,7 +86,7 @@ export default {
             }
             })
         },
-        
+        //Fügt ein Element hinzu
         addItem(titel) {
             var name;
                 if(this.name2 === undefined)
@@ -109,7 +110,6 @@ export default {
             var params={titel: this.items[this.items.length-1].titel, index: this.items.length-1}
             var cb= async function(err,data) 
             {
-                //console.log(data)
                 console.log("ok")
                 this.items[i].id = data.results[0].data[0].meta[0].id;
                 var query2="MATCH (a:Benutzer),(b:Kategorie) WHERE a.benutzername=$benutzername AND id(b)=$id CREATE (a)-[r:besitzt]->(b) RETURN type(r)"
@@ -128,6 +128,7 @@ export default {
              cypher(query,params,cb)
 
         },
+        //Menü zum Löschen eines Items
         removeItemView(item){
             this.$swal.fire({
             title: 'Kategorie "'+item.titel+'" wirklich löschen ?',
@@ -148,6 +149,7 @@ export default {
             }
             })
         },
+        //Löschen eines Items
         removeItem(value) {
             var name;
                 if(this.name2 === undefined)
@@ -236,7 +238,6 @@ export default {
 <style lang="scss">
 .root{
     margin-top: 5px;
-    //background-color: #384b5e;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */

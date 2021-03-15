@@ -100,6 +100,7 @@ export default {
         show: function(){
             console.log(this.items)
         },
+        //Menü zum Erstellen eines Items
         addItemView() {
             this.$swal.mixin({
             input: 'text',
@@ -127,6 +128,7 @@ export default {
             }
             })
         },
+        //Fügt ein Element hinzu
         addItem: function(titel){
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
@@ -185,6 +187,7 @@ export default {
             }.bind(this)
             cypher(query,params,cb)
         },
+        //Menu zum Löschen eines Items
         removeItemView(item) {
             this.$swal.fire({
             title: 'Wissensnetz "'+item.titel+'" wirklich löschen ?',
@@ -205,6 +208,7 @@ export default {
             }
             })
         },
+        //Löschen eines Items
         removeItem: function(value){
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
@@ -263,7 +267,6 @@ export default {
     
         },
         openNetz: function(value){
-            //this.$emit('openNetz',value)
             this.$cookies.set("item", value, "expiring time");
             this.$router.push({ name: 'NetzScreen', params: {item: value}})
         }

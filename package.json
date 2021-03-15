@@ -21,7 +21,6 @@
     "vue-drag-resize": "^1.4.2",
     "vue-dragscroll": "^2.1.0",
     "vue-grid-layout": "^2.3.11",
-    "vue-js-grid": "github:lelex4545/vue-js-grid",
     "vue-router": "^3.2.0",
     "vue-simple-context-menu": "^3.3.2",
     "vue-slicksort": "^1.1.3",
