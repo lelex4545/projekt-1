@@ -1,5 +1,6 @@
 <template>
     <div id="profilSettings">
+
         <h2>Profile</h2>
         <hr style="margin-bottom: 1em; width: 60em;">
         <div class="ueberschrift">Profile Picture</div>
@@ -8,6 +9,7 @@
              <Button id="updatePb" class="canttouchme" name="Update Profil Picture" url @mousedown.stop />
              <p id="info">Must be JPEG, PNG, or GIF and cannot exceed 10MB.</p>
         </div>
+
         <div class="ueberschrift">Profile Settings</div>
         <div class="profilSetting" id="profilInfo">    
             <p>Username</p>
@@ -249,11 +251,6 @@ export default {
             return false;
             else
             return true;
-             /*var pw = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
-             if(pw.test(this.passwort))
-             return true;
-             else
-             return false;*/
         }
     },
     mounted: function() {
@@ -306,7 +303,6 @@ export default {
         box-shadow: 1px 1px 2px rgb(126, 126, 126);
         background-color: $home_menu_color;
         margin-bottom: 2em;
-        //margin-left: 20em;
         border-radius: 1em;
     }
 
@@ -379,10 +375,8 @@ export default {
     }
     .ueberschrift{
         display: flex;
-        //align-self: flex-start;
         margin-bottom: 0.5em;
         margin-top: 0.5em;
-        //margin-left: 21em;
     }
 
     #changePw{
