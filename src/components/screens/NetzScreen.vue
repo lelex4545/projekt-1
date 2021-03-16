@@ -11,7 +11,7 @@
 <script>
     import BuildCenter from "./NetzComp/BuildCenter";
     import HeaderNet from "./HomeComp/HeaderNet";
-    import Netz from "./HomeComp/Netz";
+    import Netz from "./NetzComp/Netz";
     import vuescroll from 'vuescroll';
 
     let existingNodes = []

@@ -9,7 +9,7 @@
 <script>
 import NavigationCenter from './EditorComp/NavigationCenter.vue'
 import HeaderNet from './HomeComp/HeaderNet.vue'
-import TextEditor from './HomeComp/TextEditor.vue'
+import TextEditor from './EditorComp/TextEditor.vue'
 
 export default {
     components: { 
