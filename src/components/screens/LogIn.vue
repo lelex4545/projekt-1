@@ -1,6 +1,7 @@
 <template>
   <div id="canttouch" 
     class="canttouchme">
+    <particles/>
     <LogInElement 
       @accEvent="pwScope = false; regScope = !regScope;"
       @pwEvent="regScope = false; pwScope = !pwScope;"
@@ -19,6 +20,7 @@
 import LogInElement from "./LogInComp/LogInElement"
 import Regist from "./LogInComp/Regist";
 import PwForgot from "./LogInComp/PwForgot";
+import particles from "./LogInComp/particles";
 
 export default {
   name: "LogIn",
@@ -26,11 +28,12 @@ export default {
     Regist,
     PwForgot,
     LogInElement,
+    particles
   },
   data: () => ({
     regScope: false,
     pwScope: false,
-  })
+  }),
 };
 </script>
 

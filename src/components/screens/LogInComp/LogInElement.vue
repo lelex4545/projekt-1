@@ -200,8 +200,8 @@ export default {
   color: #ffffff;
   display: grid;
   position: absolute;
-  left: 150px;
-  top: 50px;
+  left: 37%;
+  top: 250px;
   z-index: 2;
   grid-template-areas:
     "a a a"
