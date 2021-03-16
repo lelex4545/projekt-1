@@ -1,9 +1,5 @@
 <template>
     <div>
-        <!--<button id="linkButton" @click="linkEvent">Link</button>
-        <button id="linkButton" @click="saveEditor">Save</button>
-        <button id="linkButton" @click="backEditor">Zurück</button>
-        <button id="linkButton">{{knotenName}}</button>-->
         <div class="control-section">
             <div class="sample-container">
                 <div class="default-section">
@@ -17,8 +13,7 @@
 </template>
 <script>
 import Vue from "vue";
-//import $ from 'jquery';
-//import EventBus from '@/event-bus'
+
 import {RichTextEditor, RichTextEditorPlugin, Toolbar, HtmlEditor, Link, Image, QuickToolbar } from "@syncfusion/ej2-vue-richtexteditor" ;
 import VueSweetalert2 from 'vue-sweetalert2';
 Vue.use(VueSweetalert2);
@@ -65,6 +60,7 @@ export default {
                 function(err,res) { cb(err,res.body)})
                 }
             this.knotenName = this.knotenId;
+            //
             var query="MATCH (a:Netz)-[r:besitzt]->(b:Text) WHERE id(a)=$id AND b.knotenId=$id2 RETURN b"
             var params={id: this.$route.query.netzId, id2: this.knotenId}
             this.historyArray.push(this.knotenName);
@@ -85,34 +81,11 @@ export default {
                     
                     this.textExist=true; //Keine endgültige Lösung
                 }
-                /*var tmp = JSON.parse(data.results[0].data[0].row[0].deleteLinks)
-                this.$nextTick(function(){
-                if(tmp !== []){
-                    for(var i = 0; i<tmp.length; i++){
-                        for(var j = 0; j<this.elementArray.length; j++){
-                            if(tmp[i]===this.elementArray[j].knotenName){
-                                     this.deleteLink(this.elementArray[j].id)
-                            }
-                        }
-                    }
-                }
-
-                tmp = [];
-                var query2="MATCH (a:Netz)-[r:besitzt]->(b:Text) WHERE id(a)=$id AND b.knotenId=$id2 SET b.deleteLinks=$empty RETURN b"
-                var params2={id: this.$route.query.netzId, id2: this.knotenId, empty: JSON.stringify(tmp)}
-                cypher(query2,params2,cb2)
-                })*/
+                
             }.bind(this)
-            /*var cb2 = async function(err,data) 
-            {
-                data //Fehlermeldung vermeiden
-            }.bind(this)*/
-
+            
             cypher(query,params,cb)
 
-           /* $("html").on("keypress", function () {
-                        alert("Element was removed");
-                    })*/ //Siehe Readonly
             
     },
     watch: {
@@ -134,10 +107,6 @@ export default {
                     else
                     this.elementArray = [];
                     this.htmlString = data.results[0].data[0].row[0].htmlString;
-                    /*
-                    for(var i = 0;i<this.elementArray.length;i++){
-                        document.getElementById(this.elementArray[i].id).addEventListener('click',this.changeEditor)
-                    }*/
                     this.$nextTick(function(){
                         for(var i = 0; i<this.elementArray.length; i++){
                             document.getElementById(this.elementArray[i].id).addEventListener('mousedown',this.changeEditor)
@@ -251,13 +220,6 @@ export default {
 
         },
         changeEditor(args) {
-            //alert(document.getElementById('editorText').innerHTML)
-            //alert(this.$route.query.netzId)
-            //console.log(this.elementArray);
-            //var serializedArr = JSON.stringify(this.elementArray);
-            //var unpackArr = JSON.parse(serializedArr);
-            //console.log(unpackArr);
-            //console.log(this.knotenName)
             var r=require("request");
             var txUrl = "http://localhost:7474/db/data/transaction/commit";
             async function cypher(query,params,cb) {
@@ -345,11 +307,6 @@ export default {
 
                 var query="MATCH (n:Netz)-[r:besitzt]->(m:Text) WHERE id(n)=$id AND m.knotenId=$knoten SET m +={ array:$array, htmlString:$htmlString} RETURN m"
                 
-                //this.$nextTick(function() {
-                    //this.htmlString = this.$refs.rteObj.$el.ej2_instances[0].cloneValue;
-                    //this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
-                    //console.log(document.getElementById("html_rte-edit-view").innerHTML)
-                //})
                 this.$nextTick()
                 this.htmlString = document.getElementById("html_rte-edit-view").innerHTML
                 console.log(this.htmlString)
