@@ -31,7 +31,7 @@ export default {
             puffer2:[],
             knotenName: "",
             historyArray: [],
-            height: "500px",
+            height: "720px",
             insertImageSettings:{
                 saveFormat: 'Blob'
             },
@@ -133,7 +133,7 @@ export default {
 
             var span = document.createElement("span");
             span.setAttribute("id", this.elementArray.length);
-            span.setAttribute("style", "background-color: yellowgreen; border-radius: 0.3em; cursor: pointer;");
+            span.setAttribute("style", "background-color: yellowgreen; border-radius: 0.3em; cursor: pointer; font-weight: bold; color: darkgreen; padding: 5px;");
             span.setAttribute("contenteditable", "false");
             span.setAttribute("unselectable", "off");
             span.setAttribute("onkeyup", "");
