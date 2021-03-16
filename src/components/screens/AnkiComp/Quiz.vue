@@ -108,64 +108,7 @@ export default {
                 intv = 1
             }
             return intv
-        },
-        /*
-        calculateSuperMemo2Algorithm(quality){
-            if(quality < 0 || quality > 5){
-                quality = 0;
-            }
-            
-            //Easiness factor berechnen
-            this.easiness = Math.max(1.3, this.easiness + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
-            //Wiederholungen berechnen
-            if(quality < 3) this.repetitions = 0
-            else this.repetitions = this.repetitions + 1
-
-            //Intervall berechnen
-            if(this.repetitions <= 1) this.interval = 1
-            else if(this.repetitions == 2) this.interval = 6
-            else this.interval = Math.round(this.interval * this.easiness)
-
-            //Nächsten Tag berechnen
-            var tageInMillisekunden = 60 * 60 * 24 * 1000
-            
-            //var time = new Date().getTime()
-            //var nextPracticeDate = time + tageInMillisekunden * this.interval
-            //this.nextDate = new Date(nextPracticeDate)
-            
-            //TEST, OB DIE TAGE GEZÄHLT WERDEN
-            var nextPracticeTimeMs
-            if(this.nextDate === null)
-            {
-                var time = new Date().getTime()
-                nextPracticeTimeMs = time + tageInMillisekunden * this.interval
-                this.nextDate = new Date(nextPracticeTimeMs)
-            } 
-            else{
-                nextPracticeTimeMs = this.nextDate.getTime() + tageInMillisekunden * this.interval
-                this.nextDate = new Date(nextPracticeTimeMs)
-            }
-            console.log(this.nextDate)
-            this.$emit("nextCardEvent", this.item.id, this.repetitions, this.easiness, this.interval, this.nextDate)
-        },
-        */
-        /*
-        calculatePlaceholder(quality){
-            var ease = this.easiness
-            ease = Math.max(1.3, ease + 0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02))
-
-            var rep = this.repetitions
-            if(quality < 3) rep = 0
-            else rep = rep + 1
-
-            //Intervall berechnen
-            var intv = this.interval
-            if(rep <= 1) intv = 1
-            else if(rep == 2) intv = 6
-            else intv = Math.round(intv * ease)
-            return intv
-        },
-        */
+        }
     }
 }
 </script>
